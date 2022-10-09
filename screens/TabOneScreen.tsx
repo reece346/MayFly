@@ -7,7 +7,8 @@ import CustomButton from "../components/CustomButton";
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
   return (
     <View style={styles.container}>
-      {/*button that displays alert*/}
+      {/*THIS IS WHAT I CODED
+      button that displays alert*/}
       <CustomButton onPress={()=> alert('Hello World!')} title = "A Button!"/>
     </View>
   );
