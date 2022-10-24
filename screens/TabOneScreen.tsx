@@ -9,7 +9,7 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
     <View style={styles.container}>
       {/*THIS IS WHAT I CODED
       button that displays alert*/}
-      <CustomButton onPress={()=> alert('This is a change from Ronan Stewart for the source control miletsone!')} title = "A Button!"/>
+      <CustomButton onPress={()=> alert('A change from me to create a merge conflict!')} title = "A Button!"/>
     </View>
   );
 }
