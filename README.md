@@ -1,6 +1,6 @@
-# Mayfly
+# MayFly
 
-Intro describing the app, timed group chats that will disappear once the time is up.
+MayFly is a social media application that places users into new, randomly assigned group chats every day. Users are placed into groupchats with people they are either friends with, or with people that they share a friend with. Users can use our social media application to meet new people, make new plans, or just chat amongst peers with similar interests and friends. MayFly takes chatting to a whole new level, with each user having unique and diverse interests, jobs, and experiences that are prompted by the app to add to the discussion.
 
 ## External Requirements
 
