@@ -17,6 +17,8 @@ export default function ModalScreen() {
   );
 }
 
+/* Paul Reece Peters comment for the commit milestone*/
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
