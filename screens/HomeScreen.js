@@ -1,6 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import { FlatList, StyleSheet, Text, View, Modal, TouchableOpacity, TextInput, RefreshControl, TouchableWithoutFeedback } from 'react-native';
 import { useState } from 'react';
+import DropDown from '../DropDown';
+
+let hamburger =[{id:1, name: 'View Profile'}, {id:2, name:'Friends'}, {id:3, name:'Logout'}]
 
 export default function App() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -47,9 +50,20 @@ export default function App() {
     </View>
   )
 
+  const [selectedItem, setSelectedItem] = useState(null)
+
+  const onSelect = (item) =>{
+    setSelectedItem(item)
+  }
+
   return (
     <View style={styles.container}>
+      <DropDown 
+        value = {selectedItem}
+        data = {hamburger}
+        onSelect={onSelect}
 
+      />
       <Modal visible = {modalVisible}>
         <TouchableOpacity style = {styles.modalBackground} onPress={toggleModal}>
           <View style={styles.centered}>
