@@ -5,7 +5,7 @@ import DropDown from '../DropDown';
 
 let hamburger =[{id:1, name: 'View Profile'}, {id:2, name:'Friends'}, {id:3, name:'Logout'}]
 
-export default function App() {
+export default function HomeScreen() {
   const [modalVisible, setModalVisible] = useState(false);
   const [characterName, setCharacterName] = useState('');
   const [characterDesc, setCharacterDesc] = useState('');
