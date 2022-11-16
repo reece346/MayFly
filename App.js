@@ -1,5 +1,6 @@
 import HomeScreen from './screens/HomeScreen';
 import Component from './screens/ProfileScreen';
+import FriendScreen from './screens/FriendsScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {navigationRef} from './RootNavigation';
@@ -18,6 +19,10 @@ export default function App() {
             <Stack.Screen 
                 name = "Profile"
                 component = {Component}
+            />
+            <Stack.Screen 
+                name = "Friends"
+                component = {FriendScreen}
             />
         </Stack.Navigator>
         <DropDown />

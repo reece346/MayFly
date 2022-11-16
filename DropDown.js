@@ -13,6 +13,8 @@ const [showOption, setShowOption] = useState(false);
 const onSelectedItem = (val) =>{
     if (val.name == "View Profile")
         RootNavigation.navigate("Profile");
+    if (val.name == "Friends")
+        RootNavigation.navigate("Friends");
     setShowOption(false);
     onSelect(val);
     
