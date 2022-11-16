@@ -35,7 +35,6 @@ const onSelectedItem = (val) =>{
                             style = {styles.optionsStyle}
                             key={String(i)}
                             onPress={()=>onSelectedItem(val)}
-                            //TODO: switch screens
                         >
                             <Text>{val.name}</Text>
                         </TouchableOpacity>
