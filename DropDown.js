@@ -1,20 +1,22 @@
 import React, {Component, useState} from "react";
-import {View, Text, StyleSheet, TouchableOpacity} from "react-native"
-
-
+import {View, Text, StyleSheet, TouchableOpacity} from "react-native";
+import * as RootNavigation from './RootNavigation';
 
 const DropDown =({
     data = [],
     value = {},
     onSelect = () =>{}
 }) => {
-const [showOption, setShowOption] = useState(false)
+
+const [showOption, setShowOption] = useState(false);
 
 const onSelectedItem = (val) =>{
-    setShowOption(false)
-    onSelect(val)
+    if (val.name == "View Profile")
+        RootNavigation.navigate("Profile");
+    setShowOption(false);
+    onSelect(val);
+    
 }
-
     return (
         <View style = {styles.container}>
             <TouchableOpacity 
