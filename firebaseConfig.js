@@ -57,15 +57,21 @@ const auth = getAuth(app);
 
 /* TODO This *should* be getting the user from the database in some form, but I cannot figure it out for the life of me.
  * https://firebase.google.com/docs/database/web/read-and-write#read_data_once
-function getUserByID(userID) {
+ */
+async function getUserByID(userID) {
 	const dbRef = ref(database);
-	const userRef = ref(database, 'users/' + userID);
-	onValue(ref(database, '/users/' + userID), (snapshot) => {
-		return (snapshot.val() && snapshot.val().displayName) || 'Anon';
-	}, {
-		onlyOnce: true
+	return get(child(dbRef, 'users/' + userID)).then((snapshot) => {
+		if(snapshot.exists()) {
+			const user = new User(snapshot.val().displayName);
+			console.log("Now set to: " + user.displayName);
+			JSON.stringify(user);
+			return snapshot.val();
+		} else {
+			console.log("No user found");
+		}
+	}).catch((error) => {
+		console.error(error);
 	});
 }
-*/
 
 module.exports = getUserByID;
