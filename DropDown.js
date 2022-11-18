@@ -1,5 +1,5 @@
 import React, {Component, useState} from "react";
-import {View, Text, StyleSheet, TouchableOpacity} from "react-native";
+import {View, Text, StyleSheet, TouchableOpacity, Image} from "react-native";
 import * as RootNavigation from './RootNavigation';
 
 const DropDown =({
@@ -16,17 +16,15 @@ const onSelectedItem = (val) =>{
     if (val.name == "Friends")
         RootNavigation.navigate("Friends");
     setShowOption(false);
-    onSelect(val);
-    
 }
     return (
         <View style = {styles.container}>
             <TouchableOpacity 
-                style = {styles.dropDownStyle}
+                //style = {styles.dropDownStyle}
                 activeOpacity={0.8}
                 onPress={() => setShowOption(!showOption)}
             >
-                <Text>{!!value ? value?.name : 'Hamburger Menu'}</Text>
+                <Image style={styles.dropDownStyle} source={require('./screens/images/hamburger.png')} />
             </TouchableOpacity>
             {showOption && (<View>
                 {data.map((val, i) => {
@@ -47,10 +45,11 @@ const onSelectedItem = (val) =>{
 
 const styles = StyleSheet.create({
     dropDownStyle:{
+        height: 15,
+        width: 35,
         alignSelf: 'flex-end',
-        marginTop: -5,
-        backgroundColor: 'blue',
-        padding: 8,
+        marginTop: -50,
+        padding: 25,
         borderRadius: 6,
         minHeight: 42,
         justifyContent: 'center'
