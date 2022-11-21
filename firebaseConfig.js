@@ -62,10 +62,9 @@ async function getUserByID(userID) {
 	const dbRef = ref(database);
 	return get(child(dbRef, 'users/' + userID)).then((snapshot) => {
 		if(snapshot.exists()) {
-			const user = new User(snapshot.val().displayName);
-			console.log("Now set to: " + user.displayName);
-			JSON.stringify(user);
-			return snapshot.val();
+			const val = snapshot.val();
+			const user = new User(val.displayName, userID, val.profilePicture, val.phoneNumber, val.interests, val.friendIDs);
+			return user;
 		} else {
 			console.log("No user found");
 		}
@@ -73,5 +72,14 @@ async function getUserByID(userID) {
 		console.error(error);
 	});
 }
+
+/*
+async function updateUser(user) {
+	const userID = user.userID;
+	delete user.userID;
+	const dbRef = ref(database);
+	return update(child(dbRef, 'users/' + userID), user);
+}
+*/
 
 module.exports = getUserByID;
