@@ -15,12 +15,13 @@ const onSelectedItem = (val) =>{
         RootNavigation.navigate("Profile");
     if (val.name == "Friends")
         RootNavigation.navigate("Friends");
+    if (val.name == "Logout")
+        RootNavigation.navigate("Logout");
     setShowOption(false);
 }
     return (
         <View style = {styles.container}>
             <TouchableOpacity 
-                //style = {styles.dropDownStyle}
                 activeOpacity={0.8}
                 onPress={() => setShowOption(!showOption)}
             >
@@ -34,8 +35,8 @@ const onSelectedItem = (val) =>{
                             key={String(i)}
                             onPress={()=>onSelectedItem(val)}
                         >
-                            <Text>{val.name}</Text>
-                        </TouchableOpacity>
+                            <Text>{val.name}</Text> 
+                        </TouchableOpacity> //add animation?
                     )
                 })}
             </View>)}
@@ -47,15 +48,13 @@ const styles = StyleSheet.create({
     dropDownStyle:{
         height: 15,
         width: 35,
-        alignSelf: 'flex-end',
         marginTop: -50,
         padding: 25,
         borderRadius: 6,
         minHeight: 42,
-        justifyContent: 'center'
+        justifyContent: 'flex-end'
     },
     optionsStyle:{
-        alignSelf: 'flex-end',
         marginTop: -1,
     }
 });

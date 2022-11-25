@@ -5,6 +5,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {navigationRef} from './RootNavigation';
 import DropDown from './DropDown';
+import LogOutScreen from './screens/Logout';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,10 @@ export default function App() {
             <Stack.Screen 
                 name = "Friends"
                 component = {FriendScreen}
+            />
+            <Stack.Screen 
+                name = "Logout"
+                component = {LogOutScreen}
             />
         </Stack.Navigator>
         <DropDown />

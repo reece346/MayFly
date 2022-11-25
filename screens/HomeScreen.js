@@ -58,12 +58,11 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-      <DropDown 
+      <DropDown
         value = {selectedItem}
         data = {hamburger}
         onSelect={onSelect}
-
-      />
+      ></DropDown>
       <Modal visible = {modalVisible}>
         <TouchableOpacity style = {styles.modalBackground} onPress={toggleModal}>
           <View style={styles.centered}>
