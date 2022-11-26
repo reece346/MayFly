@@ -1,6 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import {Image,StyleSheet,Text,View,TouchableOpacity} from 'react-native';
+import {Image,StyleSheet,Text,View,TouchableOpacity, FlatList} from 'react-native';
+import { AntDesign } from "@expo/vector-icons";
+import tempData from './tempData'
+import Interests from './Interests'
 
 export default function Component(){
     return (
@@ -27,7 +30,7 @@ export default function Component(){
 
                     </Text>
 
-                    <Text style={{fontSize:20,lineheight:50,fontWeight:'bold',top:150,right:100}}>
+                    <Text style={{fontSize:20,lineheight:50,fontWeight:'bold',top:150,right:0,alignSelf:'center'}}>
 
                         Interests
 
@@ -46,16 +49,21 @@ export default function Component(){
                     </View>
                     <View style={styles.interestContainer}>
 
-                    <Image style={{height:'100%',width:'100%',borderRadius:60}} source={require('./images/lifting.png')}/>
+                    <View style={{marginVertical:40}}>
+                        <TouchableOpacity>
+                            <AntDesign name="plus" size={20}/>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{height:275, paddingLeft: 0}}> 
+                    <FlatList data={tempData} 
+                    keyExtractor={item => item.name}
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                    renderItem={({ item }) => <Interests list={item} />}
+                    />
 
                     </View>
-
-                    <View style={styles.interest2Container}>
-
-                    <Image style={{height:'100%',width:'100%',borderRadius:60}} source={require('./images/beer.png')}/>
-
                     </View>
-
                 </View>
             </View>
         </View>
@@ -64,7 +72,7 @@ export default function Component(){
 
 const styles = StyleSheet.create({
     container:{
-        flex:1,
+        flex:3,
         backgroundColor: '#FF7070',
         alignItems:'center',
         justifyCOntent:'center',
@@ -107,22 +115,11 @@ const styles = StyleSheet.create({
         left:30
     },
     interestContainer:{
-        height:100,
-        width:100,
+        width: 700,
         alignSelf:'center',
         position:'absolute',
-        top:250,
-        right:120,
-
+        top:160,
+        left: -50
     },
-    interest2Container:{
-        height:100,
-        width:100,
-        alignSelf:'center',
-        position:'absolute',
-        top:250,
-        left:120,
-
-    }
 
 })
