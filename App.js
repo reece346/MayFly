@@ -30,7 +30,6 @@ export default function App() {
                 component = {LogOutScreen}
             />
         </Stack.Navigator>
-        <DropDown />
     </NavigationContainer>
   );
 }
