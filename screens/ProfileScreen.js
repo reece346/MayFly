@@ -22,6 +22,17 @@ export default function Component(){
 
                     </View>
 
+                    <View style={styles.textContainer2}> 
+
+                    <Text style={styles.text2}>
+
+                        Friends
+
+
+                    </Text>
+                    
+                    </View>
+
                    <View style={styles.textContainer}>
 
                    <Text style={styles.text}>
@@ -73,7 +84,7 @@ export default function Component(){
 const styles = StyleSheet.create({
     container:{
         flex:3,
-        backgroundColor: '#FF7070',
+        backgroundColor: 'lightblue',
         alignItems:'center',
         justifyCOntent:'center',
     },
@@ -101,6 +112,18 @@ const styles = StyleSheet.create({
         alignItems:'center',
     },
     text:{
+        alignSelf:'center',
+        fontWeight:'bold'
+    },
+    textContainer2:{
+        height:25,
+        width:170,
+        position:'absolute',
+        top:270,
+        left:-40,
+        alignItems:'center',
+    },
+    text2:{
         alignSelf:'center',
         fontWeight:'bold'
     },
