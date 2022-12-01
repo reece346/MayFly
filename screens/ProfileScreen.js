@@ -4,145 +4,96 @@ import {Image,StyleSheet,Text,View,TouchableOpacity, FlatList} from 'react-nativ
 import { AntDesign } from "@expo/vector-icons";
 import tempData from './tempData'
 import Interests from './Interests'
+import { FirebaseApp } from 'firebase/app';
+
 
 export default function Component(){
     return (
-
-
         <View style={styles.container}>
             <View style={styles.imageContainer}>
-                <View>
-                    <Image style={{height:130,width:'100%',borderTopLeftRadius:20,borderTopRightRadius:20}} source={require('./images/sea.png')}/>
-
-                    </View>
-
-                    <View style={styles.avatarContainer}>
-
-                        <Image style={{height:'100%',width:'100%',borderRadius:60}} source={require('./images/persona.png')}/>
-
-                    </View>
-
-                    <View style={styles.textContainer2}> 
-
-                    <Text style={styles.text2}>
-
-                        Friends
-
-
-                    </Text>
-                    
-                    </View>
-
-                   <View style={styles.textContainer}>
-
-                   <Text style={styles.text}>
-
+                <View style={styles.avatarBorderContainer}>
+                    <Image style={{height:'100%', width:'100%', borderRadius:70, color: 'black'}} source={require('./images/blackCircleBorder.jpg')}/>
+                </View>
+                <View style={styles.avatarContainer}>
+                    <Image style={{height:'100%', width:'100%', borderRadius:60}} source={require('./images/persona.png')}/>
+                </View>
+                <View style={styles.profileNameContainer}>
+                   <Text style={{fontSize:20,lineheight:50,fontWeight:'bold'}}>
                         Chad Thompson
-
                     </Text>
-
-                    <Text style={{fontSize:20,lineheight:50,fontWeight:'bold',top:150,right:0,alignSelf:'center'}}>
-
-                        Interests
-
+                </View>
+                <View style={styles.userNameContainer}>
+                   <Text style={{fontSize:16,lineheight:50}}>
+                        chad.thomson34
                     </Text>
-
-                    <View style={styles.buttonContainer}>
-
-                    <TouchableOpacity style={{height:32,width:110,borderRadiuus:30,backgroundColor:'blue',alignItems:'center',justifyContent:'center'}}>
-
-                        <Text style={{fontsize:15,color:'white',lineheight:20,fontWeight:'bold'}}>
-                            Add Friend
-
-                        </Text>
-                    </TouchableOpacity>
-
-                    </View>
-                    <View style={styles.interestContainer}>
-
-                    <View style={{marginVertical:40}}>
-                        <TouchableOpacity>
-                            <AntDesign name="plus" size={20}/>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={{height:200, paddingLeft: 0}}> 
-                    <FlatList data={tempData} 
-                        keyExtractor={item => item.name}
-                        horizontal={true}
-                        showsHorizontalScrollIndicator={false}
-                        renderItem={({ item }) => <Interests list={item} />}
-                    />
-
-                    </View>
-                    </View>
+                </View>
+                <View style={styles.MayFlySinceContainer}>
+                   <Text style={{fontSize:15,lineheight:50}}>
+                        Been a MayFly since:
+                    </Text>
+                    <Text style={{fontSize:15,lineheight:50, left: 25}}>
+                        08/10/2022
+                    </Text>
                 </View>
             </View>
+            <View style={styles.InterestsHeader}>
+                <Text style={{fontSize: 25, color: 'white', fontWeight: '600'}}>
+                    Interests
+                </Text>
+            </View>
         </View>
+        
     )
 }
 
 const styles = StyleSheet.create({
     container:{
-        flex:3,
+        flex: 3,
         backgroundColor: '#3A3B50',
-        alignItems:'center',
-        justifyCOntent:'center',
     },
     imageContainer:{
-        height:330,
-        width:310,
-        backgroundColor:'white',
+        left: 30,
+        top:30,
+        height:150,
+        width:350,
+        backgroundColor:'#EAEAEA',
         borderRadius:22,
-        elevation:2,
-        top:80
+        elevation:2
+    },
+    avatarBorderContainer:{
+        height:110,
+        width:110,
+        position:'absolute',
+        left: 15,
+        top: 20
     },
     avatarContainer:{
         height:100,
         width:100,
-        alignSelf:'center',
         position:'absolute',
-        top:100,
+        left: 20,
+        top: 25
     },
-    textContainer:{
-        height:25,
-        width:170,
+    profileNameContainer:{
         position:'absolute',
-        top:210,
-        left:70,
+        top: 30,
+        left: 135,
         alignItems:'center',
     },
-    text:{
-        alignSelf:'center',
-        fontWeight:'bold'
-    },
-    textContainer2:{
-        height:25,
-        width:170,
+    userNameContainer:{
         position:'absolute',
-        top:270,
-        left:-40,
+        top: 58,
+        left: 145,
         alignItems:'center',
     },
-    text2:{
-        alignSelf:'center',
-        fontWeight:'bold'
-    },
-    buttonContainer:{
-        height:32,
-        width:165,
+    MayFlySinceContainer:{
+        position:'absolute',
+        top: 85,
+        left: 138,
         alignItems:'center',
-        position:'absolute',
-        alignSelf:'center',
-        flexDirection:'row',
-        top:30,
-        left:30
     },
-    interestContainer:{
-        width: 700,
-        alignSelf:'center',
-        position:'absolute',
-        top:160,
-        left: -50
-    },
-
+    InterestsHeader:{
+        top: 50,
+        left: 30
+    }
 })
