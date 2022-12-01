@@ -1,12 +1,12 @@
 import { initializeApp } from 'firebase/app';
-import { getDatabase, ref, set, onValue, child, get } from 'firebase/database';
+import { getDatabase, ref, set, onValue, child, get, push } from 'firebase/database';
 import { getAuth, RecaptchaVerifier } from 'firebase/auth';
 import User from './user.js';
 import Chat from './chat.js';
 import Message from './message.js';
 
 // TODO Need some way of getting the user's phone number. Making do with an example one
-const phoneNumber = "+16505553434" // Test number, has been added to Firebase
+//const phoneNumber = "+16505553434" // Test number, has been added to Firebase
 // TODO Also need some form of way to get the code from the user.
 const code = "123456"; // Test code tied to above phone number
 
@@ -54,11 +54,8 @@ const auth = getAuth(app);
 */
 
 // Database
-
-/* TODO This *should* be getting the user from the database in some form, but I cannot figure it out for the life of me.
- * https://firebase.google.com/docs/database/web/read-and-write#read_data_once
- */
-async function getUserByID(userID) {
+// https://firebase.google.com/docs/database/web/read-and-write#read_data_once
+export async function getUserByID(userID) {
 	const dbRef = ref(database);
 	return get(child(dbRef, 'users/' + userID)).then((snapshot) => {
 		if(snapshot.exists()) {
@@ -73,13 +70,43 @@ async function getUserByID(userID) {
 	});
 }
 
-/*
-async function updateUser(user) {
-	const userID = user.userID;
-	delete user.userID;
+export async function getUserByPhoneNumber(phoneNumber) {
 	const dbRef = ref(database);
-	return update(child(dbRef, 'users/' + userID), user);
+	return get(child(dbRef, 'users/')).then((snapshot) => {
+		let user;
+		snapshot.forEach((data) => {
+			if (data.val().phoneNumber == phoneNumber) {
+				const dataVal = data.val();
+				user = new User(dataVal.displayName, 0, dataVal.profilePicture, dataVal.phoneNumber, dataVal.interests, dataVal.friendIDs);
+			}
+		})
+		return user;
+	}).catch((error) => {
+		console.error(error);
+	});
 }
-*/
 
-module.exports = getUserByID;
+export async function updateUser(user) {
+	const userID = user.userID;
+	delete user.userID; // Shift userID to be the key
+	const userRef = ref(database, 'users/' + userID);
+	return set(userRef, user).catch((error) => {
+		console.error(error);
+	});
+}
+
+export async function createUser(user) {
+	const dbRef = ref(database);
+	delete user.userID;
+	push(child(dbRef, 'users'), user).catch((error) => { // Generate new userID
+		console.error(error);
+	}); 
+	return;
+}
+
+export async function deleteUser(userID) {
+	const userRef = ref(database, 'users/' + userID);
+	return remove(userRef).catch((error) => {
+		console.error(error);
+	});
+}
