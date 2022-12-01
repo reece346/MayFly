@@ -28,12 +28,15 @@ export default function HomeScreen() {
   }
 
   const sendMessage = () => {
-    setMessageList((messageList)=>[...messageList, message])
+    let newMessage = {
+      content : message
+    }
+    setMessageList((messageList)=>[...messageList, newMessage])
   }
 
   const renderMessage = ({item}) => (
     <View style={styles.characterContainer}>
-      <Text>{item}</Text>
+      <Text>{item.content}</Text>
     </View>
   )
 
@@ -55,6 +58,7 @@ export default function HomeScreen() {
 
       <FlatList
         style={{padding: 10}}
+        extraData={messageList}
         data={messageList}
         inverted={true}
 
