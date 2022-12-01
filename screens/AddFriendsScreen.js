@@ -10,12 +10,12 @@ export default function AddFriendsScreen(){
 
     return (
         <View style={styles.container}>
-            <View style={styles.searchFriendHeader}>
+            <View style={styles.SearchFriendHeader}>
                 <Text style={{fontSize: 25, color: 'white', fontWeight: '600'}}>
-                    Search Friends
+                    Search Users
                 </Text>
             </View>
-            <View style={{ position: 'absolute', top: 50, width: '90%'}}>
+            <View style={{ position: 'absolute', top: 75, width: '90%'}}>
                 <TextInput style={{
                         left: 20,
                         borderRadius: 10,
@@ -33,13 +33,18 @@ export default function AddFriendsScreen(){
                 />
             </View>
             <TouchableOpacity onPress={toggleModal} style={{flexDirection: 'row', justifyContent: 'center', alignContent: 'center'}}>
-                <View style={styles.addButton}>
+                <View style={styles.AddButton}>
                     <Text style={{color: 'white', top: 4}}>Search</Text>
                 </View>
             </TouchableOpacity>
-            <View style={styles.allFriendsHeader}>
+            <View style={styles.SuggestedFriendsHeader}>
                 <Text style={{fontSize: 25, color: 'white', fontWeight: '600'}}>
-                    All Friends
+                    Suggested Friends
+                </Text>
+            </View>
+            <View style={styles.PendingFriendsHeader}>
+                <Text style={{fontSize: 25, color: 'white', fontWeight: '600'}}>
+                    Pending Friends
                 </Text>
             </View>
         </View>
@@ -51,18 +56,19 @@ const styles = StyleSheet.create({
         flex:1,
         backgroundColor: '#3A3B50'
     },
-    searchFriendHeader : {
+    SearchFriendHeader : {
         top: 20,
-        left: 20,
+        left: 30,
         flexDirection: 'row',
     },
-    allFriendsHeader : {
-        top: 80,
-        left: 20,
+    SuggestedFriendsHeader : {
+        top: 115,
+        left: 30,
         flexDirection: 'row'
+        
     },
-    addButton : {
-        top: 75,
+    AddButton : {
+        top: 100,
         justifyContent: 'center',
         alignContent: 'center',
         margin: 10,
@@ -71,5 +77,11 @@ const styles = StyleSheet.create({
         height: 25,
         width: 75,
         flexDirection: 'row'
+    },
+    PendingFriendsHeader : {
+        top: 350,
+        left: 30,
+        flexDirection: 'row'
+        
     }
 })

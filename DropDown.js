@@ -1,5 +1,5 @@
 import React, {Component, useState} from "react";
-import {View, Text, StyleSheet, TouchableOpacity, Image} from "react-native";
+import {View, Button, Text, StyleSheet, TouchableOpacity, Image, Alert} from "react-native";
 import * as RootNavigation from './RootNavigation';
 
 const DropDown =({
@@ -10,6 +10,29 @@ const DropDown =({
 
 const [showOption, setShowOption] = useState(false);
 
+const [showBox, setShowBox] = useState(true);
+
+const showConfirmDialog = () => {
+    return Alert.alert(
+        "Are you sure?",
+        "This will log you out and take you to the startup screen",
+        [
+            {
+                text: "Yes",
+                onPress: () => {
+                    RootNavigation.navigate("Startup");
+                },
+            },
+            {
+                text: "No",
+                onPress: () => {
+                    setShowBox(false);
+                },
+            },
+        ]
+    );
+};
+
 const onSelectedItem = (val) =>{
     if (val.name == "View Profile")
         RootNavigation.navigate("Profile");
@@ -18,7 +41,7 @@ const onSelectedItem = (val) =>{
     if (val.name == "Add Friends")
         RootNavigation.navigate("AddFriends");
     if (val.name == "Logout")
-        RootNavigation.navigate("Logout");
+        showConfirmDialog();
     setShowOption(false);
 }
     return (
