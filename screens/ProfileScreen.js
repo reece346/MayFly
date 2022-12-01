@@ -4,7 +4,9 @@ import {Image,StyleSheet,Text,View,TouchableOpacity, FlatList} from 'react-nativ
 import { AntDesign } from "@expo/vector-icons";
 import tempData from './tempData'
 import Interests from './Interests'
-import { FirebaseApp } from 'firebase/app';
+import User from './user.js';
+import {getUserByID, updateUser, getUserByPhoneNumber, createUser} from './firebaseConfig.js';
+
 
 
 export default function Component(){
@@ -37,6 +39,11 @@ export default function Component(){
                 </View>
             </View>
             <View style={styles.InterestsHeader}>
+                <Text style={{fontSize: 25, color: 'white', fontWeight: '600'}}>
+                    Interests
+                </Text>
+            </View>
+            <View style={styles.FriendsHeader}>
                 <Text style={{fontSize: 25, color: 'white', fontWeight: '600'}}>
                     Interests
                 </Text>
@@ -94,6 +101,10 @@ const styles = StyleSheet.create({
     },
     InterestsHeader:{
         top: 50,
+        left: 30
+    },
+    FriendsHeader:{
+        top: 200,
         left: 30
     }
 })
