@@ -10,7 +10,7 @@ export default function AddFriendsScreen(){
 
     return (
         <View style={styles.container}>
-            <View style={styles.searchFriendHeader}>
+            <View style={styles.SearchFriendHeader}>
                 <Text style={{fontSize: 25, color: 'white', fontWeight: '600'}}>
                     Search Users
                 </Text>
@@ -33,13 +33,18 @@ export default function AddFriendsScreen(){
                 />
             </View>
             <TouchableOpacity onPress={toggleModal} style={{flexDirection: 'row', justifyContent: 'center', alignContent: 'center'}}>
-                <View style={styles.addButton}>
+                <View style={styles.AddButton}>
                     <Text style={{color: 'white', top: 4}}>Search</Text>
                 </View>
             </TouchableOpacity>
-            <View style={styles.suggestedFriendsHeader}>
+            <View style={styles.SuggestedFriendsHeader}>
                 <Text style={{fontSize: 25, color: 'white', fontWeight: '600'}}>
                     Suggested Friends
+                </Text>
+            </View>
+            <View style={styles.PendingFriendsHeader}>
+                <Text style={{fontSize: 25, color: 'white', fontWeight: '600'}}>
+                    Pending Friends
                 </Text>
             </View>
         </View>
@@ -51,17 +56,18 @@ const styles = StyleSheet.create({
         flex:1,
         backgroundColor: '#3A3B50'
     },
-    searchFriendHeader : {
+    SearchFriendHeader : {
         top: 20,
-        left: 20,
+        left: 30,
         flexDirection: 'row',
     },
-    suggestedFriendsHeader : {
+    SuggestedFriendsHeader : {
         top: 115,
-        left: 20,
+        left: 30,
         flexDirection: 'row'
+        
     },
-    addButton : {
+    AddButton : {
         top: 100,
         justifyContent: 'center',
         alignContent: 'center',
@@ -71,5 +77,11 @@ const styles = StyleSheet.create({
         height: 25,
         width: 75,
         flexDirection: 'row'
+    },
+    PendingFriendsHeader : {
+        top: 350,
+        left: 30,
+        flexDirection: 'row'
+        
     }
 })
