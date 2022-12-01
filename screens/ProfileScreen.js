@@ -65,12 +65,12 @@ export default function Component(){
                             <AntDesign name="plus" size={20}/>
                         </TouchableOpacity>
                     </View>
-                    <View style={{height:275, paddingLeft: 0}}> 
+                    <View style={{height:200, paddingLeft: 0}}> 
                     <FlatList data={tempData} 
-                    keyExtractor={item => item.name}
-                    horizontal={true}
-                    showsHorizontalScrollIndicator={false}
-                    renderItem={({ item }) => <Interests list={item} />}
+                        keyExtractor={item => item.name}
+                        horizontal={true}
+                        showsHorizontalScrollIndicator={false}
+                        renderItem={({ item }) => <Interests list={item} />}
                     />
 
                     </View>
@@ -84,7 +84,7 @@ export default function Component(){
 const styles = StyleSheet.create({
     container:{
         flex:3,
-        backgroundColor: 'lightblue',
+        backgroundColor: '#3A3B50',
         alignItems:'center',
         justifyCOntent:'center',
     },
