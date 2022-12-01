@@ -3,7 +3,7 @@ import { FlatList, StyleSheet, Text, View, Modal, TouchableOpacity, TextInput, R
 import { useState } from 'react';
 import DropDown from '../DropDown';
 
-let hamburger =[{id:1, name: 'View Profile'}, {id:2, name:'Friends'}, {id:3, name:'Logout'}]
+let hamburger =[{id:1, name: 'View Profile'}, {id:2, name:'Friends'}, {id:3, name:'Add Friends'}, {id:4, name:'Logout'}]
 
 export default function HomeScreen() {
   const [modalVisible, setModalVisible] = useState(false);

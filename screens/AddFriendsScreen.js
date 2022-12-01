@@ -12,10 +12,10 @@ export default function AddFriendsScreen(){
         <View style={styles.container}>
             <View style={styles.searchFriendHeader}>
                 <Text style={{fontSize: 25, color: 'white', fontWeight: '600'}}>
-                    Search Friends
+                    Search Users
                 </Text>
             </View>
-            <View style={{ position: 'absolute', top: 50, width: '90%'}}>
+            <View style={{ position: 'absolute', top: 75, width: '90%'}}>
                 <TextInput style={{
                         left: 20,
                         borderRadius: 10,
@@ -37,9 +37,9 @@ export default function AddFriendsScreen(){
                     <Text style={{color: 'white', top: 4}}>Search</Text>
                 </View>
             </TouchableOpacity>
-            <View style={styles.allFriendsHeader}>
+            <View style={styles.suggestedFriendsHeader}>
                 <Text style={{fontSize: 25, color: 'white', fontWeight: '600'}}>
-                    All Friends
+                    Suggested Friends
                 </Text>
             </View>
         </View>
@@ -56,13 +56,13 @@ const styles = StyleSheet.create({
         left: 20,
         flexDirection: 'row',
     },
-    allFriendsHeader : {
-        top: 80,
+    suggestedFriendsHeader : {
+        top: 115,
         left: 20,
         flexDirection: 'row'
     },
     addButton : {
-        top: 75,
+        top: 100,
         justifyContent: 'center',
         alignContent: 'center',
         margin: 10,
