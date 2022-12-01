@@ -1,28 +1,33 @@
 import React, {Component, useState} from "react";
-import {View, Text, StyleSheet, TouchableOpacity} from "react-native"
-
-
+import {View, Text, StyleSheet, TouchableOpacity, Image} from "react-native";
+import * as RootNavigation from './RootNavigation';
 
 const DropDown =({
     data = [],
     value = {},
     onSelect = () =>{}
 }) => {
-const [showOption, setShowOption] = useState(false)
+
+const [showOption, setShowOption] = useState(false);
 
 const onSelectedItem = (val) =>{
-    setShowOption(false)
-    onSelect(val)
+    if (val.name == "View Profile")
+        RootNavigation.navigate("Profile");
+    if (val.name == "Friends")
+        RootNavigation.navigate("Friends");
+    if (val.name == "Add Friends")
+        RootNavigation.navigate("AddFriends");
+    if (val.name == "Logout")
+        RootNavigation.navigate("Logout");
+    setShowOption(false);
 }
-
     return (
         <View style = {styles.container}>
             <TouchableOpacity 
-                style = {styles.dropDownStyle}
                 activeOpacity={0.8}
                 onPress={() => setShowOption(!showOption)}
             >
-                <Text>{!!value ? value?.name : 'Hamburger Menu'}</Text>
+                <Image style={styles.dropDownStyle} source={require('./screens/images/hamburger.png')} />
             </TouchableOpacity>
             {showOption && (<View>
                 {data.map((val, i) => {
@@ -31,10 +36,9 @@ const onSelectedItem = (val) =>{
                             style = {styles.optionsStyle}
                             key={String(i)}
                             onPress={()=>onSelectedItem(val)}
-                            //TODO: switch screens
                         >
-                            <Text>{val.name}</Text>
-                        </TouchableOpacity>
+                            <Text>{val.name}</Text> 
+                        </TouchableOpacity> //add animation?
                     )
                 })}
             </View>)}
@@ -44,16 +48,15 @@ const onSelectedItem = (val) =>{
 
 const styles = StyleSheet.create({
     dropDownStyle:{
-        alignSelf: 'flex-end',
-        marginTop: -5,
-        backgroundColor: 'blue',
-        padding: 8,
+        height: 15,
+        width: 35,
+        marginTop: -50,
+        padding: 25,
         borderRadius: 6,
         minHeight: 42,
-        justifyContent: 'center'
+        justifyContent: 'flex-end'
     },
     optionsStyle:{
-        alignSelf: 'flex-end',
         marginTop: -1,
     }
 });

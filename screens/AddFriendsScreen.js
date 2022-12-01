@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import {Image,StyleSheet,Text,View,TouchableOpacity, TextInput, Button} from 'react-native';
 
-export default function FriendScreen(){
+export default function AddFriendsScreen(){
     
     const toggleModal = () => {
         setModalVisible(!modalVisible)
