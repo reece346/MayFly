@@ -2,14 +2,13 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import {Image,StyleSheet,Text,View,TouchableOpacity, FlatList} from 'react-native';
 import { AntDesign } from "@expo/vector-icons";
-import tempData from './tempData'
-import Interests from './Interests'
-import User from './user.js';
-import {getUserByID, updateUser, getUserByPhoneNumber, createUser} from './firebaseConfig.js';
+import tempData from './tempData';
+import Interests from './Interests';
+import User from '../user.js';
+import {getUserByID, updateUser, getUserByPhoneNumber, createUser} from '../firebaseConfig.js';
 
-
-
-export default function Component(){
+export default function Component() {
+    let user = getUserByID('testuser')
     return (
         <View style={styles.container}>
             <View style={styles.imageContainer}>
@@ -21,7 +20,7 @@ export default function Component(){
                 </View>
                 <View style={styles.profileNameContainer}>
                    <Text style={{fontSize:20,lineheight:50,fontWeight:'bold'}}>
-                        Chad Thompson
+                        {user.displayName}
                     </Text>
                 </View>
                 <View style={styles.userNameContainer}>
@@ -45,11 +44,15 @@ export default function Component(){
             </View>
             <View style={styles.FriendsHeader}>
                 <Text style={{fontSize: 25, color: 'white', fontWeight: '600'}}>
-                    Interests
+                    Friends
+                </Text>
+            </View>
+            <View style={styles.LinkedAccountsHeader}>
+                <Text style={{fontSize: 25, color: 'white', fontWeight: '600'}}>
+                    Linked Accounts
                 </Text>
             </View>
         </View>
-        
     )
 }
 
@@ -86,6 +89,7 @@ const styles = StyleSheet.create({
         top: 30,
         left: 135,
         alignItems:'center',
+        color: 'black'
     },
     userNameContainer:{
         position:'absolute',
@@ -105,6 +109,10 @@ const styles = StyleSheet.create({
     },
     FriendsHeader:{
         top: 200,
+        left: 30
+    },
+    LinkedAccountsHeader:{
+        top: 375,
         left: 30
     }
 })
