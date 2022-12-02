@@ -60,7 +60,7 @@ export default function HomeScreen() {
   }
 
   const renderMessage = ({item}) => (
-    <View>{item.authorID}</View>
+    <View style={styles.message}></View>
   )
   
   const sendMessage = () => {
@@ -101,8 +101,7 @@ export default function HomeScreen() {
         data={messageList}
         inverted={true}
 
-        renderItem={chatMessage
-        }
+        renderItem={chatMessage}
         keyExtractor={item => item.name}
 
         ListEmptyComponent={
@@ -198,5 +197,11 @@ const styles = StyleSheet.create({
     padding: 5,
     margin: 5,
     width: '80%'
+  },
+  message : {
+    backgroundColor: '#d7d7d7',
+    padding: 5,
+    margin: 5,
+    borderRadius: 5,
   }
 });
