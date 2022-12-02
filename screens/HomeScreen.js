@@ -101,7 +101,7 @@ export default function HomeScreen() {
       
 
       <FlatList
-        style={{padding: 10}}
+        style={{padding: 10, marginTop: 25}}
         data={messageList}
         inverted={true}
 
