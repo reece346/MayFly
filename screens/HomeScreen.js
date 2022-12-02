@@ -49,10 +49,7 @@ export default function HomeScreen() {
   useEffect(()=> {
     onValue(messagesRef, (snapshot) => {
       const data = snapshot.val();
-      console.log('onvalue is doing something', data);
-      console.log('data.testmsg.contents is: ', data.testmsg.contents);
       setTestMessage(data.testmsg.contents)
-      console.log('testmessage after setting is: ', testMessage);
     })
   },[])
 
