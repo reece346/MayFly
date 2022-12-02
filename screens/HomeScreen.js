@@ -5,6 +5,7 @@ import DropDown from '../DropDown';
 import { initializeApp } from 'firebase/app';
 import { getDatabase, onValue, ref, set } from 'firebase/database';
 import { getAuth, RecaptchaVerifier } from 'firebase/auth';
+import { render } from 'react-dom';
 
 let hamburger =[{id:1, name: 'View Profile'}, {id:2, name:'Friends'}, {id:3, name:'Add Friends'}, {id:4, name:'Logout'}]
 
@@ -24,7 +25,7 @@ export default function HomeScreen() {
   const [messageList, setMessageList] = useState([]);
   const [isRefreshing, setRefreshing] = useState(false);
   const [testMessage, setTestMessage] = useState('wrong');
-  const [message, setMessage] = useState('')
+  // const [message, setMessage] = useState('')
   // TODO Need some way of getting the user's phone number. Making do with an example one
   const phoneNumber = "+16505553434" // Test number, has been added to Firebase
   // TODO Also need some form of way to get the code from the user.
@@ -44,12 +45,12 @@ export default function HomeScreen() {
   const app = initializeApp(firebaseConfig);
   const database = getDatabase(app);
 
-  const messagesRef = ref(database, 'messages/test')
+  const messagesRef = ref(database, 'messages/test/testmsg/contents')
 
   useEffect(()=> {
     onValue(messagesRef, (snapshot) => {
       const data = snapshot.val();
-      setTestMessage(data.testmsg.contents)
+      setMessageList(data)
     })
   },[])
 
@@ -60,13 +61,15 @@ export default function HomeScreen() {
   }
 
   const renderMessage = ({item}) => (
-    <View style={styles.message}></View>
+    <View style={styles.message}>
+      <Text>{item}</Text>
+    </View>
   )
   
   const sendMessage = () => {
     set(ref(database, '/messages/test/testmsg'), {
       authorID : 'testuser',
-      contents : message,
+      contents : ['one', 'two', 'three'],
       timestamp : '1668390616'
     })
   }
@@ -101,7 +104,7 @@ export default function HomeScreen() {
         data={messageList}
         inverted={true}
 
-        renderItem={chatMessage}
+        renderItem={renderMessage}
         keyExtractor={item => item.name}
 
         ListEmptyComponent={
@@ -114,11 +117,6 @@ export default function HomeScreen() {
           <View style={styles.chatBoxContainer}>
             <TextInput placeholder='Send a message' onChangeText={message => setMessage(message)}  style={styles.messageInput}/>
             <Button onPress={() => {sendMessage()}} style={styles.sendButton} color='blue' title='Send'/>
-          </View>
-        }
-        ListFooterComponent={
-          <View>
-            <Text>{testMessage}</Text>
           </View>
         }
       />
