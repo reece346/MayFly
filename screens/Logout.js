@@ -17,8 +17,8 @@ export default function LogOutScreen(){
     }
     
     return (
-        <ScrollView keyboardShouldPersistTaps = 'handled'>
             <View  style={styles.container}>
+                <ScrollView keyboardShouldPersistTaps = 'handled'>
                 <Text style = {styles.text}>Let's start with your phone number:</Text>
                 <TextInput 
                     clearButtonMode='always'
@@ -53,8 +53,9 @@ export default function LogOutScreen(){
                         color = 'white'
                         onPress={() => {buttonClick()}}
                         ></Button>
-            </View>
-        </ScrollView>
+            </ScrollView>
+        </View>
+        
     )
 }
 
@@ -69,6 +70,7 @@ const styles = StyleSheet.create({
         padding: 8,
     },
     input:{
+        alignSelf: 'center',
         borderWidth: 1,
         borderColor: '#777',
         padding: 8,
@@ -78,6 +80,7 @@ const styles = StyleSheet.create({
     },
     text:{
         color: 'white',
+        alignSelf: 'center',
         margin: 5,
     },
 })
