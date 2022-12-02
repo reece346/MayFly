@@ -12,9 +12,9 @@ export default function EditProfile(){
     const [interests, setInterests] = useState([]);
 
     buttonClick = () => {
-        let thisUser = new User(userName, 0, null,phoneNum, interests, null)
-        createUser(thisUser);
-        RootNavigation.navigate("ProfileScreen");
+        RootNavigation.navigate("ProfileScreen", {
+            userName: userName,
+        })
     }
     let user = getUserByID('testuser')
     return (
@@ -64,7 +64,8 @@ export default function EditProfile(){
                     style ={styles.input} 
                     placeholder = 'ex. steve1999'
                     placeholderTextColor= 'gray' 
-                    onChangeText={(val) => setUserName(val)}/>
+                    value = {userName}
+                    onChangeText={(text) => setUserName(text)}/>
                 <View style={styles.text}>
                     <Text style = {styles.text}>Edit your Interests:</Text>
                 </View>
