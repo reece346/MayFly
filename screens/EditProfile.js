@@ -45,50 +45,58 @@ export default function EditProfile(){
                     </Text>
                 </View>
             </View>
-            <Text style = {styles.text}>Edit Phone Number:</Text>
-            <TextInput 
-                clearButtonMode='always'
-                style ={styles.input} 
-                placeholder = 'ex. 8037779311'
-                placeholderTextColor= 'gray' 
-                onChangeText={(val) => setPhoneNum(val)}
-                keyboardType = 'number-pad'/>
-            <Text style = {styles.text}>Change your username:</Text>
-            <TextInput 
-                clearButtonMode='always'
-                style ={styles.input} 
-                placeholder = 'ex. steve1999'
-                placeholderTextColor= 'gray' 
-                onChangeText={(val) => setUserName(val)}/>
-            <Text style = {styles.text}>Edit your Interests:</Text>
-            <TextInput 
-                style ={styles.input} 
-                multiline
-                placeholder = {'ex. Fishing\nex. Archery'}
-                placeholderTextColor= 'gray' 
-                onChangeText={(val) => setInterests(val.split(/\r?\n/))}/>
-            <Text style = {styles.text}>Change your Profile Picture:</Text>
-            <TextInput 
-                style ={styles.input} 
-                multiline
-                placeholder = {'ex. imgur'}
-                placeholderTextColor= 'gray' 
-                onChangeText={(val) => setInterests(val.split(/\r?\n/))}/>
-            <Button style ={styles.buttonStyle}
-                    title='Submit'
-                    color = 'white'
-                    onPress={() => {buttonClick()}}
-                    ></Button>
+            <View style={styles.EditSection}>
+                <View style={styles.text}>
+                    <Text style = {styles.text}>Edit Phone Number:</Text>
+                </View>
+                <TextInput 
+                    clearButtonMode='always'
+                    style ={styles.input} 
+                    placeholder = 'ex. 8037779311'
+                    placeholderTextColor= 'gray' 
+                    onChangeText={(val) => setPhoneNum(val)}
+                    keyboardType = 'number-pad'/>
+                <View style={styles.text}>
+                    <Text style = {styles.text}>Change your username:</Text>
+                </View>
+                <TextInput 
+                    clearButtonMode='always'
+                    style ={styles.input} 
+                    placeholder = 'ex. steve1999'
+                    placeholderTextColor= 'gray' 
+                    onChangeText={(val) => setUserName(val)}/>
+                <View style={styles.text}>
+                    <Text style = {styles.text}>Edit your Interests:</Text>
+                </View>
+                <TextInput 
+                    style ={styles.input} 
+                    multiline
+                    placeholder = {'ex. Fishing\nex. Archery'}
+                    placeholderTextColor= 'gray' 
+                    onChangeText={(val) => setInterests(val.split(/\r?\n/))}/>
+                <View style={styles.text}>
+                    <Text style = {styles.text}>Change your Profile Picture:</Text>
+                </View>
+                <TextInput 
+                    style ={styles.input} 
+                    multiline
+                    placeholder = {'ex. imgur'}
+                    placeholderTextColor= 'gray' 
+                    onChangeText={(val) => setInterests(val.split(/\r?\n/))}/>
+                <Button style ={styles.buttonStyle}
+                        title='Submit'
+                        color = 'white'
+                        onPress={() => {RootNavigation.navigate("Profile")}}
+                ></Button>
+            </View>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     container:{
-        flex:1,
+        flex: 3,
         backgroundColor: '#3A3B50',
-        alignItems:'center',
-        justifyCOntent:'center',
     },
     buttonStyle:{
         padding: 8
@@ -102,14 +110,15 @@ const styles = StyleSheet.create({
         margin: 10,
         width: 200,
         color: 'white',
-        top: 150
+        marginVertical: 20,
+        top: 15
     },
     text:{
         alignItems:'center',
         justifyCOntent:'center',
         color: 'white',
         margin: 5,
-        top: 150
+        top: 20
     },
     imageContainer:{
         left: 30,
@@ -153,4 +162,7 @@ const styles = StyleSheet.create({
         left: 138,
         alignItems:'center',
     },
+    EditSection : {
+        alignSelf: 'center'
+    }
 })

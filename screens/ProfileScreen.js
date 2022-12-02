@@ -6,12 +6,18 @@ import tempData from './tempData';
 import Interests from './Interests';
 import User from '../user.js';
 import {getUserByID, updateUser, getUserByPhoneNumber, createUser} from '../firebaseConfig.js';
+import * as RootNavigation from '../RootNavigation';
 
-export default function Component() {
-    let user = getUserByID('testuser')
+const Component = () => {
+
+    var displayName = "Chad Thompson";
+
     return (
         <View style={styles.container}>
             <View style={styles.imageContainer}>
+                <TouchableOpacity onPress={() => {RootNavigation.navigate("EditProfile")}}>
+                    <Image style={{height:20, width:20, color: 'black', left: 315, top: 10}} source={require('./images/editProfileIcon.png')}/>
+                </TouchableOpacity>
                 <View style={styles.avatarBorderContainer}>
                     <Image style={{height:'100%', width:'100%', borderRadius:70, color: 'black'}} source={require('./images/blackCircleBorder.jpg')}/>
                 </View>
@@ -20,7 +26,7 @@ export default function Component() {
                 </View>
                 <View style={styles.profileNameContainer}>
                    <Text style={{fontSize:20,lineheight:50,fontWeight:'bold'}}>
-                        {user.displayName}
+                        {displayName}
                     </Text>
                 </View>
                 <View style={styles.userNameContainer}>
@@ -144,3 +150,5 @@ const styles = StyleSheet.create({
         left: 300
     }
 })
+
+export default Component;

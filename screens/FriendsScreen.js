@@ -40,7 +40,7 @@ const FriendScreen = () => {
     }
 
     const renderItem = ({ item }) => (
-        <TouchableOpacity onPress={() => RootNavigation.navigate("Profile")}>
+        <TouchableOpacity onPress={() => {RootNavigation.navigate("Profile")}}>
             <View style={styles.ProfileCards}>
                 <Text style={styles.title}>{item.name}</Text>
                 <Text style={styles.subtitles}>{item.desc}</Text>

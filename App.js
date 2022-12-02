@@ -6,6 +6,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {navigationRef} from './RootNavigation';
 import LogOutScreen from './screens/Logout';
+import EditProfile from './screens/EditProfile';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +33,10 @@ export default function App() {
             <Stack.Screen 
                 name = "AddFriends"
                 component = {AddFriendsScreen}
+            />
+            <Stack.Screen 
+                name = "EditProfile"
+                component = {EditProfile}
             />
         </Stack.Navigator>
     </NavigationContainer>
