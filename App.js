@@ -21,6 +21,7 @@ export default function App() {
             <Stack.Screen 
                 name = "HomeScreen"
                 component = {HomeScreen}
+                options = {{headerBackVisible: false}}
             />
             <Stack.Screen 
                 name = "Profile"

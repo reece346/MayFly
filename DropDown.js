@@ -60,7 +60,7 @@ const onSelectedItem = (val) =>{
                             key={String(i)}
                             onPress={()=>onSelectedItem(val)}
                         >
-                            <Text>{val.name}</Text> 
+                            <Text style ={{fontSize: 20}}>{val.name}</Text> 
                         </TouchableOpacity> //add animation?
                     )
                 })}
