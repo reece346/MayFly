@@ -1,87 +1,174 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import {Image,StyleSheet,Text,View,TouchableOpacity, TextInput, Button} from 'react-native';
+import { useState } from 'react';
+import {FlatList,Image,StyleSheet,Text,View,TouchableOpacity, TextInput, Button, SafeAreaView} from 'react-native';
+import * as RootNavigation from '../RootNavigation';
 
-export default function AddFriendsScreen(){
-    
+const suggestedFriendsDATA = [
+    {
+        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+        name: 'Reece Peters',
+        desc: '4 Mutual Friends'
+    },
+    {
+        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+        name: 'Bea Dyar',
+        desc: '2 Mutual Friends'
+    },
+    {
+        id: '58694a0f-3da1-471f-bd96-145571e29d72',
+        name: 'Miller Kershaw',
+        desc: '3 Mutual Friends'
+    },
+];
+
+const pendingFriendsDATA = [
+    {
+        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+        name: 'Ronan Stewart',
+        desc: 'Request Sent: Nov 14 2022' 
+    },
+    {
+        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+        name: 'John Smith',
+        desc: 'Request Sent: Oct 20 2022' 
+    },
+];
+
+const AddFriendsScreen = () => {
+    const [modalVisible, setModalVisible] = useState(false);
+
     const toggleModal = () => {
         setModalVisible(!modalVisible)
     }
 
-    return (
-        <View style={styles.container}>
-            <View style={styles.SearchFriendHeader}>
-                <Text style={{fontSize: 25, color: 'white', fontWeight: '600'}}>
-                    Search Users
-                </Text>
+    const renderItem = ({ item }) => (
+        <TouchableOpacity onPress={() => RootNavigation.navigate("Profile")}>
+            <View style={styles.ProfileCards}>
+                <Text style={styles.title}>{item.name}</Text>
+                <Text style={styles.subtitles}>{item.desc}</Text>
             </View>
-            <View style={{ position: 'absolute', top: 75, width: '90%'}}>
-                <TextInput style={{
-                        left: 20,
-                        borderRadius: 10,
-                        margin: 10,
-                        color: '#000',
-                        borderColor: '#666',
-                        backgroundColor: '#FFF',
-                        borderWidth: 1,
-                        height: 45,
-                        paddingHorizontal: 10,
-                        fontSize: 18,
-                    }}
-                    placeholder={'Username'}
-                    placeholderTextColor={'#666'}
+        </TouchableOpacity>
+    );
+
+    return (
+        <SafeAreaView style={styles.container}>
+            <View style={styles.SearchFriendsSection}>
+                <View style={styles.SearchFriendHeader}>
+                    <Text style={{fontSize: 25, color: 'white', fontWeight: '600'}}>
+                        Search Users
+                    </Text>
+                    <View style={{ position: 'absolute', marginVertical: 30, width: '100%'}}>
+                        <TextInput style={{
+                            borderRadius: 10,
+                            margin: 10,
+                            color: '#000',
+                            borderColor: '#666',
+                            backgroundColor: '#FFF',
+                            borderWidth: 1,
+                            height: 45,
+                            paddingHorizontal: 10,
+                            fontSize: 18,
+                        }}
+                        placeholder={'Username'}
+                        placeholderTextColor={'#666'}
+                        />
+                    </View>
+                </View>
+                <View style={styles.AddButton}>
+                    <TouchableOpacity onPress= {toggleModal} style={{flexDirection: 'row', alignSelf: 'center', }}>
+                        <Text style={{color: 'white'}}>Search</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+            
+            <View style={styles.SuggestedFriendsSection}>
+                <View style={styles.SuggestedFriendsHeader}>
+                    <Text style={{fontSize: 25, color: 'white', fontWeight: '600'}}>
+                        Suggested Friends
+                    </Text>
+                </View>
+                <FlatList
+                    data={suggestedFriendsDATA}
+                    renderItem={renderItem}
+                    keyExtractor={item => item.id}
                 />
             </View>
-            <TouchableOpacity onPress={toggleModal} style={{flexDirection: 'row', justifyContent: 'center', alignContent: 'center'}}>
-                <View style={styles.AddButton}>
-                    <Text style={{color: 'white', top: 4}}>Search</Text>
-                </View>
-            </TouchableOpacity>
-            <View style={styles.SuggestedFriendsHeader}>
-                <Text style={{fontSize: 25, color: 'white', fontWeight: '600'}}>
-                    Suggested Friends
-                </Text>
+
+            <View style={styles.PendingFriendsSection}>
+                <View style={styles.PendingFriendsHeader}>
+                    <Text style={{fontSize: 25, color: 'white', fontWeight: '600'}}>
+                        Pending Friends
+                    </Text>
+                </View> 
+                <FlatList
+                    data={pendingFriendsDATA}
+                    renderItem={renderItem}
+                    keyExtractor={item => item.id}
+                />
             </View>
-            <View style={styles.PendingFriendsHeader}>
-                <Text style={{fontSize: 25, color: 'white', fontWeight: '600'}}>
-                    Pending Friends
-                </Text>
-            </View>
-        </View>
+        </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
     container : {
         flex:1,
-        backgroundColor: '#3A3B50'
+        backgroundColor: '#3A3B50',
+        marginTop: StatusBar.currentHeight || 0,
+    },
+    SearchFriendsSection : {
+        top: 20,
+        marginHorizontal: 30
     },
     SearchFriendHeader : {
-        top: 20,
-        left: 30,
-        flexDirection: 'row',
+        flexDirection: 'row'
+    },
+    ProfileCards : {
+        backgroundColor: '#EAEAEA',
+        top: 10,
+        height: 75,
+        width: 352,
+        padding: 10,
+        marginVertical: 8,
+    },
+    SuggestedFriendsSection : {
+        marginVertical: 60,
+        left: 30
     },
     SuggestedFriendsHeader : {
-        top: 115,
-        left: 30,
         flexDirection: 'row'
-        
     },
     AddButton : {
-        top: 100,
+        marginVertical: 30,
         justifyContent: 'center',
+        alignSelf: 'center',
         alignContent: 'center',
-        margin: 10,
         backgroundColor: '#5D5F82',
         borderRadius: 5,
         height: 25,
         width: 75,
-        flexDirection: 'row'
+        flexDirection: 'row',
+        top: 40
+    },
+    PendingFriendsSection : {
+        marginVertical: 0,
+        left: 30
     },
     PendingFriendsHeader : {
-        top: 350,
-        left: 30,
         flexDirection: 'row'
-        
+    },
+    title : {
+        left: '20%',
+        fontWeight: 'bold',
+        fontSize: 20,
+    },
+    subtitles : {
+        left: '20%',
+        marginVertical: 5,
+        fontSize: 15
     }
 })
+
+
+export default AddFriendsScreen;
