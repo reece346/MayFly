@@ -2,6 +2,8 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import {StyleSheet,Text,View,TouchableOpacity,TextInput,Button} from 'react-native';
 import * as RootNavigation from '../RootNavigation';
+import User from '../user';
+import {createUser} from '../firebaseConfig';
 
 export default function LogOutScreen(){
     const [phoneNum, setPhoneNum] = useState('');
@@ -9,8 +11,9 @@ export default function LogOutScreen(){
     const [interests, setInterests] = useState([]);
 
     buttonClick = () => {
+        let thisUser = new User(userName, 0, null,phoneNum, interests, null)
+        createUser(thisUser);
         RootNavigation.navigate("HomeScreen");
-        //create user here
     }
     
     return (
