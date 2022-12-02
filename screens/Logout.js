@@ -66,7 +66,7 @@ export default function LogOutScreen(){
                     <Button style ={styles.buttonStyle}
                             title='Submit'
                             color = 'white'
-                            onPress={() => {buttonClick(), clearModal(), RootNavigation.navigate("HomeScreen")}}>
+                            onPress={() => {buttonClick(), RootNavigation.navigate("HomeScreen")}}>
 
                     </Button>
                 </View>
