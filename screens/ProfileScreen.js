@@ -33,13 +33,13 @@ const auth = getAuth(app);
 
 const userRef = ref(database, 'users/testuser')
 
-useEffect(() => {
+useEffect(()=> {
     onValue(userRef, (snapshot) => {
         const data = snapshot.val();
-            setDisplayName(data.displayName);
+        setDisplayName(data.displayName);
     })
-})
-    
+},[])
+
 
     return (
         <View style={styles.container}>
