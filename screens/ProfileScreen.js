@@ -62,10 +62,10 @@ const Component = () => {
                 <Button title='Instagram' onPress={()=>{Linking.openURL('https://www.instagram.com/')}}></Button>
             </View>
             <View style={styles.TwitterButton}>
-                <Button title='Twitter' onPress={()=>{Linking.openURL('https://twitter.com/')}}></Button>
+                <Button title='Twitter' onPress={()=>{Linking.openURL('https://twitter.com/ChadT12054309')}}></Button>
             </View>
             <View style={styles.YoutubeButton}>
-                <Button title='Youtube' onPress={()=>{Linking.openURL('https://youtube.com/')}}></Button>
+                <Button title='Youtube' onPress={()=>{Linking.openURL('https://www.youtube.com/channel/UCZjQDA528gyGjo_LNDRE3HQ')}}></Button>
             </View>
             </View>
     )
