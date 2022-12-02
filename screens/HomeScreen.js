@@ -14,6 +14,7 @@ export default function HomeScreen() {
   const [characterDesc, setCharacterDesc] = useState('');
   const [messageList, setMessageList] = useState([]);
   const [isRefreshing, setRefreshing] = useState(false);
+  const [testMessage, setTestMessage] = useState('');
   // TODO Need some way of getting the user's phone number. Making do with an example one
   const phoneNumber = "+16505553434" // Test number, has been added to Firebase
   // TODO Also need some form of way to get the code from the user.
@@ -37,8 +38,9 @@ export default function HomeScreen() {
 
   onValue(messagesRef, (snapshot) => {
     const data = snapshot.val();
+    console.log('onvalue is doing something', data);
     () => {
-      setMessageList(data);
+      setTestMessage(data);
     };
   })
 
@@ -53,7 +55,7 @@ export default function HomeScreen() {
   )
   
   const sendMessage = () => {
-    console.log(messageList)
+    console.log('testMesssage is: ', testMessage)
   }
 
   return (
@@ -103,9 +105,7 @@ export default function HomeScreen() {
         }
         ListFooterComponent={
           <View>
-            {
-              messageList.length > 0 && <View><Text>message list isn't empty</Text></View>
-            }
+            {testMessage}
           </View>
         }
       />
