@@ -28,11 +28,11 @@ export default function LogOutScreen(){
                     onChangeText={(val) => setPhoneNum(val)}
                     keyboardType = 'number-pad'
                     maxLength={11}/>
-                <Text style = {styles.text}>Create a username:</Text>
+                <Text style = {styles.text}>Enter Full Name:</Text>
                 <TextInput 
                     clearButtonMode='always'
                     style ={styles.input} 
-                    placeholder = 'ex. steve1999'
+                    placeholder = 'ex. Steve Smith'
                     placeholderTextColor= 'gray' 
                     onChangeText={(val) => setUserName(val)}/>
                 <Text style = {styles.text}>What are your interests? Separate them by hitting 'Enter':</Text>
