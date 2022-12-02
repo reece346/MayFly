@@ -40,6 +40,13 @@ export default function LogOutScreen(){
                 placeholder = {'ex. Fishing\nex. Archery'}
                 placeholderTextColor= 'gray' 
                 onChangeText={(val) => setInterests(val.split(/\r?\n/))}/>
+            <Text style = {styles.text}>Paste the link to your profile picture:</Text>
+            <TextInput 
+                style ={styles.input} 
+                multiline
+                placeholder = {'ex. imgur'}
+                placeholderTextColor= 'gray' 
+                onChangeText={(val) => setInterests(val.split(/\r?\n/))}/>
             <Button style ={styles.buttonStyle}
                     title='Submit'
                     color = 'white'

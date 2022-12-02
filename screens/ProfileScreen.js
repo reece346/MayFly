@@ -6,6 +6,7 @@ import tempData from './tempData';
 import Interests from './Interests';
 import User from '../user.js';
 import {getUserByID, updateUser, getUserByPhoneNumber, createUser} from '../firebaseConfig.js';
+import ImagePicker from "react-native-image-picker";
 
 export default function Component() {
     let user = getUserByID('testuser')
@@ -61,7 +62,7 @@ export default function Component() {
             <View style={styles.YoutubeButton}>
                 <Button title='Youtube' onPress={()=>{Linking.openURL('https://youtube.com/')}}></Button>
             </View>
-        </View>
+            </View>
     )
 }
 
