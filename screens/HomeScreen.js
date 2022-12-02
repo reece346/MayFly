@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { FlatList, StyleSheet, Text, View, Modal, TouchableOpacity, TextInput, RefreshControl, TouchableWithoutFeedback, Button, KeyboardAvoidingView } from 'react-native';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import DropDown from '../DropDown';
 import { initializeApp } from 'firebase/app';
 import { getDatabase, onValue, ref, set } from 'firebase/database';
@@ -8,13 +8,23 @@ import { getAuth, RecaptchaVerifier } from 'firebase/auth';
 
 let hamburger =[{id:1, name: 'View Profile'}, {id:2, name:'Friends'}, {id:3, name:'Add Friends'}, {id:4, name:'Logout'}]
 
+
+export function chatMessage ({item}) {
+  return (
+    <View>
+      <Text> thing</Text>
+    </View>
+  )
+}
+
 export default function HomeScreen() {
   const [modalVisible, setModalVisible] = useState(false);
   const [characterName, setCharacterName] = useState('');
   const [characterDesc, setCharacterDesc] = useState('');
   const [messageList, setMessageList] = useState([]);
   const [isRefreshing, setRefreshing] = useState(false);
-  const [testMessage, setTestMessage] = useState('');
+  const [testMessage, setTestMessage] = useState('wrong');
+  const [message, setMessage] = useState('')
   // TODO Need some way of getting the user's phone number. Making do with an example one
   const phoneNumber = "+16505553434" // Test number, has been added to Firebase
   // TODO Also need some form of way to get the code from the user.
@@ -36,13 +46,15 @@ export default function HomeScreen() {
 
   const messagesRef = ref(database, 'messages/test')
 
-  onValue(messagesRef, (snapshot) => {
-    const data = snapshot.val();
-    console.log('onvalue is doing something', data);
-    () => {
-      setTestMessage(data);
-    };
-  })
+  useEffect(()=> {
+    onValue(messagesRef, (snapshot) => {
+      const data = snapshot.val();
+      console.log('onvalue is doing something', data);
+      console.log('data.testmsg.contents is: ', data.testmsg.contents);
+      setTestMessage(data.testmsg.contents)
+      console.log('testmessage after setting is: ', testMessage);
+    })
+  },[])
 
   const [selectedItem, setSelectedItem] = useState(null)
 
@@ -55,7 +67,11 @@ export default function HomeScreen() {
   )
   
   const sendMessage = () => {
-    console.log('testMesssage is: ', testMessage)
+    set(ref(database, '/messages/test/testmsg'), {
+      authorID : 'testuser',
+      contents : message,
+      timestamp : '1668390616'
+    })
   }
 
   return (
@@ -88,7 +104,8 @@ export default function HomeScreen() {
         data={messageList}
         inverted={true}
 
-        renderItem={renderMessage}
+        renderItem={chatMessage
+        }
         keyExtractor={item => item.name}
 
         ListEmptyComponent={
@@ -105,7 +122,7 @@ export default function HomeScreen() {
         }
         ListFooterComponent={
           <View>
-            {testMessage}
+            <Text>{testMessage}</Text>
           </View>
         }
       />
