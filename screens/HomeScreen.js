@@ -3,7 +3,7 @@ import { FlatList, StyleSheet, Text, View, Modal, TouchableOpacity, TextInput, R
 import { useEffect, useState } from 'react';
 import DropDown from '../DropDown';
 import { initializeApp } from 'firebase/app';
-import { getDatabase, onValue, ref, set, push } from 'firebase/database';
+import { getDatabase, onValue, ref, set, push, onChildAdded } from 'firebase/database';
 import { getAuth, RecaptchaVerifier } from 'firebase/auth';
 import { render } from 'react-dom';
 
@@ -49,9 +49,9 @@ export default function HomeScreen() {
   const messagesRef = ref(database, 'messages/test/testmsg/contents')
 
   useEffect(()=> {
-    onValue(messagesRef, (snapshot) => {
+    onChildAdded(messagesRef, (snapshot) => {
       const data = snapshot.val();
-      setMessageList(data)
+      setMessageList((messageList)=>[...messageList, data])
     })
   },[])
 
@@ -63,15 +63,15 @@ export default function HomeScreen() {
 
   const renderMessage = ({item}) => (
     <View style={styles.message}>
-      <Text>{item}</Text>
+      <Text>{item.message}</Text>
     </View>
   )
   
   const sendMessage = () => {
-    set(ref(database, '/messages/test/testmsg'), {
-      authorID : 'testuser',
-      contents : ['one', 'two', 'three'],
-      timestamp : '1668390616'
+    const messagesRef = ref(database, 'messages/test/testmsg/contents')
+    const pushRef = push(messagesRef)
+    set(pushRef, {
+      message
     })
   }
 
