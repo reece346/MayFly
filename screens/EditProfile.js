@@ -1,13 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {StyleSheet,Text,View,TouchableOpacity,TextInput,Button,Image} from 'react-native';
 import * as RootNavigation from '../RootNavigation';
-import User from '../user';
-import {createUser} from '../firebaseConfig';
-import {getUserByID, updateUser, getUserByPhoneNumber} from '../firebaseConfig.js';
+import { initializeApp } from 'firebase/app';
+import { getDatabase, ref, set, onValue, child, get, push } from 'firebase/database';
+import { getAuth} from 'firebase/auth';
+import {getUserByID} from '../firebaseConfig.js';
 
 export default function EditProfile(){
-    const [phoneNum, setPhoneNum] = useState('');
+    const [displayName, setDisplayName] = useState('');
     const [userName, setUserName] = useState('');
     const [interests, setInterests] = useState([]);
 
@@ -17,6 +18,31 @@ export default function EditProfile(){
         })
     }
     let user = getUserByID('testuser')
+
+    // Initialize Firebase
+    const firebaseConfig = {
+        apiKey: 'AIzaSyBc4K_VsAO60P-Gmqg8x9B9e2oJ4R-ECdQ',
+        authDomain: 'odyssey-490.firebaseapp.com',
+        databaseURL: 'https://odyssey-490-default-rtdb.firebaseio.com/',
+        projectId: 'odyssey-490',
+        storageBucket: 'odyssey-490.appspot.com',
+        messagingSenderId: '747613227593',
+        appId: '1:747613227593:web:5ea3e82de1cdc0470b8d98'
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);  
+    const auth = getAuth(app);
+
+    const userRef = ref(database, 'users/testuser')
+
+    useEffect(()=> {
+        onValue(userRef, (snapshot) => {
+            const data = snapshot.val();
+            setDisplayName(data.displayName);
+        })
+    },[])
+
     return (
         <View style={styles.container}>
             <View style={styles.imageContainer}>
@@ -28,7 +54,7 @@ export default function EditProfile(){
                 </View>
                 <View style={styles.profileNameContainer}>
                    <Text style={{fontSize:20,lineheight:50,fontWeight:'bold'}}>
-                        {user.displayName}
+                        {displayName}
                     </Text>
                 </View>
                 <View style={styles.userNameContainer}>
@@ -47,17 +73,16 @@ export default function EditProfile(){
             </View>
             <View style={styles.EditSection}>
                 <View style={styles.text}>
-                    <Text style = {styles.text}>Edit Phone Number:</Text>
+                    <Text style = {styles.text}>Edit Display Name</Text>
                 </View>
                 <TextInput 
                     clearButtonMode='always'
                     style ={styles.input} 
-                    placeholder = 'ex. 8037779311'
+                    placeholder = 'ex. Steve Smith'
                     placeholderTextColor= 'gray' 
-                    onChangeText={(val) => setPhoneNum(val)}
-                    keyboardType = 'number-pad'/>
+                    onChangeText={(val) => setDisplayName(val)}/>
                 <View style={styles.text}>
-                    <Text style = {styles.text}>Change your username:</Text>
+                    <Text style = {styles.text}>Edit Your Username</Text>
                 </View>
                 <TextInput 
                     clearButtonMode='always'
@@ -67,7 +92,7 @@ export default function EditProfile(){
                     value = {userName}
                     onChangeText={(text) => setUserName(text)}/>
                 <View style={styles.text}>
-                    <Text style = {styles.text}>Edit your Interests:</Text>
+                    <Text style = {styles.text}>Edit Your Interests</Text>
                 </View>
                 <TextInput 
                     style ={styles.input} 
@@ -76,7 +101,7 @@ export default function EditProfile(){
                     placeholderTextColor= 'gray' 
                     onChangeText={(val) => setInterests(val.split(/\r?\n/))}/>
                 <View style={styles.text}>
-                    <Text style = {styles.text}>Change your Profile Picture:</Text>
+                    <Text style = {styles.text}>Edit Your Profile Picture</Text>
                 </View>
                 <TextInput 
                     style ={styles.input} 
@@ -84,7 +109,7 @@ export default function EditProfile(){
                     placeholder = {'ex. imgur'}
                     placeholderTextColor= 'gray' 
                     onChangeText={(val) => setInterests(val.split(/\r?\n/))}/>
-                <Button style ={styles.buttonStyle}
+                <Button style ={{padding: 8}}
                         title='Submit'
                         color = 'white'
                         onPress={() => {RootNavigation.navigate("Profile")}}
@@ -99,9 +124,6 @@ const styles = StyleSheet.create({
         flex: 3,
         backgroundColor: '#3A3B50',
     },
-    buttonStyle:{
-        padding: 8
-    },
     input:{
         alignItems:'center',
         justifyCOntent:'center',
@@ -111,7 +133,7 @@ const styles = StyleSheet.create({
         margin: 10,
         width: 200,
         color: 'white',
-        marginVertical: 20,
+        marginVertical: 15,
         top: 15
     },
     text:{
@@ -119,7 +141,7 @@ const styles = StyleSheet.create({
         justifyCOntent:'center',
         color: 'white',
         margin: 5,
-        top: 20
+        top: 18
     },
     imageContainer:{
         left: 30,
@@ -164,6 +186,7 @@ const styles = StyleSheet.create({
         alignItems:'center',
     },
     EditSection : {
+        top: 10,
         alignSelf: 'center'
     }
 })
