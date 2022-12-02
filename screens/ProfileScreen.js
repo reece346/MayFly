@@ -1,5 +1,5 @@
 import { setStatusBarNetworkActivityIndicatorVisible, StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {Image,StyleSheet,Text,View,TouchableOpacity, FlatList,Button, Linking} from 'react-native';
 import { AntDesign } from "@expo/vector-icons";
 import tempData from './tempData';
@@ -33,12 +33,13 @@ const auth = getAuth(app);
 
 const userRef = ref(database, 'users/testuser')
 
-onValue(userRef, (snapshot) => {
-    const data = snapshot.val();
-    () => {
-        setDisplayName(data.displayName);
-    };
+useEffect(() => {
+    onValue(userRef, (snapshot) => {
+        const data = snapshot.val();
+            setDisplayName(data.displayName);
+    })
 })
+    
 
     return (
         <View style={styles.container}>
