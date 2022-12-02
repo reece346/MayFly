@@ -1,44 +1,51 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
+import { useState } from 'react';
 import {FlatList,Image,StyleSheet,Text,View,TouchableOpacity, TextInput, Button} from 'react-native';
+import * as RootNavigation from '../RootNavigation';
 
 const friendsDATA = [
     {
         id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-        title: 'Reece Peters',
+        name: 'Reece Peters',
+        desc: 'Friends Since: Sept 22, 2022'
     },
     {
         id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-        title: 'Bea Dyar',
+        name: 'Bea Dyar',
+        desc: 'Friends Since: Sept 04, 2022'
     },
     {
         id: '58694a0f-3da1-471f-bd96-145571e29d72',
-        title: 'Miller Kershaw',
+        name: 'Miller Kershaw',
+        desc: 'Friends Since: Nov 12, 2022'
     },
     {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-        title: 'Bea Dyar',
+        id: '3af68afc-c605-48d3-a4f8-fbd91aa97f63',
+        name: 'Bea Dyar',
+        desc: 'Friends Since: Dec 02, 2022'
     },
     {
-        id: '58694a0f-3da1-471f-bd96-145571e29d72',
-        title: 'Miller Kershaw',
+        id: '586f4a0f-3da1-471f-bd96-145571e29d72',
+        name: 'Miller Kershaw',
+        desc: 'Friends Since: Dec 01, 2022'
     },
 ];
 
-const Item = ({ title }) => (
-    <View style={styles.ProfileCards}>
-        <Text style={styles.title}>{title}</Text>
-    </View>
-);
-
 const FriendScreen = () => {
-    
+    const [modalVisible, setModalVisible] = useState(false);
+
     const toggleModal = () => {
         setModalVisible(!modalVisible)
     }
 
     const renderItem = ({ item }) => (
-        <Item title={item.title} />
+        <TouchableOpacity onPress={() => RootNavigation.navigate("Profile")}>
+            <View style={styles.ProfileCards}>
+                <Text style={styles.title}>{item.name}</Text>
+                <Text style={styles.subtitles}>{item.desc}</Text>
+            </View>
+        </TouchableOpacity>
     );
 
     return (
@@ -65,11 +72,11 @@ const FriendScreen = () => {
                         />
                     </View>
                 </View>
-                <TouchableOpacity onPress= {toggleModal} style={{flexDirection: 'row', alignSelf: 'center', }}>
-                    <View style={styles.AddButton}>
-                        <Text style={{color: 'white', top: 4}}>Search</Text>
-                    </View>
-                </TouchableOpacity>
+                <View style={styles.AddButton}>
+                    <TouchableOpacity onPress= {toggleModal} style={{flexDirection: 'row', alignSelf: 'center', }}>
+                        <Text style={{color: 'white'}}>Search</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
             <View style={styles.allFriendsSection}>
                 <View style={styles.allFriendsHeader}>
@@ -77,11 +84,11 @@ const FriendScreen = () => {
                         All Friends
                     </Text>
                 </View>
-                <FlatList
-                    data={friendsDATA}
-                    renderItem={renderItem}
-                    keyExtractor={item => item.id}
-                />
+                    <FlatList
+                        data={friendsDATA}
+                        renderItem={renderItem}
+                        keyExtractor={item => item.id}
+                    />
             </View>
         </View>
     )
@@ -107,7 +114,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     ProfileCards : {
-        backgroundColor: '#ffffff',
+        backgroundColor: '#EAEAEA',
         top: 10,
         height: 75,
         width: 352,
@@ -116,6 +123,7 @@ const styles = StyleSheet.create({
     },
     AddButton : {
         marginVertical: 30,
+        alignSelf: 'center',
         justifyContent: 'center',
         alignContent: 'center',
         backgroundColor: '#5D5F82',
@@ -126,9 +134,14 @@ const styles = StyleSheet.create({
         top: 40
     },
     title : {
-        left: '25%',
+        left: '20%',
         fontWeight: 'bold',
         fontSize: 20,
+    },
+    subtitles : {
+        left: '20%',
+        marginVertical: 5,
+        fontSize: 15
     }
 })
 

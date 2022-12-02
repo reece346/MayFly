@@ -1,48 +1,54 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-//import { useState } from 'react';
+import { useState } from 'react';
 import {FlatList,Image,StyleSheet,Text,View,TouchableOpacity, TextInput, Button, SafeAreaView} from 'react-native';
+import * as RootNavigation from '../RootNavigation';
 
 const suggestedFriendsDATA = [
     {
         id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-        title: 'Reece Peters',
+        name: 'Reece Peters',
+        desc: '4 Mutual Friends'
     },
     {
         id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-        title: 'Bea Dyar',
+        name: 'Bea Dyar',
+        desc: '2 Mutual Friends'
     },
     {
         id: '58694a0f-3da1-471f-bd96-145571e29d72',
-        title: 'Miller Kershaw',
+        name: 'Miller Kershaw',
+        desc: '3 Mutual Friends'
     },
 ];
 
 const pendingFriendsDATA = [
     {
         id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-        title: 'Ronan Stewart',
+        name: 'Ronan Stewart',
+        desc: 'Request Sent: Nov 14 2022' 
     },
     {
         id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-        title: 'John Smith',
+        name: 'John Smith',
+        desc: 'Request Sent: Oct 20 2022' 
     },
 ];
 
-const Item = ({ title }) => (
-    <View style={styles.ProfileCards}>
-        <Text style={styles.title}>{title}</Text>
-    </View>
-);
-
 const AddFriendsScreen = () => {
+    const [modalVisible, setModalVisible] = useState(false);
 
     const toggleModal = () => {
         setModalVisible(!modalVisible)
     }
 
     const renderItem = ({ item }) => (
-        <Item title={item.title} />
+        <TouchableOpacity onPress={() => RootNavigation.navigate("Profile")}>
+            <View style={styles.ProfileCards}>
+                <Text style={styles.title}>{item.name}</Text>
+                <Text style={styles.subtitles}>{item.desc}</Text>
+            </View>
+        </TouchableOpacity>
     );
 
     return (
@@ -69,11 +75,11 @@ const AddFriendsScreen = () => {
                         />
                     </View>
                 </View>
-                <TouchableOpacity onPress= {toggleModal} style={{flexDirection: 'row', alignSelf: 'center', }}>
-                    <View style={styles.AddButton}>
-                        <Text style={{color: 'white', top: 4}}>Search</Text>
-                    </View>
-                </TouchableOpacity>
+                <View style={styles.AddButton}>
+                    <TouchableOpacity onPress= {toggleModal} style={{flexDirection: 'row', alignSelf: 'center', }}>
+                        <Text style={{color: 'white'}}>Search</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
             
             <View style={styles.SuggestedFriendsSection}>
@@ -119,7 +125,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     ProfileCards : {
-        backgroundColor: '#ffffff',
+        backgroundColor: '#EAEAEA',
         top: 10,
         height: 75,
         width: 352,
@@ -136,6 +142,7 @@ const styles = StyleSheet.create({
     AddButton : {
         marginVertical: 30,
         justifyContent: 'center',
+        alignSelf: 'center',
         alignContent: 'center',
         backgroundColor: '#5D5F82',
         borderRadius: 5,
@@ -152,9 +159,14 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     title : {
-        left: '25%',
+        left: '20%',
         fontWeight: 'bold',
         fontSize: 20,
+    },
+    subtitles : {
+        left: '20%',
+        marginVertical: 5,
+        fontSize: 15
     }
 })
 
