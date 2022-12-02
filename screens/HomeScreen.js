@@ -2,6 +2,9 @@ import { StatusBar } from 'expo-status-bar';
 import { FlatList, StyleSheet, Text, View, Modal, TouchableOpacity, TextInput, RefreshControl, TouchableWithoutFeedback, Button, KeyboardAvoidingView } from 'react-native';
 import { useState } from 'react';
 import DropDown from '../DropDown';
+import { initializeApp } from 'firebase/app';
+import { getDatabase, onValue, ref, set } from 'firebase/database';
+import { getAuth, RecaptchaVerifier } from 'firebase/auth';
 
 let hamburger =[{id:1, name: 'View Profile'}, {id:2, name:'Friends'}, {id:3, name:'Add Friends'}, {id:4, name:'Logout'}]
 
@@ -11,28 +14,33 @@ export default function HomeScreen() {
   const [characterDesc, setCharacterDesc] = useState('');
   const [messageList, setMessageList] = useState([]);
   const [isRefreshing, setRefreshing] = useState(false);
-  const toggleModal = () => {
-    setModalVisible(!modalVisible)
-  }
+  // TODO Need some way of getting the user's phone number. Making do with an example one
+  const phoneNumber = "+16505553434" // Test number, has been added to Firebase
+  // TODO Also need some form of way to get the code from the user.
+  const code = "123456"; // Test code tied to above phone number
 
-  const clearModal = () => {
-    setModalVisible(false);
-    setCharacterDesc('');
-    setCharacterName('');
-  }
+  // Initialize Firebase
+  const firebaseConfig = {
+    apiKey: 'AIzaSyBc4K_VsAO60P-Gmqg8x9B9e2oJ4R-ECdQ',
+    authDomain: 'odyssey-490.firebaseapp.com',
+    databaseURL: 'https://odyssey-490-default-rtdb.firebaseio.com/',
+    projectId: 'odyssey-490',
+    storageBucket: 'odyssey-490.appspot.com',
+    messagingSenderId: '747613227593',
+    appId: '1:747613227593:web:5ea3e82de1cdc0470b8d98'
+  };
 
-  const sendMessage = () => {
-    let newMessage = {
-      content : message
-    }
-    setMessageList((messageList)=>[...messageList, newMessage])
-  }
+  const app = initializeApp(firebaseConfig);
+  const database = getDatabase(app);
 
-  const renderMessage = ({item}) => (
-    <View style={styles.characterContainer}>
-      <Text>{item.content}</Text>
-    </View>
-  )
+  const messagesRef = ref(database, 'messages/test')
+
+  onValue(messagesRef, (snapshot) => {
+    const data = snapshot.val();
+    () => {
+      setMessageList(data);
+    };
+  })
 
   const [selectedItem, setSelectedItem] = useState(null)
 
@@ -40,6 +48,13 @@ export default function HomeScreen() {
     setSelectedItem(item)
   }
 
+  const renderMessage = ({item}) => (
+    <View>{item.authorID}</View>
+  )
+  
+  const sendMessage = () => {
+    console.log(messageList)
+  }
 
   return (
     <KeyboardAvoidingView {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})} style={styles.container}>
@@ -68,7 +83,6 @@ export default function HomeScreen() {
 
       <FlatList
         style={{padding: 10}}
-        extraData={messageList}
         data={messageList}
         inverted={true}
 
@@ -84,13 +98,14 @@ export default function HomeScreen() {
         ListHeaderComponent={
           <View style={styles.chatBoxContainer}>
             <TextInput placeholder='Send a message' onChangeText={message => setMessage(message)}  style={styles.messageInput}/>
-            <Button onPress={() => {sendMessage}} style={styles.sendButton} color='blue' title='Send'/>
+            <Button onPress={() => {sendMessage()}} style={styles.sendButton} color='blue' title='Send'/>
           </View>
         }
-
-        ListFooterComponent ={
+        ListFooterComponent={
           <View>
-            <Text></Text>
+            {
+              messageList.length > 0 && <View><Text>message list isn't empty</Text></View>
+            }
           </View>
         }
       />
