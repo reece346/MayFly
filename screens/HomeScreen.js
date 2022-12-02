@@ -25,6 +25,7 @@ export default function HomeScreen() {
   const [messageList, setMessageList] = useState([]);
   const [isRefreshing, setRefreshing] = useState(false);
   const [testMessage, setTestMessage] = useState('wrong');
+  const [message, setMessage] = useState('')
   // const [message, setMessage] = useState('')
   // TODO Need some way of getting the user's phone number. Making do with an example one
   const phoneNumber = "+16505553434" // Test number, has been added to Firebase
