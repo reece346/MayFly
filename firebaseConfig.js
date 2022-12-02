@@ -77,7 +77,7 @@ export async function getUserByPhoneNumber(phoneNumber) {
 		snapshot.forEach((data) => {
 			if (data.val().phoneNumber == phoneNumber) {
 				const dataVal = data.val();
-				user = new User(dataVal.displayName, 0, dataVal.profilePicture, dataVal.phoneNumber, dataVal.interests, dataVal.friendIDs);
+				user = new User(dataVal.displayName, data.key, dataVal.profilePicture, dataVal.phoneNumber, dataVal.interests, dataVal.friendIDs);
 			}
 		})
 		return user;

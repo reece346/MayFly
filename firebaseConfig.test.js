@@ -1,7 +1,5 @@
 import User from './user.js';
 import {getUserByID, updateUser, getUserByPhoneNumber, createUser} from './firebaseConfig.js';
-//const getUserByID = require('./firebaseConfig.js');
-
 
 test('the test user should be able to be obtained by ID', async done => {
 	console.log("Grabbing 'testuser' from the database...");
@@ -30,19 +28,10 @@ test("the test user should be able to be edited", async done => {
 	done();
 });
 
-test("a user should be able to be added to the database", async done => {
-	const newUser = new User("Testy McTestFace", 0, "none", "+1234567890", {0: "football"}, {});
+test.only("a user should be able to be added to the database", async done => {
+	const newUser = new User("Testy McTestFace II", 0, undefined, "+1234567890", undefined, undefined);
 	await createUser(newUser); // Create the user in the database
 	let user = await getUserByPhoneNumber("+1234567890");
-	expect(user.displayName).toBe("Testy McTestFace");
+	expect(user.displayName).toBe("Testy McTestFace II");
 	done();
 });
-/*test('check to see if Firebase database is read correctly', async () => {
-	const delay = ms => new Promise(res => setTimeout(res, ms));
-	var user2 = new User();
-	//delay(5000);
-	//console.log("waited");
-	//Object.assign(user, user2);
-	//console.log("After: " + user.displayName);
-	//expect(user.displayName).toBe("Chad Thompson");
-});*/
