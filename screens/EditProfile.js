@@ -12,11 +12,13 @@ export default function EditProfile(){
     const [userName, setUserName] = useState('');
     const [interests, setInterests] = useState([]);
 
+    /*
     buttonClick = () => {
         RootNavigation.navigate("ProfileScreen", {
             userName: userName,
         })
     }
+    */
     let user = getUserByID('testuser')
 
     // Initialize Firebase
