@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import {Image,StyleSheet,Text,View,TouchableOpacity, FlatList} from 'react-native';
+import {Image,StyleSheet,Text,View,TouchableOpacity, FlatList,Button, Linking} from 'react-native';
 import { AntDesign } from "@expo/vector-icons";
 import tempData from './tempData';
 import Interests from './Interests';
@@ -51,6 +51,15 @@ export default function Component() {
                 <Text style={{fontSize: 25, color: 'white', fontWeight: '600'}}>
                     Linked Accounts
                 </Text>
+            </View>
+            <View style={styles.InstagramButton}>
+                <Button title='Instagram' onPress={()=>{Linking.openURL('https://www.instagram.com/')}}></Button>
+            </View>
+            <View style={styles.TwitterButton}>
+                <Button title='Twitter' onPress={()=>{Linking.openURL('https://twitter.com/')}}></Button>
+            </View>
+            <View style={styles.YoutubeButton}>
+                <Button title='Youtube' onPress={()=>{Linking.openURL('https://youtube.com/')}}></Button>
             </View>
         </View>
     )
@@ -114,5 +123,24 @@ const styles = StyleSheet.create({
     LinkedAccountsHeader:{
         top: 375,
         left: 30
+    },
+    InstagramButton:{
+        position:'absolute',
+        alignItems:'left',
+        top: 630,
+        left: 30
+    },
+    TwitterButton:{
+        position:'absolute',
+        alignItems:'left',
+        top: 630,
+        left: 173
+
+    },
+    YoutubeButton:{
+        position:'absolute',
+        alignItems:'left',
+        top: 630,
+        left: 300
     }
 })
