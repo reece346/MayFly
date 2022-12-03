@@ -77,7 +77,7 @@ export default function HomeScreen() {
   }
 
   return (
-    <KeyboardAvoidingView {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})} style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.topBar}>
         <DropDown
           value = {selectedItem}
@@ -100,9 +100,9 @@ export default function HomeScreen() {
         </View>
       </View>
       
-
+      <KeyboardAvoidingView {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})}>
       <FlatList
-        style={{padding: 10, marginTop: 25}}
+        style={{padding: 10, marginTop: 25, height: '90%'}}
         data={messageList}
         inverted={true}
 
@@ -122,7 +122,8 @@ export default function HomeScreen() {
           </View>
         }
       />
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </View>
   );
 }
 
