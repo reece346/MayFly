@@ -134,6 +134,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     justifyContent: 'center',
     alignContent: 'center',
+    zIndex: 1
   },
   centered : {
     justifyContent: 'center',
@@ -184,7 +185,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginVertical: 20
+    marginVertical: 20,
+    zIndex: 2
   },
   chatBoxContainer : {
     marginBottom: 75,
