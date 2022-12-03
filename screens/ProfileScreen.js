@@ -1,15 +1,9 @@
-import { setStatusBarNetworkActivityIndicatorVisible, StatusBar } from 'expo-status-bar';
 import React, { useEffect } from 'react';
-import {Image,StyleSheet,Text,View,TouchableOpacity, FlatList,Button, Linking} from 'react-native';
-import { AntDesign } from "@expo/vector-icons";
-import tempData from './tempData';
-import Interests from './Interests';
-import User from '../user.js';
-import {getUserByID, updateUser, getUserByPhoneNumber, createUser} from '../firebaseConfig.js';
+import {Image,StyleSheet,Text,View,TouchableOpacity,Button, Linking} from 'react-native';
 import * as RootNavigation from '../RootNavigation';
 import { initializeApp } from 'firebase/app';
-import { getDatabase, ref, set, onValue, child, get, push } from 'firebase/database';
-import { getAuth, RecaptchaVerifier } from 'firebase/auth';
+import { getDatabase, ref, onValue } from 'firebase/database';
+import { getAuth } from 'firebase/auth';
 import { useState } from 'react';
 import { useRoute } from "@react-navigation/native";
 const Component = () => {
