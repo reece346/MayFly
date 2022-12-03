@@ -20,7 +20,7 @@ export default function LogOutScreen(){
     return (
         <View  style={styles.container}>
             <ScrollView keyboardShouldPersistTaps = 'handled'>
-                <View style={{top:100}}>
+                <View style={{top:10}}>
                     <Text style = {styles.text}>Let's Start With Your Phone Number</Text>
                     <TextInput 
                         clearButtonMode='always'
