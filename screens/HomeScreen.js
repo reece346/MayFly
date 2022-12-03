@@ -51,7 +51,7 @@ export default function HomeScreen() {
   useEffect(()=> {
     onChildAdded(messagesRef, (snapshot) => {
       const data = snapshot.val();
-      setMessageList((messageList)=>[...messageList, data])
+      setMessageList((messageList)=>[data, ...messageList])
     })
   },[])
 
@@ -70,59 +70,58 @@ export default function HomeScreen() {
   const sendMessage = () => {
     const messagesRef = ref(database, 'messages/test/testmsg/contents')
     const pushRef = push(messagesRef)
+    const timeStamp = new Date();
     set(pushRef, {
-      message
+      message,
+      timeStamp,
     });
     setMessage('');
   }
 
   return (
     <View style={styles.container}>
-      <View style={styles.topBar}>
-        <DropDown
-          value = {selectedItem}
-          data = {hamburger}
-          onSelect={onSelect}
-        />
-        <View style={{borderRadius: 5, backgroundColor: '#d7d7d7', height: '200%', paddingHorizontal : 10}}>
-          <Text>
-            Alive for
-          </Text>
-          <Text>
-            A While
-          </Text>
-        </View>
+        <View style={styles.topBar}>
+          <DropDown
+            value = {selectedItem}
+            data = {hamburger}
+            onSelect={onSelect}
+          />
+          <View style={{borderRadius: 5, backgroundColor: '#d7d7d7', paddingHorizontal : 10}}>
+            <Text>
+              Alive for
+            </Text>
+            <Text>
+              A While
+            </Text>
+          </View>
 
-        <View>
-          <Text>
-            people
-          </Text>
-        </View>
-      </View>
-      
-      <KeyboardAvoidingView {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})}>
-      <FlatList
-        style={{padding: 10, marginTop: 25, height: '90%'}}
-        data={messageList}
-        inverted={true}
-
-        renderItem={renderMessage}
-        keyExtractor={item => item.name}
-
-        ListEmptyComponent={
           <View>
-            <Text>Start the Conversation!</Text>
+            <Text>
+              people
+            </Text>
           </View>
-        }
+        </View>
+        
+        <KeyboardAvoidingView {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})} style={{flex: 18}}>
+        <FlatList
+          style={{padding: 10}}
+          data={messageList}
+          inverted={true}
 
-        ListHeaderComponent={
-          <View style={styles.chatBoxContainer}>
-            <TextInput placeholder='Send a message' onChangeText={message => setMessage(message)}  style={styles.messageInput}/>
-            <Button onPress={() => {sendMessage()}} style={styles.sendButton} color='blue' title='Send'/>
-          </View>
-        }
-      />
-      </KeyboardAvoidingView>
+          renderItem={renderMessage}
+          keyExtractor={item => item.name}
+
+          ListEmptyComponent={
+            <View>
+              <Text>Start the Conversation!</Text>
+            </View>
+          }
+        />
+        <View style={styles.chatBoxContainer}>
+          <TextInput placeholder='Send a message' onChangeText={message => setMessage(message)}  style={styles.messageInput}/>
+          <Button onPress={() => {sendMessage()}} style={styles.sendButton} color='blue' title='Send'/>
+        </View>
+        </KeyboardAvoidingView>
     </View>
   );
 }
@@ -133,15 +132,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#3A3B50',
     paddingHorizontal: 10,
     paddingBottom: 10,
-    justifyContent: 'center',
-    alignContent: 'center',
-    zIndex: 1
-  },
-  centered : {
-    justifyContent: 'center',
-    alignContent: 'center',
-    backgroundColor: '#fff',
-    margin: 20
   },
   modalBackground : {
     width: '100%',
@@ -163,11 +153,6 @@ const styles = StyleSheet.create({
     width: 100,
     marginHorizontal: 10,
   },
-  title : {
-    justifyContent: 'center',
-    alignContent: 'center',
-    flexDirection: 'row'
-  },
   addButton: {
     alignContent: 'center',
     justifyContent: 'center',
@@ -186,11 +171,10 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginVertical: 20,
-    zIndex: 2
+    marginTop: 20,
   },
   chatBoxContainer : {
-    marginBottom: 75,
+    marginBottom: 100,
     padding: 10,
     flexDirection: 'row',
   },
