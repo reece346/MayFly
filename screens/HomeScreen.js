@@ -86,7 +86,7 @@ export default function HomeScreen() {
             data = {hamburger}
             onSelect={onSelect}
           />
-          <View style={{borderRadius: 5, backgroundColor: '#d7d7d7', paddingHorizontal : 10}}>
+          <View style={{borderRadius: 5, backgroundColor: '#d7d7d7', paddingHorizontal : 10, height: '27%'}}>
             <Text>
               Alive for
             </Text>
@@ -102,7 +102,7 @@ export default function HomeScreen() {
           </View>
         </View>
         
-        <KeyboardAvoidingView {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})} style={{flex: 18}}>
+        <KeyboardAvoidingView {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})} style={{flex: 5}}>
         <FlatList
           style={{padding: 10}}
           data={messageList}
