@@ -73,7 +73,6 @@ const styles = StyleSheet.create({
     dropDownStyle:{
         height: 15,
         width: 35,
-        padding: 25,
         borderRadius: 6,
         minHeight: 42,
         justifyContent: 'flex-end',

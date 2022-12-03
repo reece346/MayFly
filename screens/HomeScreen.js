@@ -84,7 +84,7 @@ export default function HomeScreen() {
           data = {hamburger}
           onSelect={onSelect}
         />
-        <View>
+        <View style={{borderRadius: 5, backgroundColor: '#d7d7d7', height: '200%', paddingHorizontal : 10}}>
           <Text>
             Alive for
           </Text>
