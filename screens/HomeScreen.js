@@ -72,7 +72,8 @@ export default function HomeScreen() {
     const pushRef = push(messagesRef)
     set(pushRef, {
       message
-    })
+    });
+    setMessage('');
   }
 
   return (
