@@ -1,54 +1,59 @@
 import { StatusBar } from 'expo-status-bar';
-import { FlatList, StyleSheet, Text, View, Modal, TouchableOpacity, TextInput, RefreshControl, TouchableWithoutFeedback } from 'react-native';
-import { useState } from 'react';
+import { FlatList, StyleSheet, Text, View, Modal, TouchableOpacity, TextInput, RefreshControl, TouchableWithoutFeedback, Button, KeyboardAvoidingView } from 'react-native';
+import { useEffect, useState } from 'react';
 import DropDown from '../DropDown';
+import { initializeApp } from 'firebase/app';
+import { getDatabase, onValue, ref, set, push, onChildAdded } from 'firebase/database';
+import { getAuth, RecaptchaVerifier } from 'firebase/auth';
+import { render } from 'react-dom';
 
 let hamburger =[{id:1, name: 'View Profile'}, {id:2, name:'Friends'}, {id:3, name:'Add Friends'}, {id:4, name:'Logout'}]
+
+
+export function chatMessage ({item}) {
+  return (
+    <View>
+      <Text> thing</Text>
+    </View>
+  )
+}
 
 export default function HomeScreen() {
   const [modalVisible, setModalVisible] = useState(false);
   const [characterName, setCharacterName] = useState('');
   const [characterDesc, setCharacterDesc] = useState('');
-  const [characterList, setCharacterList] = useState([]);
+  const [messageList, setMessageList] = useState([]);
   const [isRefreshing, setRefreshing] = useState(false);
+  const [testMessage, setTestMessage] = useState('wrong');
+  const [message, setMessage] = useState('')
+  // const [message, setMessage] = useState('')
+  // TODO Need some way of getting the user's phone number. Making do with an example one
+  const phoneNumber = "+16505553434" // Test number, has been added to Firebase
+  // TODO Also need some form of way to get the code from the user.
+  const code = "123456"; // Test code tied to above phone number
 
-  const help = () => {
-    console.log(characterList);
-  }
+  // Initialize Firebase
+  const firebaseConfig = {
+    apiKey: 'AIzaSyBc4K_VsAO60P-Gmqg8x9B9e2oJ4R-ECdQ',
+    authDomain: 'odyssey-490.firebaseapp.com',
+    databaseURL: 'https://odyssey-490-default-rtdb.firebaseio.com/',
+    projectId: 'odyssey-490',
+    storageBucket: 'odyssey-490.appspot.com',
+    messagingSenderId: '747613227593',
+    appId: '1:747613227593:web:5ea3e82de1cdc0470b8d98'
+  };
 
-  const toggleModal = () => {
-    setModalVisible(!modalVisible)
-  }
+  const app = initializeApp(firebaseConfig);
+  const database = getDatabase(app);
 
-  const clearModal = () => {
-    setModalVisible(false);
-    setCharacterDesc('');
-    setCharacterName('');
-  }
+  const messagesRef = ref(database, 'messages/test/testmsg/contents')
 
-  const addCharacter = () => {
-    let newCharacter ={
-      name: characterName,
-      desc: characterDesc,
-      key: characterList.length+1,
-    }
-
-    setCharacterList((characterList)=>[...characterList, newCharacter])
-    console.log('character list is ', characterList)
-  }
-
-  const renderCharacter = ({item}) => (
-    <View style={styles.characterContainer}>
-      <View style={{padding: 5}}>
-        <Text>
-          {item.name}
-        </Text>
-      </View>
-      <Text style={{padding: 5}}>
-        {item.desc}
-      </Text>
-    </View>
-  )
+  useEffect(()=> {
+    onChildAdded(messagesRef, (snapshot) => {
+      const data = snapshot.val();
+      setMessageList((messageList)=>[data, ...messageList])
+    })
+  },[])
 
   const [selectedItem, setSelectedItem] = useState(null)
 
@@ -56,60 +61,67 @@ export default function HomeScreen() {
     setSelectedItem(item)
   }
 
+  const renderMessage = ({item}) => (
+    <View style={styles.message}>
+      <Text>{item.message}</Text>
+    </View>
+  )
+  
+  const sendMessage = () => {
+    const messagesRef = ref(database, 'messages/test/testmsg/contents')
+    const pushRef = push(messagesRef)
+    const timeStamp = new Date();
+    set(pushRef, {
+      message,
+      timeStamp,
+    });
+    setMessage('');
+  }
+
   return (
     <View style={styles.container}>
-      <DropDown
-        value = {selectedItem}
-        data = {hamburger}
-        onSelect={onSelect}
-      ></DropDown>
-      <Modal visible = {modalVisible}>
-        <TouchableOpacity style = {styles.modalBackground} onPress={toggleModal}>
-          <View style={styles.centered}>
-            <Text style={{padding: 5}}>Add a Character</Text>
-            <TextInput onChangeText={name => setCharacterName(name)} placeholder='Name' style={styles.modalInput}/>
-            <TextInput onChangeText={desc => setCharacterDesc(desc)} placeholder='Description' style={styles.modalInput}/>
-            <View style = {{flexDirection: 'row', justifyContent: 'center', padding: 10}}>
-              <TouchableOpacity onPress={addCharacter} style={styles.modalButtons}>
-                <Text style={{color: 'white', padding: 2}}>
-                  Add Character
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={clearModal} style={styles.modalButtons}>
-                <Text style={{color: 'white', padding: 2}}>
-                  Cancel
-                </Text>
-              </TouchableOpacity>
-            </View>
+        <View style={styles.topBar}>
+          <DropDown
+            value = {selectedItem}
+            data = {hamburger}
+            onSelect={onSelect}
+          />
+          <View style={{borderRadius: 5, backgroundColor: '#d7d7d7', paddingHorizontal : 10, height: '27%'}}>
+            <Text>
+              Alive for
+            </Text>
+            <Text>
+              A While
+            </Text>
           </View>
-        </TouchableOpacity>
-      </Modal>
 
-      <View style={styles.title}>
-        <Text style={{fontSize: 20}}>
-          Character Wallet
-        </Text>
-      </View>
-
-      <TouchableOpacity onPress={toggleModal} style={{flexDirection: 'row', justifyContent: 'center', alignContent: 'center'}}>
-        <View style={styles.addButton}>
-          <Text style={{color: 'white'}}>Add a Character</Text>
-        </View>
-      </TouchableOpacity>
-
-      <FlatList
-        data={characterList}
-        extraData={characterDesc}
-
-        renderItem={renderCharacter}
-        keyExtractor={item => item.name}
-
-        ListEmptyComponent={
           <View>
-          <Text>You currently have no characters</Text>
+            <Text>
+              people
+            </Text>
           </View>
-        }
-      />
+        </View>
+        
+        <KeyboardAvoidingView {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})} style={{flex: 5}}>
+        <FlatList
+          style={{padding: 10}}
+          data={messageList}
+          inverted={true}
+
+          renderItem={renderMessage}
+          keyExtractor={item => item.name}
+
+          ListEmptyComponent={
+            <View>
+              <Text>Start the Conversation!</Text>
+            </View>
+          }
+        />
+        <View style={styles.chatBoxContainer}>
+          <TextInput placeholder='Send a message' onChangeText={message => setMessage(message)}  style={styles.messageInput}/>
+          <Button onPress={() => {sendMessage()}} style={styles.sendButton} color='blue' title='Send'/>
+        </View>
+        </KeyboardAvoidingView>
     </View>
   );
 }
@@ -118,17 +130,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#3A3B50',
-    paddingTop: 50,
     paddingHorizontal: 10,
     paddingBottom: 10,
-    justifyContent: 'center',
-    alignContent: 'center',
-  },
-  centered : {
-    justifyContent: 'center',
-    alignContent: 'center',
-    backgroundColor: '#fff',
-    margin: 20
   },
   modalBackground : {
     width: '100%',
@@ -150,11 +153,6 @@ const styles = StyleSheet.create({
     width: 100,
     marginHorizontal: 10,
   },
-  title : {
-    justifyContent: 'center',
-    alignContent: 'center',
-    flexDirection: 'row'
-  },
   addButton: {
     alignContent: 'center',
     justifyContent: 'center',
@@ -168,5 +166,29 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: '#ced4da',
     width: '90%'
+  },
+  topBar : {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 20,
+  },
+  chatBoxContainer : {
+    marginBottom: 100,
+    padding: 10,
+    flexDirection: 'row',
+  },
+  messageInput : {
+    borderRadius: 4,
+    backgroundColor: '#d7d7d7',
+    padding: 5,
+    margin: 5,
+    width: '80%'
+  },
+  message : {
+    backgroundColor: '#d7d7d7',
+    padding: 5,
+    margin: 5,
+    borderRadius: 5,
   }
 });

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "capstoneprojectresearchmilestone",
-    "slug": "capstoneprojectresearchmilestone",
+    "name": "MayFly",
+    "slug": "capstoneodyssey490",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -24,10 +24,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.capstoneodyssey490.mayfly"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f36cca20-edd3-48da-9dd6-c8733985286f"
+      }
     }
   }
 }

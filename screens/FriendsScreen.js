@@ -22,12 +22,12 @@ const friendsDATA = [
     },
     {
         id: '3af68afc-c605-48d3-a4f8-fbd91aa97f63',
-        name: 'Bea Dyar',
+        name: 'Lola Bunny',
         desc: 'Friends Since: Dec 02, 2022'
     },
     {
         id: '586f4a0f-3da1-471f-bd96-145571e29d72',
-        name: 'Miller Kershaw',
+        name: 'David Spade',
         desc: 'Friends Since: Dec 01, 2022'
     },
 ];

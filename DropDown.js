@@ -60,7 +60,7 @@ const onSelectedItem = (val) =>{
                             key={String(i)}
                             onPress={()=>onSelectedItem(val)}
                         >
-                            <Text style ={{fontSize: 20}}>{val.name}</Text> 
+                            <Text style ={{fontSize: 10, color: 'white'}}>{val.name}</Text> 
                         </TouchableOpacity> //add animation?
                     )
                 })}
@@ -73,14 +73,15 @@ const styles = StyleSheet.create({
     dropDownStyle:{
         height: 15,
         width: 35,
-        marginTop: -50,
-        padding: 25,
         borderRadius: 6,
         minHeight: 42,
-        justifyContent: 'flex-end'
+        justifyContent: 'flex-end',
+        zIndex: 2
     },
     optionsStyle:{
-        marginTop: -1,
+        marginTop: 0,
+        padding: 8,
+        backgroundColor: '#5D5F82'
     }
 });
 
