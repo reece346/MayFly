@@ -4,6 +4,7 @@ import {StyleSheet,Text,ScrollView,View,TouchableOpacity,TextInput,Button} from 
 import * as RootNavigation from '../RootNavigation';
 import User from '../user';
 import {createUser} from '../firebaseConfig';
+import { setUser } from './ProfileScreen';
 
 export default function LogOutScreen(){
     const [phoneNum, setPhoneNum] = useState('');
