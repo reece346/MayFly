@@ -1,5 +1,5 @@
-import User from './user.js';
-import {getUserByID, updateUser, getUserByPhoneNumber, createUser} from './firebaseConfig.js';
+import User from '../user.js';
+import {getUserByID, updateUser, getUserByPhoneNumber, createUser} from '../firebaseConfig.js';
 
 var INITUSER;
 
