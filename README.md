@@ -20,15 +20,15 @@ Generally just something saying how to build the APK from Expo
 
 # Testing
 
-WIP
+a. Commands
+
+b. Directory
 
 ## Testing Technology
 
-WIP
+Unit Testing: Jest
 
-## Running Tests
-
-WIP
+Behavioral Testing: Detox
 
 # Authors
 
