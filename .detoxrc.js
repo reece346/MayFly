@@ -17,8 +17,13 @@ module.exports = {
     },
     'ios.release': {
       type: 'ios.app',
+<<<<<<< HEAD
       binaryPath: 'ios/build/Build/Products/Release-iphonesimulator/MayFly.app',
       build: 'xcodebuild -workspace ios/MayFly.xcworkspace -scheme MayFly -configuration Release -sdk iphonesimulator -derivedDataPath ios/build'
+=======
+      build: "xcodebuild -workspace ios/MayFly.xcworkspace -scheme MayFly -configuration Release -sdk iphonesimulator -arch x86_64 -derivedDataPath ios/build",
+      binaryPath: "ios/build/Build/Products/Release-iphonesimulator/MayFly.app"
+>>>>>>> e549912b8f4878ac09ba946f8794ea5776b2c5e2
     },
     'android.debug': {
       type: 'android.apk',
@@ -30,8 +35,8 @@ module.exports = {
     },
     'android.release': {
       type: 'android.apk',
-      binaryPath: 'android/app/build/outputs/apk/release/app-release.apk',
-      build: 'cd android ; ./gradlew assembleRelease assembleAndroidTest -DtestBuildType=release ; cd -'
+      build: "cd android && ./gradlew :app:assembleRelease :app:assembleAndroidTest -DtestBuildType=release && cd ..",
+      binaryPath: "android/app/build/outputs/apk/release/app-release.apk"
     }
   },
   devices: {

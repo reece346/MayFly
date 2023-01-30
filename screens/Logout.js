@@ -68,6 +68,7 @@ export default function LogOutScreen(){
                             title='Submit'
                             testID='submitButton'
                             color = 'white'
+                            testID='SubmitButton'
                             onPress={() => {buttonClick(), RootNavigation.navigate("HomeScreen")}}>
 
                     </Button>
