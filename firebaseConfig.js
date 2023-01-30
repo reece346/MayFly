@@ -62,6 +62,7 @@ export async function getUserByID(userID) {
 			const val = snapshot.val();
 			const user = new User(val.displayName, userID, val.profilePicture, val.phoneNumber, val.interests, val.friendIDs);
 			return user;
+			console.log("This shouldn't print!");
 		} else {
 			console.log("No user found");
 		}
