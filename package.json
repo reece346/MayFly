@@ -2,7 +2,7 @@
   "name": "capstoneprojectresearchmilestone",
   "version": "1.0.0",
   "scripts": {
-    "eas-build-pre-install": "./eas-hooks/eas-build-on-success.sh",
+    "eas-build-pre-install": "./eas-hooks/eas-build-pre-install.sh",
     "eas-build-on-success": "./eas-hooks/eas-build-on-success.sh",
     "start": "expo start",
     "android": "expo start --android",
