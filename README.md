@@ -21,6 +21,9 @@ Generally just something saying how to build the APK from Expo
 # Testing
 
 a. Commands
+Unit test:     $: npm test
+Behavior test: $: chmod +x eas-hooks/*.sh (hooks need executable permissions)
+               $: npx eas build --profile preview --platform android
 
 b. Directory
 
