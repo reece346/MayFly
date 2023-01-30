@@ -3,6 +3,16 @@
     "version": ">= 2.8.0"
   },
   "build": {
+    "test": {
+      "android": {
+        "distribution": "internal",
+        "gradleCommand": ":app:assembleRelease :app:assembleAndroidTest -DtestBuildType=release",
+        "withoutCredentials": true
+      },
+      "ios": {
+        "simulator": true
+      }
+    },
     "development": {
       "developmentClient": true,
       "distribution": "internal"
