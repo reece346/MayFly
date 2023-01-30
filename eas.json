@@ -5,6 +5,7 @@
   "build": {
     "test": {
       "android": {
+        "distribution": "internal",
         "gradleCommand": ":app:assembleRelease :app:assembleAndroidTest -DtestBuildType=release",
         "withoutCredentials": true
       },
