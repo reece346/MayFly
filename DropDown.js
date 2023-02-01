@@ -71,7 +71,7 @@ const onSelectedItem = (val) =>{
 
 const styles = StyleSheet.create({
     dropDownStyle:{
-        height: 15,
+        height: 42,
         width: 35,
         borderRadius: 6,
         minHeight: 42,

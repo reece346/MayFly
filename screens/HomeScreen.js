@@ -86,7 +86,7 @@ export default function HomeScreen() {
             data = {hamburger}
             onSelect={onSelect}
           />
-          <View style={{borderRadius: 5, backgroundColor: '#d7d7d7', paddingHorizontal : 10, height: '27%'}}>
+          <View style={{borderRadius: 5, backgroundColor: '#d7d7d7', paddingHorizontal : 5, paddingVertical: 5, height: '27%', justifyContent: 'center', alignItems: 'center' }}>
             <Text>
               Alive for
             </Text>
@@ -165,13 +165,14 @@ const styles = StyleSheet.create({
   characterContainer: {
     borderRadius: 10,
     backgroundColor: '#ced4da',
-    width: '90%'
+    width: '90%',
   },
   topBar : {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 20,
+    zIndex: 5
   },
   chatBoxContainer : {
     marginBottom: 100,
