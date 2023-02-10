@@ -15,6 +15,6 @@ describe('Logout', () => {
   
     it('navigates to Home Screen after submit', async () => {
       await element(by.id('submitButton')).tap();
-      await expect(RootNavigation.navigate("HomeScreen"));
+      await expect(RootNavigation.navigate("HomeScreen")); //????
     });
   });

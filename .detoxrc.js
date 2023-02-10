@@ -17,8 +17,8 @@ module.exports = {
     },
     'ios.release': {
       type: 'ios.app',
-      binaryPath: 'ios/build/Build/Products/Release-iphonesimulator/MayFly.app',
-      build: 'xcodebuild -workspace ios/MayFly.xcworkspace -scheme MayFly -configuration Release -sdk iphonesimulator -derivedDataPath ios/build'
+      build: "xcodebuild -workspace ios/eastestsexample.xcworkspace -scheme eastestsexample -configuration Release -sdk iphonesimulator -arch x86_64 -derivedDataPath ios/build",
+      binaryPath: "ios/build/Build/Products/Release-iphonesimulator/eastestsexample.app"
     },
     'android.debug': {
       type: 'android.apk',
