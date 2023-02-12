@@ -6,33 +6,34 @@ import { getDatabase, ref, onValue } from 'firebase/database';
 import { getAuth } from 'firebase/auth';
 import { useState } from 'react';
 import { useRoute } from "@react-navigation/native";
+
+
 const Component = () => {
+    const [displayName, setDisplayName] = useState('');
 
-const [displayName, setDisplayName] = useState('');
+    // Initialize Firebase
+    const firebaseConfig = {
+        apiKey: 'AIzaSyBc4K_VsAO60P-Gmqg8x9B9e2oJ4R-ECdQ',
+        authDomain: 'odyssey-490.firebaseapp.com',
+        databaseURL: 'https://odyssey-490-default-rtdb.firebaseio.com/',
+        projectId: 'odyssey-490',
+        storageBucket: 'odyssey-490.appspot.com',
+        messagingSenderId: '747613227593',
+        appId: '1:747613227593:web:5ea3e82de1cdc0470b8d98'
+    };
 
-// Initialize Firebase
-const firebaseConfig = {
-    apiKey: 'AIzaSyBc4K_VsAO60P-Gmqg8x9B9e2oJ4R-ECdQ',
-    authDomain: 'odyssey-490.firebaseapp.com',
-    databaseURL: 'https://odyssey-490-default-rtdb.firebaseio.com/',
-    projectId: 'odyssey-490',
-    storageBucket: 'odyssey-490.appspot.com',
-    messagingSenderId: '747613227593',
-    appId: '1:747613227593:web:5ea3e82de1cdc0470b8d98'
-};
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);  
+    //const auth = getAuth(app);
 
-const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);  
-const auth = getAuth(app);
+    const userRef = ref(database, 'users/testuser')
 
-const userRef = ref(database, 'users/testuser')
-
-useEffect(()=> {
-    onValue(userRef, (snapshot) => {
-        const data = snapshot.val();
-        setDisplayName(data.displayName);
-    })
-},[])
+    useEffect(()=> {
+        onValue(userRef, (snapshot) => {
+            const data = snapshot.val();
+            setDisplayName(data.displayName);
+        })
+    },[])
 
     const route = useRoute();
     return (
@@ -49,7 +50,7 @@ useEffect(()=> {
                 </View>
                 <View style={styles.profileNameContainer}>
                    <Text style={{fontSize:20,lineheight:50,fontWeight:'bold'}}>
-                        {displayName}
+                        Chad Thompson
                     </Text>
                 </View>
                 <View style={styles.userNameContainer}>
