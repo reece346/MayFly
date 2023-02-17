@@ -10,24 +10,23 @@ module.exports = {
     }
   },
   apps: {
-    'ios.debug': {
-      type: 'ios.app',
-      binaryPath: 'ios/build/Build/Products/Debug-iphonesimulator/YOUR_APP.app',
-      build: 'xcodebuild -workspace ios/YOUR_APP.xcworkspace -scheme YOUR_APP -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build'
-    },
+    // 'ios.debug': {
+    //   type: 'ios.app',
+    //   build: "xcodebuild -workspace ios/mayfly.xcworkspace -scheme mayfly -configuration Release -sdk iphonesimulator -arch x86_64 -derivedDataPath ios/build",
+    //   binaryPath: "ios/build/Build/Products/Release-iphonesimulator/mayfly.app",
     'ios.release': {
       type: 'ios.app',
-      build: "xcodebuild -workspace ios/eastestsexample.xcworkspace -scheme eastestsexample -configuration Release -sdk iphonesimulator -arch x86_64 -derivedDataPath ios/build",
-      binaryPath: "ios/build/Build/Products/Release-iphonesimulator/eastestsexample.app"
+      build: "xcodebuild -workspace ios/mayfly.xcworkspace -scheme mayfly -configuration Release -sdk iphonesimulator -arch x86_64 -derivedDataPath ios/build",
+      binaryPath: "ios/build/Build/Products/Release-iphonesimulator/mayfly.app"
     },
-    'android.debug': {
-      type: 'android.apk',
-      binaryPath: 'android/app/build/outputs/apk/debug/app-debug.apk',
-      build: 'cd android ; ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug ; cd -',
-      reversePorts: [
-        8081
-      ]
-    },
+    // 'android.debug': {
+    //   type: 'android.apk',
+    //   binaryPath: 'android/app/build/outputs/apk/debug/app-debug.apk',
+    //   build: 'cd android ; ./gradlew assembleDebug assembleAndroidTest -DtestBuildType=debug ; cd -',
+    //   reversePorts: [
+    //     8081
+    //   ]
+    // },
     'android.release': {
       type: 'android.apk',
       build: "cd android && ./gradlew :app:assembleRelease :app:assembleAndroidTest -DtestBuildType=release && cd ..",
