@@ -7,10 +7,9 @@ export default class User {
 		else
 			this.profilepicture = "default";
 		this.phoneNumber = phoneNumber;
-		if (interests && Array.isArray(interests)) // Check if it exists & valid
+		this.interests = ["None"];
+		if (interests && Array.isArray(interests) && interests.length !== 0) // Check if it exists & valid
 			this.interests = interests;
-		else
-			this.interests = ["None"];
 		if (friendIDs && Array.isArray(friendIDs))
 			this.friendIDs = friendIDs;
 		else

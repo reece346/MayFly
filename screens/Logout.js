@@ -13,9 +13,27 @@ export default function LogOutScreen(){
     const [interests, setInterests] = useState([]);
 
     buttonClick = () => {
+	var shouldReturn = false;
+	if (!phoneNum) {
+		// TODO set text
+		console.log("Not a valid phone number");
+		shouldReturn = true;
+	}
+	if (!displayName) {
+		// TODO set text
+		console.log("Not a valid display name");
+		shouldReturn = true;
+	}
+	if(!userName) {
+		// TODO set text
+		console.log("Not a valid username");
+		shouldReturn = true;
+	}
+	if(shouldReturn)
+	    return;
         let thisUser = new User(userName, 0, null, phoneNum, interests, null)
         createUser(thisUser);
-        RootNavigation.navigate("HomeScreen");
+	RootNavigation.navigate("HomeScreen");
     }
     
     return (
@@ -68,7 +86,7 @@ export default function LogOutScreen(){
                             title='Submit'
                             testID='submitButton'
                             color = 'white'
-                            onPress={() => {buttonClick(), RootNavigation.navigate("HomeScreen")}}>
+                            onPress={() => {buttonClick()}}>
 
                     </Button>
                 </View>
