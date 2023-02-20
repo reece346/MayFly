@@ -1,5 +1,5 @@
 import HomeScreen from './screens/HomeScreen';
-import Component from './screens/ProfileScreen';
+import Profile from './screens/ProfileScreen';
 import FriendScreen from './screens/FriendsScreen';
 import AddFriendsScreen from './screens/AddFriendsScreen';
 import {NavigationContainer} from '@react-navigation/native';
@@ -25,7 +25,11 @@ export default function App() {
             />
             <Stack.Screen 
                 name = "Profile"
-                component = {Component}
+                component = {Profile}
+            />
+            <Stack.Screen 
+                name = "EditProfile"
+                component = {EditProfile}
             />
             <Stack.Screen 
                 name = "Friends"
@@ -34,10 +38,6 @@ export default function App() {
             <Stack.Screen 
                 name = "AddFriends"
                 component = {AddFriendsScreen}
-            />
-            <Stack.Screen 
-                name = "EditProfile"
-                component = {EditProfile}
             />
         </Stack.Navigator>
     </NavigationContainer>

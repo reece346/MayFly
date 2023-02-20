@@ -38,15 +38,16 @@ const FriendScreen = () => {
     const toggleModal = () => {
         setModalVisible(!modalVisible)
     }
-
+    
     const renderItem = ({ item }) => (
-        <TouchableOpacity onPress={() => {RootNavigation.navigate("Profile")}}>
+        //<TouchableOpacity onPress={() => {RootNavigation.navigate("Profile")}}>
             <View style={styles.ProfileCards}>
                 <Text style={styles.title}>{item.name}</Text>
                 <Text style={styles.subtitles}>{item.desc}</Text>
             </View>
-        </TouchableOpacity>
+        //</TouchableOpacity>
     );
+    
 
     return (
         <View style={styles.container}>

@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { useState } from 'react';
 import {FlatList,Image,StyleSheet,Text,View,TouchableOpacity, TextInput, Button, SafeAreaView} from 'react-native';
-import * as RootNavigation from '../RootNavigation';
+//import * as RootNavigation from '../RootNavigation';
 
 const suggestedFriendsDATA = [
     {
@@ -42,14 +42,16 @@ const AddFriendsScreen = () => {
         setModalVisible(!modalVisible)
     }
 
+    
     const renderItem = ({ item }) => (
-        <TouchableOpacity onPress={() => RootNavigation.navigate("Profile")}>
+        //<TouchableOpacity onPress={() => RootNavigation.navigate("Profile")}>
             <View style={styles.ProfileCards}>
                 <Text style={styles.title}>{item.name}</Text>
                 <Text style={styles.subtitles}>{item.desc}</Text>
             </View>
-        </TouchableOpacity>
+        //</TouchableOpacity>
     );
+    
 
     return (
         <SafeAreaView style={styles.container}>
