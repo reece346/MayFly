@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import {StyleSheet,Text,ScrollView,View,TouchableOpacity,TextInput,Button} from 'react-native';
+import {StyleSheet,Text,ScrollView,View,TextInput,Button, Alert} from 'react-native';
 import * as RootNavigation from '../RootNavigation';
 import User from '../user';
 import {createUser} from '../firebaseConfig';
@@ -13,27 +13,15 @@ export default function LogOutScreen(){
     const [interests, setInterests] = useState([]);
 
     buttonClick = () => {
-	var shouldReturn = false;
-	if (!phoneNum) {
-		// TODO set text
-		console.log("Not a valid phone number");
-		shouldReturn = true;
-	}
-	if (!displayName) {
-		// TODO set text
-		console.log("Not a valid display name");
-		shouldReturn = true;
-	}
-	if(!userName) {
-		// TODO set text
-		console.log("Not a valid username");
-		shouldReturn = true;
-	}
-	if(shouldReturn)
-	    return;
-        let thisUser = new User(userName, 0, null, phoneNum, interests, null)
-        createUser(thisUser);
-	RootNavigation.navigate("HomeScreen");
+        if(userName!= "" && phoneNum!= "" && interests != ""){
+            let thisUser = new User(userName, 0, null, phoneNum, interests, null)
+            createUser(thisUser);
+            RootNavigation.navigate("HomeScreen");
+        }
+	    else{
+            return Alert.alert("Invalid input. Make sure all the fields are filled out.");
+        }
+        return;
     }
     
     return (
