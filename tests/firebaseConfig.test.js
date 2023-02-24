@@ -1,5 +1,6 @@
 import User from '../user.js';
-import {getUserByID, updateUser, getUserByPhoneNumber, createUser} from '../firebaseConfig.js';
+import Message from '../message.js';
+import {getUserByID, updateUser, getUserByPhoneNumber, createUser, sendMessage, getMessageByID, getMessagesByUser} from '../firebaseConfig.js';
 
 var INITUSER;
 
@@ -31,6 +32,25 @@ describe("Firebase Realtime Database Access", () => {
 		await createUser(newUser); // Create the user in the database
 		let user = await getUserByPhoneNumber("+1234567890");
 		expect(user.displayName).toBe("Testy McTestFace II");
+	});
+	it("Should recieve chat messages from the database", async () => {
+		let message = await getMessageByID('testmsg2', 'test2');
+		expect(message.contents).toBe("Testy test test!");
+	});
+	it("Should filter chat messages by authorID", async () => {
+		let messages = await getMessagesByUser('testuser', 'test2');
+		expect(messages[0].contents).toBe("Testy test test!");
+	});
+	it("Should send a chat message to the database", async () => {
+		const newMessage = new Message(0, 'testuser', 1677224028, "This is a test!", {});
+		await sendMessage(newMessage, 'test2');
+		var containsMessage = false;
+		let messages = await getMessagesByUser('testuser', 'test2');
+		messages.forEach(msg => {
+			if (msg.contents == "This is a test!")
+				containsMessage = true;
+		});
+		expect(containsMessage).toBe(true);
 	});
 });
 

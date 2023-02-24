@@ -111,3 +111,47 @@ export async function deleteUser(userID) {
 		console.error(error);
 	});
 }
+
+export async function getMessageByID(messageID, chatID) {
+	// This is mostly just for testing purposes
+	const msgRef = ref(database, 'messages/' + chatID + '/' + messageID);
+	return get(msgRef).then(snapshot => {
+		if (snapshot.exists()) {
+			const val = snapshot.val();
+			const message = new Message(messageID, val.authorID, val.timestamp, val.contents, val.images);
+			return message;
+		} else {
+			console.log("No message found");
+		}
+	}).catch(error => {
+		console.error(error);
+	});
+}
+
+export async function getMessagesByUser(userID, chatID) {
+	var messages = [];
+	const msgRef = ref(database, 'messages/' + chatID);
+	return get(msgRef).then(snapshot => {
+		if (snapshot.exists()) {
+			snapshot.forEach(data => {
+				if (data.val().authorID == userID) {
+					const val = data.val();
+					const newMsg = new Message(data.key, val.authorID, val.timestamp, val.contents, val.images);
+					messages.push(newMsg);
+				}
+			});
+		} else {
+			console.log("No messages found");
+		}
+		return messages;
+	});
+}
+
+export async function sendMessage(message, chatID) {
+	const msgRef = ref(database, 'messages/' + chatID);
+	delete message.messageID;
+	push(msgRef, message).catch((error) => {
+		console.error(error);
+	});
+	return;
+}

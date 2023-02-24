@@ -1,4 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
+import { getUserByID } from '../firebaseConfig';
 import React from 'react';
 import { useState } from 'react';
 import {FlatList,Image,StyleSheet,Text,View,TouchableOpacity, TextInput, Button} from 'react-native';
@@ -21,11 +22,6 @@ const friendsDATA = [
         desc: 'Friends Since: Nov 12, 2022'
     },
     {
-        id: '3af68afc-c605-48d3-a4f8-fbd91aa97f63',
-        name: 'Lola Bunny',
-        desc: 'Friends Since: Dec 02, 2022'
-    },
-    {
         id: '586f4a0f-3da1-471f-bd96-145571e29d72',
         name: 'David Spade',
         desc: 'Friends Since: Dec 01, 2022'
@@ -38,7 +34,11 @@ const FriendScreen = () => {
     const toggleModal = () => {
         setModalVisible(!modalVisible)
     }
-    
+    var currUser;
+    getUserByID('testuser').then(user => {
+	    currUser = user
+	    friendsDATA.push({id: currUser.userID, name: currUser.displayName, desc: 'dunno'});
+    });
     const renderItem = ({ item }) => (
         //<TouchableOpacity onPress={() => {RootNavigation.navigate("Profile")}}>
             <View style={styles.ProfileCards}>
@@ -47,6 +47,7 @@ const FriendScreen = () => {
             </View>
         //</TouchableOpacity>
     );
+    //friendsDATA.push({id: currUser.userID, name: currUser.displayName, desc: 'dunno'});
     
 
     return (
