@@ -140,6 +140,4 @@ const styles = StyleSheet.create({
         top: 630,
         left: 300
     }
-})
-
-export default Component;
+});
