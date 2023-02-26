@@ -32,7 +32,7 @@ export default function Profile() {
                         Friends:
                     </Text>
                     <Text style={{fontSize:15,lineheight:50, left: 25}}>
-                        0
+                        {getActiveUser().friendIDs.length}
                     </Text>
                 </View>
             </View>
