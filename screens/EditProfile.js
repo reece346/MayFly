@@ -5,9 +5,21 @@ import * as RootNavigation from '../RootNavigation';
 import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, set, onValue, child, get, push } from 'firebase/database';
 import { getAuth} from 'firebase/auth';
-import {getUserByID} from '../firebaseConfig.js';
+import {getUserByID, updateUser} from '../firebaseConfig.js';
+import { getActiveUser } from './LoginScreen';
 
 export default function EditProfile(){
+    const [phoneNum, setPhoneNum] = useState('');
+    const [displayName, setDisplayName] = useState('');
+    const [userName, setUserName] = useState('');
+    const [interests, setInterests] = useState([]);
+
+    buttonClick = async() => {
+            let thisUser = getActiveUser(userName, 0, null, phoneNum, interests, null)
+            await updateUser(thisUser);
+        return;
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.imageContainer}>
@@ -19,15 +31,15 @@ export default function EditProfile(){
                 </View>
                 <View style={styles.profileNameContainer}>
                    <Text style={{fontSize:20,lineheight:50,fontWeight:'bold'}}>
-                        Username
+                        {getActiveUser().displayName}
                     </Text>
                 </View>
                 <View style={styles.MayFlySinceContainer}>
                    <Text style={{fontSize:15,lineheight:50}}>
-                        Been a MayFly since:
+                        Friends:
                     </Text>
                     <Text style={{fontSize:15,lineheight:50, left: 25}}>
-                        08/10/2022
+                    {getActiveUser().friendIDs.length}
                     </Text>
                 </View>
             </View>
@@ -38,9 +50,10 @@ export default function EditProfile(){
                 <TextInput 
                     clearButtonMode='always'
                     style ={styles.input} 
-                    placeholder = 'ex. Steve Smith'
+                    placeholder = 'ex. steve111'
                     placeholderTextColor= 'gray' 
-                    onChangeText={(val) => setDisplayName(val)}/>
+                    onChangeText={(val) => setUserName(val)}
+                    />
                 <View style={styles.text}>
                     <Text style = {styles.text}>Edit Your Username</Text>
                 </View>
@@ -49,7 +62,6 @@ export default function EditProfile(){
                     style ={styles.input} 
                     placeholder = 'ex. steve1999'
                     placeholderTextColor= 'gray' 
-                    value = {userName}
                     onChangeText={(val) => setUserName(val)}/>
                 <View style={styles.text}>
                     <Text style = {styles.text}>Edit Your Interests</Text>
@@ -72,7 +84,7 @@ export default function EditProfile(){
                 <Button style ={{padding: 8}}
                         title='Submit'
                         color = 'white'
-                        onPress={() => {RootNavigation.navigate("Profile")}}
+                        onPress={() => {buttonClick()}}
                 ></Button>
             </View>
         </View>
