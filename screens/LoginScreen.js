@@ -1,28 +1,30 @@
 import { View , Image, Text, StyleSheet, TextInput, Button, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Alert} from "react-native"
 import React, {useState} from "react"
-import { createUser } from "../firebaseConfig";
 import * as RootNavigation from '../RootNavigation';
+import { getUserByPhoneNumber } from "../firebaseConfig";
+import User from "../user";
+import { activeUser } from "../activeUser";
 
 export default function LoginScreen(){
+    //phone number variable
     const [phoneNum, setPhoneNum] = useState('');
-    const USER = 8038675309;
     //function for first button being clicked
-    buttonClick = () => {
+    buttonClick = async () => {
         if (phoneNum == ""){
-            return Alert.alert("Input required")
+            return Alert.alert("Input required");
         }
-        else if (phoneNum != USER){
-            return Alert.alert("You are not an existing user!")
-        }
-        else{
-            //TODO: login as a user from database
+        let userTest = new User();
+        //TODO: the promise rejection if you are not an existing user is never handled
+        userTest = await getUserByPhoneNumber(phoneNum).catch(Alert.alert("You are not an existing user!"));
+        if(userTest.phoneNumber == phoneNum){
+            activeUser(userTest);
             RootNavigation.navigate("HomeScreen");
         }
     return;    
     }
     //function for second button being clicked
     buttonClick2 = () => {
-        RootNavigation.navigate("Startup")
+        RootNavigation.navigate("Startup");
     return;    
     }
     //TODO: replace beer image with mayfly logo

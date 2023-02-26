@@ -15,12 +15,12 @@ const [showBox, setShowBox] = useState(true);
 const showConfirmDialog = () => {
     return Alert.alert(
         "Are you sure?",
-        "This will log you out and take you to the startup screen",
+        "This will log you out and take you to the Login screen",
         [
             {
                 text: "Yes",
                 onPress: () => {
-                    RootNavigation.navigate("Startup");
+                    RootNavigation.navigate("Login");
                 },
             },
             {

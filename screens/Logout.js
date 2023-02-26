@@ -4,7 +4,6 @@ import {StyleSheet,Text,ScrollView,View,TextInput,Button, Alert} from 'react-nat
 import * as RootNavigation from '../RootNavigation';
 import User from '../user';
 import {createUser} from '../firebaseConfig';
-import { setUser } from './ProfileScreen';
 
 export default function LogOutScreen(){
     const [phoneNum, setPhoneNum] = useState('');
