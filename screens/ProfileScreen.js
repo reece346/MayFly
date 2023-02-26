@@ -19,7 +19,7 @@ export default function Profile() {
                 </View>
                 <View style={styles.profileNameContainer}>
                    <Text style={{fontSize:20,lineheight:50,fontWeight:'bold'}}>
-                        Chad Thompson
+                        {getActiveUser().displayName}
                     </Text>
                 </View>
                 <View style={styles.userNameContainer}>

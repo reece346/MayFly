@@ -8,43 +8,6 @@ import { getAuth} from 'firebase/auth';
 import {getUserByID} from '../firebaseConfig.js';
 
 export default function EditProfile(){
-    const [displayName, setDisplayName] = useState('');
-    const [userName, setUserName] = useState('');
-    const [interests, setInterests] = useState([]);
-
-    /*
-    buttonClick = () => {
-        RootNavigation.navigate("ProfileScreen", {
-            userName: userName,
-        })
-    }
-    */
-    let user = getUserByID('testuser')
-
-    // Initialize Firebase
-    const firebaseConfig = {
-        apiKey: 'AIzaSyBc4K_VsAO60P-Gmqg8x9B9e2oJ4R-ECdQ',
-        authDomain: 'odyssey-490.firebaseapp.com',
-        databaseURL: 'https://odyssey-490-default-rtdb.firebaseio.com/',
-        projectId: 'odyssey-490',
-        storageBucket: 'odyssey-490.appspot.com',
-        messagingSenderId: '747613227593',
-        appId: '1:747613227593:web:5ea3e82de1cdc0470b8d98'
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const database = getDatabase(app);  
-    const auth = getAuth(app);
-
-    const userRef = ref(database, 'users/testuser')
-
-    useEffect(()=> {
-        onValue(userRef, (snapshot) => {
-            const data = snapshot.val();
-            setDisplayName(data.displayName);
-        })
-    },[])
-
     return (
         <View style={styles.container}>
             <View style={styles.imageContainer}>
@@ -56,12 +19,7 @@ export default function EditProfile(){
                 </View>
                 <View style={styles.profileNameContainer}>
                    <Text style={{fontSize:20,lineheight:50,fontWeight:'bold'}}>
-                        {displayName}
-                    </Text>
-                </View>
-                <View style={styles.userNameContainer}>
-                   <Text style={{fontSize:16,lineheight:50}}>
-                        chad.thomson34
+                        Username
                     </Text>
                 </View>
                 <View style={styles.MayFlySinceContainer}>
@@ -92,7 +50,7 @@ export default function EditProfile(){
                     placeholder = 'ex. steve1999'
                     placeholderTextColor= 'gray' 
                     value = {userName}
-                    onChangeText={(text) => setUserName(text)}/>
+                    onChangeText={(val) => setUserName(val)}/>
                 <View style={styles.text}>
                     <Text style = {styles.text}>Edit Your Interests</Text>
                 </View>
