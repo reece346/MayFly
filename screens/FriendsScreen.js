@@ -4,29 +4,9 @@ import React from 'react';
 import { useState } from 'react';
 import {FlatList,Image,StyleSheet,Text,View,TouchableOpacity, TextInput, Button} from 'react-native';
 import * as RootNavigation from '../RootNavigation';
+import { getActiveUser } from './LoginScreen';
 
-const friendsDATA = [
-    {
-        id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-        name: 'Reece Peters',
-        desc: 'Friends Since: Sept 22, 2022'
-    },
-    {
-        id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-        name: 'Bea Dyar',
-        desc: 'Friends Since: Sept 04, 2022'
-    },
-    {
-        id: '58694a0f-3da1-471f-bd96-145571e29d72',
-        name: 'Miller Kershaw',
-        desc: 'Friends Since: Nov 12, 2022'
-    },
-    {
-        id: '586f4a0f-3da1-471f-bd96-145571e29d72',
-        name: 'David Spade',
-        desc: 'Friends Since: Dec 01, 2022'
-    },
-];
+const friendsDATA = [];
 
 const FriendScreen = () => {
     const [modalVisible, setModalVisible] = useState(false);
@@ -35,10 +15,21 @@ const FriendScreen = () => {
         setModalVisible(!modalVisible)
     }
     var currUser;
-    getUserByID('testuser').then(user => {
-	    currUser = user
-	    friendsDATA.push({id: currUser.userID, name: currUser.displayName, desc: 'dunno'});
-    });
+    let duplicate;
+    for(let i = 0; i < getActiveUser().friendIDs.length; i++){
+        duplicate = false;
+        getUserByID(getActiveUser().friendIDs[i]).then(user => {
+        currUser = user
+        for(let j = 0; j < friendsDATA.length; j++){
+            if(currUser.userID == friendsDATA[j].id){
+                duplicate = true;
+            }
+        }
+        if(!duplicate){
+            friendsDATA.push({id: currUser.userID, name: currUser.displayName, desc: currUser.interests});   
+        }
+    });}
+
     const renderItem = ({ item }) => (
         //<TouchableOpacity onPress={() => {RootNavigation.navigate("Profile")}}>
             <View style={styles.ProfileCards}>
@@ -49,7 +40,6 @@ const FriendScreen = () => {
     );
     //friendsDATA.push({id: currUser.userID, name: currUser.displayName, desc: 'dunno'});
     
-
     return (
         <View style={styles.container}>
             <View style={styles.SearchFriendsSection}>

@@ -1,7 +1,7 @@
 import { View , Image, Text, StyleSheet, TextInput, Button, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Alert} from "react-native"
 import React, {useState} from "react"
 import * as RootNavigation from '../RootNavigation';
-import { getUserByPhoneNumber } from "../firebaseConfig";
+import { getUserByPhoneNumber , updateUser} from "../firebaseConfig";
 import User from "../user";
 
 let userTest = new User();
@@ -57,6 +57,7 @@ export default function LoginScreen(){
 }
 
 export function getActiveUser(){
+    console.log(userTest.friendIDs.length);
     return userTest;
 }
 

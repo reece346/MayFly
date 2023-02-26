@@ -38,12 +38,12 @@ export default function Profile() {
             </View>
             <View style={styles.InterestsHeader}>
                 <Text style={{fontSize: 25, color: 'white', fontWeight: '600'}}>
-                    {getActiveUser().interests}
+                    Interests
                 </Text>
             </View>
             <View style={styles.FriendsHeader}>
                 <Text style={{fontSize: 25, color: 'white', fontWeight: '600'}}>
-                    {getActiveUser().friendIDs}
+                    Friends
                 </Text>
             </View>
             <View style={styles.LinkedAccountsHeader}>

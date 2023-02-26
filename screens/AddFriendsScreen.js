@@ -2,7 +2,11 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { useState } from 'react';
 import {FlatList,Image,StyleSheet,Text,View,TouchableOpacity, TextInput, Button, SafeAreaView} from 'react-native';
+import { getUserByPhoneNumber, updateUser } from '../firebaseConfig';
+import User from '../user';
+import { getActiveUser } from './LoginScreen';
 //import * as RootNavigation from '../RootNavigation';
+
 
 const suggestedFriendsDATA = [
     {
@@ -40,6 +44,20 @@ const AddFriendsScreen = () => {
 
     const toggleModal = () => {
         setModalVisible(!modalVisible)
+
+    }
+
+    const [phoneNum, setPhoneNum] = useState('');
+    
+    buttonClick = async() =>{
+        //get user by phone number, update active user to have that friend id
+        let temp = new User();
+        temp = await getUserByPhoneNumber(phoneNum);
+        let friend = temp.userID;
+        temp = getActiveUser();
+        temp.friendIDs.push(friend);
+        await updateUser(temp);
+        Alert.alert("Friend Added");
     }
 
     
@@ -72,13 +90,14 @@ const AddFriendsScreen = () => {
                             paddingHorizontal: 10,
                             fontSize: 18,
                         }}
-                        placeholder={'Username'}
+                        placeholder={'Phone Number'}
                         placeholderTextColor={'#666'}
+                        onChangeText={(val) => setPhoneNum(val)}
                         />
                     </View>
                 </View>
                 <View style={styles.AddButton}>
-                    <TouchableOpacity onPress= {toggleModal} style={{flexDirection: 'row', alignSelf: 'center', }}>
+                    <TouchableOpacity onPress={() => {buttonClick()}} style={{flexDirection: 'row', alignSelf: 'center', }}>
                         <Text style={{color: 'white'}}>Search</Text>
                     </TouchableOpacity>
                 </View>
@@ -171,6 +190,7 @@ const styles = StyleSheet.create({
         fontSize: 15
     }
 })
+
 
 
 export default AddFriendsScreen;
