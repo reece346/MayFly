@@ -6,6 +6,7 @@ import { initializeApp } from 'firebase/app';
 import { getDatabase, onValue, ref, set, push, onChildAdded } from 'firebase/database';
 import { getAuth, RecaptchaVerifier } from 'firebase/auth';
 import { render } from 'react-dom';
+import { getActiveUser } from './LoginScreen';
 
 let hamburger =[{id:1, name: 'View Profile'}, {id:2, name:'Friends'}, {id:3, name:'Add Friends'}, {id:4, name:'Logout'}]
 
@@ -118,7 +119,7 @@ export default function HomeScreen() {
           }
         />
         <View style={styles.chatBoxContainer}>
-          <TextInput placeholder='Send a message' onChangeText={message => setMessage(message)}  style={styles.messageInput}/>
+          <TextInput placeholder={'Send a message'} onChangeText={message => setMessage(message)}  style={styles.messageInput}/>
           <Button onPress={() => {sendMessage()}} style={styles.sendButton} color='blue' title='Send'/>
         </View>
         </KeyboardAvoidingView>

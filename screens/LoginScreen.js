@@ -3,7 +3,8 @@ import React, {useState} from "react"
 import * as RootNavigation from '../RootNavigation';
 import { getUserByPhoneNumber } from "../firebaseConfig";
 import User from "../user";
-import { activeUser } from "../activeUser";
+
+let userTest = new User();
 
 export default function LoginScreen(){
     //phone number variable
@@ -13,11 +14,10 @@ export default function LoginScreen(){
         if (phoneNum == ""){
             return Alert.alert("Input required");
         }
-        let userTest = new User();
+        
         //TODO: the promise rejection if you are not an existing user is never handled
         userTest = await getUserByPhoneNumber(phoneNum).catch(Alert.alert("You are not an existing user!"));
         if(userTest.phoneNumber == phoneNum){
-            activeUser(userTest);
             RootNavigation.navigate("HomeScreen");
         }
     return;    
@@ -54,6 +54,10 @@ export default function LoginScreen(){
         </View>
     </TouchableWithoutFeedback>
     )
+}
+
+export function getActiveUser(){
+    return userTest;
 }
 
 const styles = StyleSheet.create({

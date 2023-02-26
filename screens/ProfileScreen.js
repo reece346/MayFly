@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import {Image,StyleSheet,Text,View,TouchableOpacity,Button, Linking} from 'react-native';
 import * as RootNavigation from '../RootNavigation';
+import { getActiveUser } from './LoginScreen';
 
 
 export default function Profile() {
@@ -23,7 +24,7 @@ export default function Profile() {
                 </View>
                 <View style={styles.userNameContainer}>
                    <Text style={{fontSize:16,lineheight:50}}>
-                        chadt12345
+                        {getActiveUser().displayName}
                     </Text>
                 </View>
                 <View style={styles.MayFlySinceContainer}>
@@ -37,12 +38,12 @@ export default function Profile() {
             </View>
             <View style={styles.InterestsHeader}>
                 <Text style={{fontSize: 25, color: 'white', fontWeight: '600'}}>
-                    Interests
+                    {getActiveUser().interests}
                 </Text>
             </View>
             <View style={styles.FriendsHeader}>
                 <Text style={{fontSize: 25, color: 'white', fontWeight: '600'}}>
-                    Friends
+                    {getActiveUser().friendIDs}
                 </Text>
             </View>
             <View style={styles.LinkedAccountsHeader}>
