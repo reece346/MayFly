@@ -29,10 +29,10 @@ export default function Profile() {
                 </View>
                 <View style={styles.MayFlySinceContainer}>
                    <Text style={{fontSize:15,lineheight:50}}>
-                        Been a MayFly since:
+                        Friends:
                     </Text>
                     <Text style={{fontSize:15,lineheight:50, left: 25}}>
-                        08/10/2022
+                        0
                     </Text>
                 </View>
             </View>
