@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import {Image,StyleSheet,Text,View,TouchableOpacity,Button, Linking} from 'react-native';
 import * as RootNavigation from '../RootNavigation';
 
-const Component = () => {
+const Profile = () => {
     return (
         <View style={styles.container}>
             <View style={styles.imageContainer}>
@@ -140,4 +140,6 @@ const styles = StyleSheet.create({
         top: 630,
         left: 300
     }
-});
+})
+
+export default Profile;;
