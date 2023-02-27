@@ -61,6 +61,10 @@ export function getActiveUser(){
     return userTest;
 }
 
+export function updateActiveUser(val){
+    userTest = val;
+}
+
 const styles = StyleSheet.create({
     button: {
         backgroundColor: '#5D5F82',

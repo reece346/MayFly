@@ -1,12 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { useState } from 'react';
-import {FlatList,Image,StyleSheet,Text,View,TouchableOpacity, TextInput, Button, SafeAreaView} from 'react-native';
+import {FlatList,Image,StyleSheet,Text,View,TouchableOpacity, TextInput, Button, SafeAreaView, Alert} from 'react-native';
 import { getUserByPhoneNumber, updateUser } from '../firebaseConfig';
 import User from '../user';
-import { getActiveUser } from './LoginScreen';
+import { getActiveUser ,updateActiveUser} from './LoginScreen';
 //import * as RootNavigation from '../RootNavigation';
-
 
 const suggestedFriendsDATA = [
     {
@@ -51,13 +50,18 @@ const AddFriendsScreen = () => {
     
     buttonClick = async() =>{
         //get user by phone number, update active user to have that friend id
+        if(phoneNum == "")
+            return Alert.alert("Input required");
         let temp = new User();
         temp = await getUserByPhoneNumber(phoneNum);
+        if(temp == 0)
+            return Alert.alert("User not found");
         let friend = temp.userID;
         temp = getActiveUser();
         temp.friendIDs.push(friend);
         await updateUser(temp);
-        Alert.alert("Friend Added");
+        updateActiveUser(temp);
+        return Alert.alert("Friend added");
     }
 
     
@@ -93,11 +97,13 @@ const AddFriendsScreen = () => {
                         placeholder={'Phone Number'}
                         placeholderTextColor={'#666'}
                         onChangeText={(val) => setPhoneNum(val)}
+                        keyboardType = 'number-pad'
+                        maxLength={11}
                         />
                     </View>
                 </View>
                 <View style={styles.AddButton}>
-                    <TouchableOpacity onPress={() => {buttonClick()}} style={{flexDirection: 'row', alignSelf: 'center', }}>
+                    <TouchableOpacity onPress={() => buttonClick()} style={{flexDirection: 'row', alignSelf: 'center', }}>
                         <Text style={{color: 'white'}}>Search</Text>
                     </TouchableOpacity>
                 </View>

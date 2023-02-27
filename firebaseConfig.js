@@ -83,7 +83,7 @@ export async function getUserByPhoneNumber(phoneNumber) {
 		})
 		return user;
 	}).catch((error) => {
-		console.error(error);
+		return 0;
 	});
 }
 
@@ -93,6 +93,8 @@ export async function updateUser(user) {
 	const userRef = ref(database, 'users/' + userID);
 	return set(userRef, user).catch((error) => {
 		console.error(error);
+	}).catch((error) => {
+		return 0;
 	});
 }
 

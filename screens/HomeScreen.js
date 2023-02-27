@@ -72,6 +72,7 @@ export default function HomeScreen() {
     const messagesRef = ref(database, 'messages/test/testmsg/contents')
     const pushRef = push(messagesRef)
     const timeStamp = new Date();
+    //const sender = getActiveUser().displayName;
     set(pushRef, {
       message,
       timeStamp,
@@ -119,7 +120,7 @@ export default function HomeScreen() {
           }
         />
         <View style={styles.chatBoxContainer}>
-          <TextInput placeholder={'Send a message'} onChangeText={message => setMessage(message)}  style={styles.messageInput}/>
+          <TextInput placeholder={'Send a message'} onChangeText={message => setMessage(getActiveUser().displayName + ": " + message)}  style={styles.messageInput}/>
           <Button onPress={() => {sendMessage()}} style={styles.sendButton} color='blue' title='Send'/>
         </View>
         </KeyboardAvoidingView>
