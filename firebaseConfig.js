@@ -74,16 +74,19 @@ export async function getUserByID(userID) {
 export async function getUserByPhoneNumber(phoneNumber) {
 	const dbRef = ref(database);
 	return get(child(dbRef, 'users/')).then((snapshot) => {
-		let user;
+		let user, found = false;
 		snapshot.forEach((data) => {
 			if (data.val().phoneNumber == phoneNumber) {
 				const dataVal = data.val();
 				user = new User(dataVal.displayName, data.key, dataVal.profilePicture, dataVal.phoneNumber, dataVal.interests, dataVal.friendIDs);
+				found = true;
 			}
 		})
-		return user;
-	}).catch((error) => {
+		if(found)
+			return user;
 		return 0;
+	}).catch((error) => {
+		//error
 	});
 }
 
@@ -93,8 +96,6 @@ export async function updateUser(user) {
 	const userRef = ref(database, 'users/' + userID);
 	return set(userRef, user).catch((error) => {
 		console.error(error);
-	}).catch((error) => {
-		return 0;
 	});
 }
 

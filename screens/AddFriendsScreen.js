@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { useState } from 'react';
 import {FlatList,Image,StyleSheet,Text,View,TouchableOpacity, TextInput, Button, SafeAreaView, Alert} from 'react-native';
-import { getUserByPhoneNumber, updateUser } from '../firebaseConfig';
+import { getUserByID, getUserByPhoneNumber, updateUser } from '../firebaseConfig';
 import User from '../user';
 import { getActiveUser ,updateActiveUser} from './LoginScreen';
 //import * as RootNavigation from '../RootNavigation';
@@ -50,8 +50,12 @@ const AddFriendsScreen = () => {
     
     buttonClick = async() =>{
         //get user by phone number, update active user to have that friend id
+        //if left blank, already a friend, or same as active user
         if(phoneNum == "")
             return Alert.alert("Input required");
+        if(phoneNum == getActiveUser().phoneNumber ){
+            return Alert.alert("Invalid input");
+        }
         let temp = new User();
         temp = await getUserByPhoneNumber(phoneNum);
         if(temp == 0)
@@ -63,7 +67,6 @@ const AddFriendsScreen = () => {
         updateActiveUser(temp);
         return Alert.alert("Friend added");
     }
-
     
     const renderItem = ({ item }) => (
         //<TouchableOpacity onPress={() => RootNavigation.navigate("Profile")}>

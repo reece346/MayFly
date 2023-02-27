@@ -16,9 +16,12 @@ export default function LoginScreen(){
         }
         
         //TODO: the promise rejection if you are not an existing user is never handled
-        userTest = await getUserByPhoneNumber(phoneNum).catch(Alert.alert("You are not an existing user!"));
+        userTest = await getUserByPhoneNumber(phoneNum);
         if(userTest.phoneNumber == phoneNum){
             RootNavigation.navigate("HomeScreen");
+        }
+        else{
+            return Alert.alert("You are not an existing user!");
         }
     return;    
     }
@@ -57,7 +60,6 @@ export default function LoginScreen(){
 }
 
 export function getActiveUser(){
-    console.log(userTest.friendIDs.length);
     return userTest;
 }
 

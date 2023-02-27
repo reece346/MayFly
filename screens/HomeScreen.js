@@ -109,7 +109,6 @@ export default function HomeScreen() {
           style={{padding: 10}}
           data={messageList}
           inverted={true}
-
           renderItem={renderMessage}
           keyExtractor={item => item.name}
 
