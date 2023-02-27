@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState, useEffect } from 'react';
-import {StyleSheet,Text,View,TouchableOpacity,TextInput,Button,Image} from 'react-native';
+import React, { useState} from 'react';
+import {StyleSheet,Text,View,TextInput,Button,Image} from 'react-native';
 import * as RootNavigation from '../RootNavigation';
 import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, set, onValue, child, get, push } from 'firebase/database';
