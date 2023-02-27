@@ -64,7 +64,7 @@ export default function HomeScreen() {
 
   const renderMessage = ({item}) => (
     <View style={styles.message}>
-      <Text>{item.message}</Text>
+      <Text>{getActiveUser().displayName} :{item.message}</Text>
     </View>
   )
   
@@ -79,6 +79,24 @@ export default function HomeScreen() {
     });
     setMessage('');
   }
+
+  /*
+  // Array of User IDs
+  const userIDs = ["-NP1kwfgqrAolBf1cYR9", "-NP1lG4cx5dtd6e18FFD", "-NP1lPuiZGLHFaJ6QfK8",
+    "-NP1lbXi4Vk0mizuaKYS", "-NP2tOCY4Fsn7ovrmyzq", "-NPEZGeADwiK-8V-hHRW", 
+    "-NPEZQHTqZ4igjgeYM_s", "-NPEbUeRwlNHaO7mOfLG", "testuser"];
+  const chatMemberMax = 4;
+  var usersInChat = [];
+
+  
+  // randomly assign four test users to a chat
+  const assignGroupMembers = () => {
+    for (let i=0; i<chatMemberMax-1; i++) {
+      const j = Math.floor(Math.random() * (4));
+      for (let )
+    }
+  }
+*/
 
   return (
     <View style={styles.container}>
@@ -119,7 +137,7 @@ export default function HomeScreen() {
           }
         />
         <View style={styles.chatBoxContainer}>
-          <TextInput placeholder={'Send a message'} onChangeText={message => setMessage(getActiveUser().displayName + ": " + message)}  style={styles.messageInput}/>
+          <TextInput placeholder={'Send a message'} onChangeText={message => setMessage(message)}  style={styles.messageInput}/>
           <Button onPress={() => {sendMessage()}} style={styles.sendButton} color='blue' title='Send'/>
         </View>
         </KeyboardAvoidingView>
@@ -183,6 +201,7 @@ const styles = StyleSheet.create({
   messageInput : {
     borderRadius: 4,
     backgroundColor: '#d7d7d7',
+    color: 'black',
     padding: 5,
     margin: 5,
     width: '80%'
