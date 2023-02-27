@@ -32,13 +32,16 @@ export default function Profile() {
                         Friends:
                     </Text>
                     <Text style={{fontSize:15,lineheight:50, left: 25}}>
-                        {getActiveUser().friendIDs.length}
+                        {getActiveUser().friendIDs.length-1}
                     </Text>
                 </View>
             </View>
             <View style={styles.InterestsHeader}>
                 <Text style={{fontSize: 25, color: 'white', fontWeight: '600'}}>
-                        {getActiveUser().interests}
+                     Interests
+                    <Text style={{fontSize:20, color: 'white', fontWeight: '600', top: 100}}>
+                             {getActiveUser().interests}
+                    </Text>
                 </Text>
             </View>
             <View style={styles.FriendsHeader}>

@@ -64,7 +64,7 @@ export default function HomeScreen() {
 
   const renderMessage = ({item}) => (
     <View style={styles.message}>
-      <Text>{getActiveUser().displayName} :{item.message}</Text>
+      <Text>{item.message}</Text>
     </View>
   )
   
@@ -117,7 +117,7 @@ export default function HomeScreen() {
 
           <View>
             <Text>
-              people
+              People
             </Text>
           </View>
         </View>
@@ -138,7 +138,7 @@ export default function HomeScreen() {
           }
         />
         <View style={styles.chatBoxContainer}>
-          <TextInput placeholder={'Send a message'} onChangeText={message => setMessage(message)}  style={styles.messageInput}/>
+          <TextInput placeholder={'Send a message'} onChangeText={message => setMessage(getActiveUser().displayName + ": " + message)}  style={styles.messageInput}/>
           <Button onPress={() => {sendMessage()}} style={styles.sendButton} color='blue' title='Send'/>
         </View>
         </KeyboardAvoidingView>
