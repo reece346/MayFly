@@ -11,11 +11,11 @@ export default function LogOutScreen(){
     const [userName, setUserName] = useState('');
     const [interests, setInterests] = useState([]);
 
-    buttonClick = () => {
+    submitNewUser = () => {
         if(userName!= "" && phoneNum!= "" && interests != ""){
             let thisUser = new User(userName, 0, null, phoneNum, interests, null)
             createUser(thisUser);
-            RootNavigation.navigate("HomeScreen");
+            RootNavigation.navigate("LoginScreen");
         }
 	    else{
             return Alert.alert("Invalid input. Make sure all the fields are filled out.");
@@ -73,7 +73,7 @@ export default function LogOutScreen(){
                             title='Submit'
                             testID='submitButton'
                             color = 'white'
-                            onPress={() => {buttonClick()}}>
+                            onPress={() => {submitNewUser()}}>
 
                     </Button>
                 </View>
