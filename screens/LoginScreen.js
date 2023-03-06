@@ -5,6 +5,7 @@ import { getUserByPhoneNumber , updateUser} from "../firebaseConfig";
 import User from "../user";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { async } from "@firebase/util";
+import { updateCurrentUser } from "firebase/auth";
 
 let userTest = {};
 
@@ -12,8 +13,8 @@ export function getActiveUser(){
     return userTest;
 }
 
-export function updateActiveUser(val){
-    userTest = val;
+export function updateActiveUser(user){
+    userTest = user;
 }
 
 
@@ -24,7 +25,7 @@ export default function LoginScreen(){
         try {
             const jsonValue = JSON.stringify(user)
             await AsyncStorage.setItem('@userData', jsonValue)
-            console.log('user saved to disk as: ', user)
+            console.log('user saved to disk as: ', jsonValue)
         } catch(e) {
             console.log('error saving user: ', e)
         }
@@ -37,6 +38,7 @@ export default function LoginScreen(){
             if(!jsonValue) {
                 console.log('getCurrentUser: no user stored on disk')
             }
+            console.log('getCurrentUser is doing something')
             return jsonValue != null ? JSON.parse(jsonValue) : null;
         } catch(e) {
             console.log('error reading user from disk: ', e)
@@ -63,30 +65,32 @@ export default function LoginScreen(){
     return;    
     }
     //function for second button being clicked
-    createAccount = () => {
-        RootNavigation.navigate("Startup");
+    goToScreen = (screen) => {
+        RootNavigation.navigate(screen);
     return;    
     }
 
-    //if there is a user on the disk already send us to the homescreen
+    //if there is a user on the disk updateActiveUser
     useEffect(() => {
-        (async () => {
-            console.log('checking for current user')
-            let user = await getCurrentUser();
-            if(user) {
-                console.log('there is an existing user')
-                updateActiveUser(user)
-                RootNavigation.navigate('HomeScreen');
-                console.log('user is: ', user)
-            } else {
-                console.log('something aint right')
-                return;
-            }
-        })
+        const setUser = async () => {
+            curUser = await getCurrentUser();
+            updateActiveUser(curUser)
+        }
+
+        setUser();
     }, [])
 
     //TODO: replace beer image with mayfly logo
-    return( 
+    return(
+    userTest != {} ?
+    <View>
+        <Text>Welcome back!</Text>
+        <TouchableOpacity style = {styles.button}
+                onPress={() => {goToScreen('HomeScreen')}}>
+                <Text style = {styles.buttonText}>Go</Text>
+        </TouchableOpacity>
+    </View>
+    :
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} 
                           accessible={false}>
         <View style = {styles.container}>
@@ -106,7 +110,7 @@ export default function LoginScreen(){
             </TouchableOpacity>
             <Text style ={styles.title}>Haven't created an account?</Text>
             <TouchableOpacity style = {styles.button}
-                onPress={() => {createAccount()}}>
+                onPress={() => {goToScreen('Startup')}}>
                 <Text style = {styles.buttonText}>Create Account</Text>
             </TouchableOpacity>
         </View>
