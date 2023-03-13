@@ -1,34 +1,60 @@
 import { StatusBar } from 'expo-status-bar';
-import { getUserByID } from '../firebaseConfig';
+import { getUserByID, getUserByPhoneNumber } from '../firebaseConfig';
+import { initializeApp } from 'firebase/app';
+import { getDatabase, onValue, ref, set, push, onChildAdded } from 'firebase/database';
 import React from 'react';
 import { useState } from 'react';
 import {FlatList,Image,StyleSheet,Text,View,TouchableOpacity, TextInput, Button} from 'react-native';
 import * as RootNavigation from '../RootNavigation';
 import { getActiveUser } from './LoginScreen';
 
-const friendsDATA = [];
 
-const FriendScreen = () => {
+export default function FriendScreen() {
+    // Initialize Firebase
+    const firebaseConfig = {
+        apiKey: 'AIzaSyBc4K_VsAO60P-Gmqg8x9B9e2oJ4R-ECdQ',
+        authDomain: 'odyssey-490.firebaseapp.com',
+        databaseURL: 'https://odyssey-490-default-rtdb.firebaseio.com/',
+        projectId: 'odyssey-490',
+        storageBucket: 'odyssey-490.appspot.com',
+        messagingSenderId: '747613227593',
+        appId: '1:747613227593:web:5ea3e82de1cdc0470b8d98'
+    };
+
     const [modalVisible, setModalVisible] = useState(false);
+    const [friendsList, setFriendsList] = useState([]);
+
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const myUserID = getUserByPhoneNumber(getActiveUser().phoneNumber)
+  
+    const friendsRef = ref(database, `users/${myUserID}/friendIDs`)
+
+    useEffect(() => {
+        onChildAdded(friendsRef, (snapshot) => {
+            const data = snapshot.val();
+            setFriendsList((friendsList)=>[data, ...friendsList])
+        })
+    },[])
 
     const toggleModal = () => {
         setModalVisible(!modalVisible)
     }
-    var currUser;
-    let duplicate;
-    for(let i = 0; i < getActiveUser().friendIDs.length; i++){
-        duplicate = false;
-        getUserByID(getActiveUser().friendIDs[i]).then(user => {
-        currUser = user
-        for(let j = 0; j < friendsDATA.length; j++){
-            if(currUser.userID == friendsDATA[j].id){
-                duplicate = true;
-            }
-        }
-        if(!duplicate){
-            friendsDATA.push({id: currUser.userID, name: currUser.displayName, desc: currUser.interests});   
-        }
-    });}
+    // var currUser;
+    // let duplicate;
+    // for(let i = 0; i < getActiveUser().friendIDs.length; i++){
+    //     duplicate = false;
+    //     getUserByID(getActiveUser().friendIDs[i]).then(user => {
+    //     currUser = user
+    //     for(let j = 0; j < friendsDATA.length; j++){
+    //         if(currUser.userID == friendsDATA[j].id){
+    //             duplicate = true;
+    //         }
+    //     }
+    //     if(!duplicate){
+    //         friendsDATA.push({id: currUser.userID, name: currUser.displayName, desc: currUser.interests});   
+    //     }
+    // });}
 
     const renderItem = ({ item }) => (
         //<TouchableOpacity onPress={() => {RootNavigation.navigate("Profile")}}>
@@ -136,5 +162,3 @@ const styles = StyleSheet.create({
         fontSize: 15
     }
 })
-
-export default FriendScreen;
