@@ -3,6 +3,8 @@ import { FlatList, StyleSheet, Text, View, Modal, TouchableOpacity, TextInput, R
 import { useEffect, useState } from 'react';
 import DropDown from '../DropDown';
 import { initializeApp } from 'firebase/app';
+import { sendMessage as sendMSG } from '../firebaseConfig';
+import Message from '../message'
 import { getDatabase, onValue, ref, set, push, onChildAdded } from 'firebase/database';
 import { getAuth, RecaptchaVerifier } from 'firebase/auth';
 import { render } from 'react-dom';
@@ -47,11 +49,14 @@ export default function HomeScreen() {
   const app = initializeApp(firebaseConfig);
   const database = getDatabase(app);
 
-  const messagesRef = ref(database, 'messages/test/testmsg/contents')
+  const messagesRef = ref(database, 'messages/test2')
 
   useEffect(()=> {
     onChildAdded(messagesRef, (snapshot) => {
-      const data = snapshot.val();
+      const currData = snapshot.val();
+      console.log("Current data: " + JSON.stringify(currData));
+      console.log("Current message: " + currData.contents);
+      const data = currData.contents;
       setMessageList((messageList)=>[data, ...messageList])
     })
   },[])
@@ -69,15 +74,11 @@ export default function HomeScreen() {
   )
   
   const sendMessage = () => {
-    const messagesRef = ref(database, 'messages/test/testmsg/contents')
-    const pushRef = push(messagesRef)
-    const timeStamp = new Date();
-    //const sender = getActiveUser().displayName;
-    set(pushRef, {
-      message,
-      timeStamp,
-    });
-    setMessage('');
+	  if (message == '')
+		  return;
+	  const newMessage = new Message(0, 'testuser', Date.now(), message, {});
+	  sendMSG(newMessage, 'test2');
+	  setMessage('');
   }
 
   /*
