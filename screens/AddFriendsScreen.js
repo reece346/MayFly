@@ -63,6 +63,7 @@ const AddFriendsScreen = () => {
         let friend = temp.userID;
         temp = getActiveUser();
         temp.friendIDs.push(friend);
+        console.log(temp.friendIDs.length);
         await updateUser(temp);
         updateActiveUser(temp);
         return Alert.alert("Friend added");

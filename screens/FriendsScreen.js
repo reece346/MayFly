@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { getUserByID } from '../firebaseConfig';
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {FlatList,Image,StyleSheet,Text,View,TouchableOpacity, TextInput, Button} from 'react-native';
 import * as RootNavigation from '../RootNavigation';
 import { getActiveUser } from './LoginScreen';
@@ -14,6 +14,7 @@ const FriendScreen = () => {
     const toggleModal = () => {
         setModalVisible(!modalVisible)
     }
+
     var currUser;
     let duplicate;
     for(let i = 0; i < getActiveUser().friendIDs.length; i++){
@@ -24,10 +25,12 @@ const FriendScreen = () => {
             if(currUser.userID == friendsDATA[j].id){
                 duplicate = true;
             }
-        }
-        if(!duplicate){
-            friendsDATA.push({id: currUser.userID, name: currUser.displayName, desc: currUser.interests});   
-        }
+    }
+    if(!duplicate){
+        friendsDATA.push({id: currUser.userID, name: currUser.displayName, desc: currUser.interests}); 
+        toggleModal();
+        toggleModal();
+    }
     });}
 
     const renderItem = ({ item }) => (
@@ -80,6 +83,7 @@ const FriendScreen = () => {
                         data={friendsDATA}
                         renderItem={renderItem}
                         keyExtractor={item => item.id}
+                        extraData = {modalVisible}
                     />
             </View>
         </View>
