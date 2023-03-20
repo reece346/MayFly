@@ -4,7 +4,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import {FlatList,Image,StyleSheet,Text,View,TouchableOpacity, TextInput, Button} from 'react-native';
 import * as RootNavigation from '../RootNavigation';
-import { getActiveUser } from './LoginScreen';
+import { userTest } from './LoginScreen';
 
 const friendsDATA = [];
 
@@ -14,24 +14,25 @@ const FriendScreen = () => {
     const toggleModal = () => {
         setModalVisible(!modalVisible)
     }
-
+    
     var currUser;
     let duplicate;
-    for(let i = 0; i < getActiveUser().friendIDs.length; i++){
+    for(let i = 0; i < userTest.getActiveUser.friendIDs.length; i++){
         duplicate = false;
-        getUserByID(getActiveUser().friendIDs[i]).then(user => {
-        currUser = user
+        getUserByID(userTest.getActiveUser.friendIDs[i]).then(user => {
+        currUser = user;
         for(let j = 0; j < friendsDATA.length; j++){
             if(currUser.userID == friendsDATA[j].id){
                 duplicate = true;
             }
+        }
+        if(!duplicate){
+            friendsDATA.push({id: currUser.userID, name: currUser.displayName, desc: currUser.interests}); 
+            toggleModal();
+        }});
+            
     }
-    if(!duplicate){
-        friendsDATA.push({id: currUser.userID, name: currUser.displayName, desc: currUser.interests}); 
-        toggleModal();
-        toggleModal();
-    }
-    });}
+    
 
     const renderItem = ({ item }) => (
         //<TouchableOpacity onPress={() => {RootNavigation.navigate("Profile")}}>

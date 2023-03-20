@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import {Image,StyleSheet,Text,View,TouchableOpacity,Button, Linking} from 'react-native';
 import * as RootNavigation from '../RootNavigation';
-import { getActiveUser } from './LoginScreen';
+import { userTest } from './LoginScreen';
 
 
 export default function Profile() {
@@ -19,12 +19,12 @@ export default function Profile() {
                 </View>
                 <View style={styles.profileNameContainer}>
                    <Text style={{fontSize:20,lineheight:50,fontWeight:'bold'}}>
-                        {getActiveUser().displayName}
+                        {userTest.getActiveUser.displayName}
                     </Text>
                 </View>
                 <View style={styles.userNameContainer}>
                    <Text style={{fontSize:16,lineheight:50}}>
-                        {getActiveUser().displayName}
+                        {userTest.getActiveUser.displayName}
                     </Text>
                 </View>
                 <View style={styles.MayFlySinceContainer}>
@@ -32,7 +32,7 @@ export default function Profile() {
                         Friends:
                     </Text>
                     <Text style={{fontSize:15,lineheight:50, left: 25}}>
-                        {getActiveUser().friendIDs.length-1}
+                        {userTest.getActiveUser.friendIDs.length-1}
                     </Text>
                 </View>
             </View>
@@ -40,13 +40,13 @@ export default function Profile() {
                 <Text style={{fontSize: 25, color: 'white', fontWeight: '600'}}>
                      Interests
                     <Text style={{fontSize:20, color: 'white', fontWeight: '600', top: 100}}>
-                             {getActiveUser().interests}
+                             {userTest.getActiveUser.interests}
                     </Text>
                 </Text>
             </View>
             <View style={styles.FriendsHeader}>
                 <Text style={{fontSize: 25, color: 'white', fontWeight: '600'}}>
-                    {getActiveUser().friendIDs}
+                    {userTest.getActiveUser.friendIDs}
                 </Text>
             </View>
             <View style={styles.LinkedAccountsHeader}>

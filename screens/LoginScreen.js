@@ -4,7 +4,20 @@ import * as RootNavigation from '../RootNavigation';
 import { getUserByPhoneNumber , updateUser} from "../firebaseConfig";
 import User from "../user";
 
-let userTest = new User();
+//global getter and setter for current user
+export const userTest = {
+    activeUser: new User(),
+
+    get getActiveUser(){
+        return this.activeUser;
+    },
+    //this does not work correctly
+    set setActiveUser(user){
+        this.activeUser = user;
+    }
+}
+
+//let userTest = new User();
 
 export default function LoginScreen(){
     //phone number variable
@@ -14,10 +27,10 @@ export default function LoginScreen(){
         if (phoneNum == ""){
             return Alert.alert("Input required");
         }
-        
         //TODO: the promise rejection if you are not an existing user is never handled
-        userTest = await getUserByPhoneNumber(phoneNum);
-        if(userTest.phoneNumber == phoneNum){
+        userTest.setActiveUser = await getUserByPhoneNumber(phoneNum);
+        console.log(userTest.getActiveUser.userID);
+        if(userTest.getActiveUser.phoneNumber == phoneNum){
             RootNavigation.navigate("HomeScreen");
         }
         else{
@@ -30,12 +43,11 @@ export default function LoginScreen(){
         RootNavigation.navigate("Startup");
     return;    
     }
-    //TODO: replace beer image with mayfly logo
     return( 
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} 
                           accessible={false}>
         <View style = {styles.container}>
-            <Image style = {styles.logo} source={require('./images/beer.png')}/> 
+            <Image style = {styles.logo} source={require('./images/icon.png')}/> 
             <Text style ={styles.title}>Existing User?</Text>
             <TextInput style = {styles.input}
             clearButtonMode='always'
@@ -59,13 +71,13 @@ export default function LoginScreen(){
     )
 }
 
-export function getActiveUser(){
-    return userTest;
-}
+//export function getActiveUser(){
+    //return userTest;
+//}
 
-export function updateActiveUser(val){
-    userTest = val;
-}
+//export function updateActiveUser(val){
+    //userTest = val;
+//}
 
 const styles = StyleSheet.create({
     button: {
