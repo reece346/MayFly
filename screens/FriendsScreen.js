@@ -33,7 +33,6 @@ const FriendScreen = () => {
             
     }
     
-
     const renderItem = ({ item }) => (
         //<TouchableOpacity onPress={() => {RootNavigation.navigate("Profile")}}>
             <View style={styles.ProfileCards}>
