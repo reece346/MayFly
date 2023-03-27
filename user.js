@@ -1,7 +1,8 @@
 export default class User {
-	constructor(displayName, userID, profilePicture, phoneNumber, interests, friendIDs) {
+	constructor(displayName, userID, profilePicture, username, phoneNumber, interests, friendIDs) {
 		this.displayName = displayName;
 		this.userID = userID;
+		this.username = username;
 		if (profilePicture)
 			this.profilePicture = profilePicture;
 		else
