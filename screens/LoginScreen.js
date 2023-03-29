@@ -1,36 +1,61 @@
 import { View , Image, Text, StyleSheet, TextInput, Button, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Alert} from "react-native"
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import * as RootNavigation from '../RootNavigation';
 import { getUserByPhoneNumber , updateUser} from "../firebaseConfig";
 import User from "../user";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { async } from "@firebase/util";
+import { updateCurrentUser } from "firebase/auth";
 
-//global getter and setter for current user
-export const userTest = {
-    activeUser: new User(),
+let userTest = {};
 
-    get getActiveUser(){
-        return this.activeUser;
-    },
-    //this does not work correctly
-    set setActiveUser(user){
-        this.activeUser = user;
-    }
+export function getActiveUser(){
+    return userTest;
 }
 
-//let userTest = new User();
+export function updateActiveUser(user){
+    userTest = user;
+}
+
 
 export default function LoginScreen(){
+
+    //save user so we don't have to log in every time
+    const saveUser = async(user) => {
+        try {
+            const jsonValue = JSON.stringify(user)
+            await AsyncStorage.setItem('@userData', jsonValue)
+            console.log('user saved to disk as: ', jsonValue)
+        } catch(e) {
+            console.log('error saving user: ', e)
+        }
+    }
+
+    //return currently saved user
+    const getCurrentUser = async () => {
+        try{
+            const jsonValue = await AsyncStorage.getItem('@userData')
+            if(!jsonValue) {
+                console.log('getCurrentUser: no user stored on disk')
+            }
+            console.log('getCurrentUser is doing something')
+            return jsonValue != null ? JSON.parse(jsonValue) : null;
+        } catch(e) {
+            console.log('error reading user from disk: ', e)
+        }
+    }
+
     //phone number variable
     const [phoneNum, setPhoneNum] = useState('');
     //function for first button being clicked
-    buttonClick = async () => {
+    const login = async () => {
         if (phoneNum == ""){
             return Alert.alert("Input required");
         }
         //TODO: the promise rejection if you are not an existing user is never handled
-        userTest.setActiveUser = await getUserByPhoneNumber(phoneNum);
-        console.log(userTest.getActiveUser.userID);
-        if(userTest.getActiveUser.phoneNumber == phoneNum){
+        userTest = await getUserByPhoneNumber(phoneNum);
+        if(userTest.phoneNumber == phoneNum){
+            saveUser(userTest)
             RootNavigation.navigate("HomeScreen");
         }
         else{
@@ -38,12 +63,53 @@ export default function LoginScreen(){
         }
     return;    
     }
+
+    const logOutCurrentUser = async () => {
+        try {
+            await AsyncStorage.removeItem('@userData');
+            updateActiveUser({})
+        }
+        catch(e) {
+            return false
+        }
+    }
+
     //function for second button being clicked
-    buttonClick2 = () => {
-        RootNavigation.navigate("Startup");
+    goToScreen = (screen) => {
+        RootNavigation.navigate(screen);
     return;    
     }
-    return( 
+
+    //if there is a user on the disk updateActiveUser
+    useEffect(() => {
+        (
+            async ()=>{
+                let user = await getCurrentUser();
+                if(user) {
+                    updateActiveUser(user)
+                }
+                else{
+                    login()
+                }
+            }
+        )()
+    }, [])
+
+    //TODO: replace beer image with mayfly logo
+    return(
+    getActiveUser().displayName ?
+    <View style={styles.container}>
+        <Text style={styles.title}>Welcome back!</Text>
+        <TouchableOpacity style = {styles.button}
+                onPress={() => {goToScreen('HomeScreen')}}>
+                <Text style = {styles.buttonText}>Go</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style = {styles.button}
+                onPress={() => {logOutCurrentUser()}}>
+                <Text style = {styles.buttonText}>Log Out</Text>
+        </TouchableOpacity>
+    </View>
+    
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} 
                           accessible={false}>
         <View style = {styles.container}>
@@ -58,26 +124,18 @@ export default function LoginScreen(){
             maxLength={11}
             />
             <TouchableOpacity style = {styles.button}
-                onPress={() => {buttonClick()}}>
+                onPress={() => {login()}}>
                 <Text style = {styles.buttonText}>Go</Text>
             </TouchableOpacity>
             <Text style ={styles.title}>Haven't created an account?</Text>
             <TouchableOpacity style = {styles.button}
-                onPress={() => {buttonClick2()}}>
+                onPress={() => {goToScreen('Startup')}}>
                 <Text style = {styles.buttonText}>Create Account</Text>
             </TouchableOpacity>
         </View>
     </TouchableWithoutFeedback>
     )
 }
-
-//export function getActiveUser(){
-    //return userTest;
-//}
-
-//export function updateActiveUser(val){
-    //userTest = val;
-//}
 
 const styles = StyleSheet.create({
     button: {
