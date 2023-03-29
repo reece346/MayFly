@@ -52,7 +52,6 @@ export default function LoginScreen(){
         if (phoneNum == ""){
             return Alert.alert("Input required");
         }
-        
         //TODO: the promise rejection if you are not an existing user is never handled
         userTest = await getUserByPhoneNumber(phoneNum);
         if(userTest.phoneNumber == phoneNum){
@@ -110,11 +109,11 @@ export default function LoginScreen(){
                 <Text style = {styles.buttonText}>Log Out</Text>
         </TouchableOpacity>
     </View>
-    :
+    
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} 
                           accessible={false}>
         <View style = {styles.container}>
-            <Image style = {styles.logo} source={require('./images/beer.png')}/> 
+            <Image style = {styles.logo} source={require('./images/icon.png')}/> 
             <Text style ={styles.title}>Existing User?</Text>
             <TextInput style = {styles.input}
             clearButtonMode='always'
