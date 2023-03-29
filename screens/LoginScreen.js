@@ -48,7 +48,7 @@ export default function LoginScreen(){
     //phone number variable
     const [phoneNum, setPhoneNum] = useState('');
     //function for first button being clicked
-    login = async () => {
+    const login = async () => {
         if (phoneNum == ""){
             return Alert.alert("Input required");
         }
@@ -64,6 +64,17 @@ export default function LoginScreen(){
         }
     return;    
     }
+
+    const logOutCurrentUser = async () => {
+        try {
+            await AsyncStorage.removeItem('@userData');
+            updateActiveUser({})
+        }
+        catch(e) {
+            return false
+        }
+    }
+
     //function for second button being clicked
     goToScreen = (screen) => {
         RootNavigation.navigate(screen);
@@ -72,22 +83,31 @@ export default function LoginScreen(){
 
     //if there is a user on the disk updateActiveUser
     useEffect(() => {
-        const setUser = async () => {
-            curUser = await getCurrentUser();
-            updateActiveUser(curUser)
-        }
-
-        setUser();
+        (
+            async ()=>{
+                let user = await getCurrentUser();
+                if(user) {
+                    updateActiveUser(user)
+                }
+                else{
+                    login()
+                }
+            }
+        )()
     }, [])
 
     //TODO: replace beer image with mayfly logo
     return(
-    userTest != {} ?
-    <View>
-        <Text>Welcome back!</Text>
+    getActiveUser().displayName ?
+    <View style={styles.container}>
+        <Text style={styles.title}>Welcome back!</Text>
         <TouchableOpacity style = {styles.button}
                 onPress={() => {goToScreen('HomeScreen')}}>
                 <Text style = {styles.buttonText}>Go</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style = {styles.button}
+                onPress={() => {logOutCurrentUser()}}>
+                <Text style = {styles.buttonText}>Log Out</Text>
         </TouchableOpacity>
     </View>
     :
