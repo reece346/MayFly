@@ -108,32 +108,32 @@ export default function LoginScreen(){
                 onPress={() => {logOutCurrentUser()}}>
                 <Text style = {styles.buttonText}>Log Out</Text>
         </TouchableOpacity>
-    </View>
     
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} 
-                          accessible={false}>
-        <View style = {styles.container}>
-            <Image style = {styles.logo} source={require('./images/icon.png')}/> 
-            <Text style ={styles.title}>Existing User?</Text>
-            <TextInput style = {styles.input}
-            clearButtonMode='always'
-            placeholder = 'ex. 8037779311'
-            placeholderTextColor= 'gray' 
-            onChangeText={(val) => setPhoneNum(val)}
-            keyboardType = 'number-pad'
-            maxLength={11}
-            />
-            <TouchableOpacity style = {styles.button}
-                onPress={() => {login()}}>
-                <Text style = {styles.buttonText}>Go</Text>
-            </TouchableOpacity>
-            <Text style ={styles.title}>Haven't created an account?</Text>
-            <TouchableOpacity style = {styles.button}
-                onPress={() => {goToScreen('Startup')}}>
-                <Text style = {styles.buttonText}>Create Account</Text>
-            </TouchableOpacity>
-        </View>
-    </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} 
+                            accessible={false}>
+            <View style = {styles.container}>
+                <Image style = {styles.logo} source={require('./images/icon.png')}/> 
+                <Text style ={styles.title}>Existing User?</Text>
+                <TextInput style = {styles.input}
+                clearButtonMode='always'
+                placeholder = 'ex. 8037779311'
+                placeholderTextColor= 'gray' 
+                onChangeText={(val) => setPhoneNum(val)}
+                keyboardType = 'number-pad'
+                maxLength={11}
+                />
+                <TouchableOpacity style = {styles.button}
+                    onPress={() => {login()}}>
+                    <Text style = {styles.buttonText}>Go</Text>
+                </TouchableOpacity>
+                <Text style ={styles.title}>Haven't created an account?</Text>
+                <TouchableOpacity style = {styles.button}
+                    onPress={() => {goToScreen('Startup')}}>
+                    <Text style = {styles.buttonText}>Create Account</Text>
+                </TouchableOpacity>
+            </View>
+        </TouchableWithoutFeedback>
+    </View>
     )
 }
 
