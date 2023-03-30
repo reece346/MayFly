@@ -9,6 +9,7 @@ import { getDatabase, onValue, ref, set, push, onChildAdded } from 'firebase/dat
 import { getAuth, RecaptchaVerifier } from 'firebase/auth';
 import { render } from 'react-dom';
 import { getActiveUser } from './LoginScreen';
+import app from '../firebaseConfig';
 
 let hamburger =[{id:1, name: 'View Profile'}, {id:2, name:'Friends'}, {id:3, name:'Add Friends'}, {id:4, name:'Logout'}]
 
@@ -30,25 +31,8 @@ export default function HomeScreen() {
   const [testMessage, setTestMessage] = useState('wrong');
   const [message, setMessage] = useState('')
   // const [message, setMessage] = useState('')
-  // TODO Need some way of getting the user's phone number. Making do with an example one
-  const phoneNumber = "+16505553434" // Test number, has been added to Firebase
-  // TODO Also need some form of way to get the code from the user.
-  const code = "123456"; // Test code tied to above phone number
-
-  // Initialize Firebase
-  const firebaseConfig = {
-    apiKey: 'AIzaSyBc4K_VsAO60P-Gmqg8x9B9e2oJ4R-ECdQ',
-    authDomain: 'odyssey-490.firebaseapp.com',
-    databaseURL: 'https://odyssey-490-default-rtdb.firebaseio.com/',
-    projectId: 'odyssey-490',
-    storageBucket: 'odyssey-490.appspot.com',
-    messagingSenderId: '747613227593',
-    appId: '1:747613227593:web:5ea3e82de1cdc0470b8d98'
-  };
-
-  const app = initializeApp(firebaseConfig);
+  
   const database = getDatabase(app);
-
   const messagesRef = ref(database, 'messages/test2')
 
   useEffect(()=> {
@@ -57,7 +41,7 @@ export default function HomeScreen() {
       console.log("Current data: " + JSON.stringify(currData));
       console.log("Current message: " + currData.contents);
       const data = currData.contents;
-      setMessageList((messageList)=>[data, ...messageList])
+      setMessageList((messageList) => [{message: data}, ...messageList]);
     })
   },[])
 
