@@ -13,7 +13,7 @@ export default function LogOutScreen(){
 
     submitNewUser = () => {
         if(userName!= "" && phoneNum!= "" && interests != ""){
-            let thisUser = new User(displayName, 0, null, userName, phoneNum, interests, null)
+            let thisUser = new User(userName, 0, null, phoneNum, interests, null)
             createUser(thisUser);
             RootNavigation.navigate("LoginScreen");
         }
@@ -37,6 +37,14 @@ export default function LogOutScreen(){
                         keyboardType = 'number-pad'
                         maxLength={11}/>
 
+                    <Text style = {styles.text}>Enter Full Name</Text>
+                    <TextInput 
+                        clearButtonMode='always'
+                        style ={styles.input} 
+                        placeholder = 'ex. Steve Smith'
+                        placeholderTextColor= 'gray' 
+                        onChangeText={(val) => setDisplayName(val)}/>
+
                     <Text style = {styles.text}>Enter Username</Text>
                     <TextInput 
                         clearButtonMode='always'
@@ -44,14 +52,6 @@ export default function LogOutScreen(){
                         placeholder = 'ex. steve111'
                         placeholderTextColor= 'gray' 
                         onChangeText={(val) => setUserName(val)}/>
-
-                    <Text style = {styles.text}>Enter Your Display Name</Text>
-                    <TextInput 
-                        clearButtonMode='always'
-                        style ={styles.input} 
-                        placeholder = 'ex. Steve Smith'
-                        placeholderTextColor= 'gray' 
-                        onChangeText={(val) => setDisplayName(val)}/>
 
                     <Text style = {styles.text}>What Are Your Interests?</Text>
                     <Text style = {styles.subtext}>(Separate Them by Clicking 'return')</Text>
