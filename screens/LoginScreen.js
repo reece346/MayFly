@@ -74,8 +74,13 @@ export default function LoginScreen(){
         }
     }
 
+    const handleLogout = () => {
+        logOutCurrentUser();
+        goToScreen('Login')
+    }
+
     //function for second button being clicked
-    goToScreen = (screen) => {
+    const goToScreen = (screen) => {
         RootNavigation.navigate(screen);
     return;    
     }
@@ -105,10 +110,11 @@ export default function LoginScreen(){
                 <Text style = {styles.buttonText}>Go</Text>
         </TouchableOpacity>
         <TouchableOpacity style = {styles.button}
-                onPress={() => {logOutCurrentUser()}}>
+                onPress={() => {handleLogout()}}>
                 <Text style = {styles.buttonText}>Log Out</Text>
         </TouchableOpacity>
-    
+    </View>
+    :
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} 
                             accessible={false}>
             <View style = {styles.container}>
@@ -133,7 +139,6 @@ export default function LoginScreen(){
                 </TouchableOpacity>
             </View>
         </TouchableWithoutFeedback>
-    </View>
     )
 }
 
