@@ -4,7 +4,7 @@ import { useState } from 'react';
 import {FlatList,Image,StyleSheet,Text,View,TouchableOpacity, TextInput, Button, SafeAreaView, Alert} from 'react-native';
 import { getUserByID, getUserByPhoneNumber, updateUser } from '../firebaseConfig';
 import User from '../user';
-import { userTest} from './LoginScreen';
+import { getActiveUser, setActiveUser} from './LoginScreen';
 //import * as RootNavigation from '../RootNavigation';
 
 const suggestedFriendsDATA = [
@@ -53,7 +53,7 @@ const AddFriendsScreen = () => {
         //if left blank, already a friend, or same as active user
         if(phoneNum == "")
             return Alert.alert("Input required");
-        if(phoneNum == userTest.getActiveUser.phoneNumber ){
+        if(phoneNum == getActiveUser().phoneNumber ){
             return Alert.alert("Invalid input");
         }
         let temp = new User();
@@ -61,10 +61,10 @@ const AddFriendsScreen = () => {
         if(temp == 0)
             return Alert.alert("User not found");
         let friend = temp.userID;
-        temp = userTest.getActiveUser;
+        temp = getActiveUser();
         temp.friendIDs.push(friend);
         //this does not work correctly
-        userTest.setActiveUser = temp;
+        setActiveUser(temp);
         await updateUser(temp);
         //console.log(userTest.getActiveUser.userID);
         return Alert.alert("Friend added");

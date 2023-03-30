@@ -1,25 +1,42 @@
 import { StatusBar } from 'expo-status-bar';
-import { getUserByID } from '../firebaseConfig';
+import { getUserByID , getUserByPhoneNumber} from '../firebaseConfig';
 import React from 'react';
 import { useState, useEffect } from 'react';
-import {FlatList,Image,StyleSheet,Text,View,TouchableOpacity, TextInput, Button} from 'react-native';
+import {FlatList,Image,StyleSheet,Text,View,TouchableOpacity, TextInput, Button, Alert} from 'react-native';
 import * as RootNavigation from '../RootNavigation';
 import { userTest } from './LoginScreen';
+import { getActiveUser } from './LoginScreen';
+import User from '../user';
 
 const friendsDATA = [];
 
 const FriendScreen = () => {
     const [modalVisible, setModalVisible] = useState(false);
 
+    const [textInput, setTextInput] = useState('');
+
     const toggleModal = () => {
         setModalVisible(!modalVisible)
+    }
+
+    buttonClick = async() =>{
+        //check if text input is phone number
+        //check if that phone number equals any of the users friends numbers
+        let tempUser;
+        //i is set to 1 because of friendIDs layout in database???
+        for(let i = 1; i < getActiveUser().friendIDs.length; i++){
+            tempUser = await getUserByID(getActiveUser().friendIDs[i]);
+            if(tempUser.phoneNumber == textInput){
+                Alert.alert(tempUser.displayName);
+            }
+        }
     }
     
     var currUser;
     let duplicate;
-    for(let i = 0; i < userTest.getActiveUser.friendIDs.length; i++){
+    for(let i = 0; i < getActiveUser().friendIDs.length; i++){
         duplicate = false;
-        getUserByID(userTest.getActiveUser.friendIDs[i]).then(user => {
+        getUserByID(getActiveUser().friendIDs[i]).then(user => {
         currUser = user;
         for(let j = 0; j < friendsDATA.length; j++){
             if(currUser.userID == friendsDATA[j].id){
@@ -64,11 +81,12 @@ const FriendScreen = () => {
                         }}
                         placeholder={'Username'}
                         placeholderTextColor={'#666'}
+                        onChangeText={(val) => setTextInput(val)}
                         />
                     </View>
                 </View>
                 <View style={styles.AddButton}>
-                    <TouchableOpacity onPress= {toggleModal} style={{flexDirection: 'row', alignSelf: 'center', }}>
+                    <TouchableOpacity onPress= {() => buttonClick()} style={{flexDirection: 'row', alignSelf: 'center', }}>
                         <Text style={{color: 'white'}}>Search</Text>
                     </TouchableOpacity>
                 </View>
