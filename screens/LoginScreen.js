@@ -56,7 +56,12 @@ export default function LoginScreen(){
         userTest = await getUserByPhoneNumber(phoneNum);
         if(userTest.phoneNumber == phoneNum){
             saveUser(userTest)
-            RootNavigation.navigate("HomeScreen");
+            if(userTest.chatID != null) {
+                RootNavigation.navigate("HomeScreen");
+            } else {
+                RootNavigation.navigate("NoChatScreen");
+            }
+            
         }
         else{
             return Alert.alert("You are not an existing user!");

@@ -4,7 +4,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import {FlatList,Image,StyleSheet,Text,View,TouchableOpacity, TextInput, Button} from 'react-native';
 import * as RootNavigation from '../RootNavigation';
-import { userTest } from './LoginScreen';
+import { userTest, getActiveUser } from './LoginScreen';
 
 const friendsDATA = [];
 
@@ -15,11 +15,11 @@ const FriendScreen = () => {
         setModalVisible(!modalVisible)
     }
     
-    var currUser;
+    var currUser = getActiveUser();
     let duplicate;
-    for(let i = 0; i < userTest.getActiveUser.friendIDs.length; i++){
+    for(let i = 0; i < currUser.friendIDs.length; i++){
         duplicate = false;
-        getUserByID(userTest.getActiveUser.friendIDs[i]).then(user => {
+        getUserByID(currUser.friendIDs[i]).then(user => {
         currUser = user;
         for(let j = 0; j < friendsDATA.length; j++){
             if(currUser.userID == friendsDATA[j].id){

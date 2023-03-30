@@ -8,6 +8,7 @@ import {navigationRef} from './RootNavigation';
 import LogOutScreen from './screens/Logout';
 import LoginScreen from './screens/LoginScreen';
 import EditProfile from './screens/EditProfile';
+import NoChatScreen from './screens/NoChatScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,6 +23,10 @@ export default function App() {
             <Stack.Screen 
                 name = "Startup"
                 component = {LogOutScreen}
+            />
+            <Stack.Screen
+                name = "NoChatScreen"
+                component = {NoChatScreen}
             />
             <Stack.Screen 
                 name = "HomeScreen"
