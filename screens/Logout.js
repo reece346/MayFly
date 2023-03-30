@@ -13,7 +13,7 @@ export default function LogOutScreen(){
 
     submitNewUser = () => {
         if(userName!= "" && phoneNum!= "" && interests != ""){
-            let thisUser = new User(userName, 0, null, phoneNum, interests, null)
+            let thisUser = new User(displayName, 0, null, userName, phoneNum, interests, null)
             createUser(thisUser);
             RootNavigation.navigate("LoginScreen");
         }
