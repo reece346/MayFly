@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { getUserByID , getUserByPhoneNumber} from '../firebaseConfig';
+import { getUserByID , getUserByPhoneNumber, getUserByUsername} from '../firebaseConfig';
 import React from 'react';
 import { useState, useEffect } from 'react';
 import {FlatList,Image,StyleSheet,Text,View,TouchableOpacity, TextInput, Button, Alert} from 'react-native';
@@ -20,14 +20,29 @@ const FriendScreen = () => {
     }
 
     buttonClick = async() =>{
-        //check if text input is phone number
-        //check if that phone number equals any of the users friends numbers
+        //check if text input is valid
         let tempUser;
         //i is set to 1 because of friendIDs layout in database???
         for(let i = 1; i < getActiveUser().friendIDs.length; i++){
             tempUser = await getUserByID(getActiveUser().friendIDs[i]);
+            console.log(tempUser.displayName);
+            if(textInput == ""){
+                Alert.alert("Input required");
+                break;
+            }
             if(tempUser.phoneNumber == textInput){
                 Alert.alert(tempUser.displayName);
+                break;
+            }
+            else if(tempUser.username == textInput){
+                Alert.alert(tempUser.displayName);
+                break;
+            }
+            else{
+                if(i == getActiveUser().friendIDs.length){
+                    Alert.alert("Friend not found");
+                } 
+                continue;
             }
         }
     }
