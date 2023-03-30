@@ -32,6 +32,7 @@ export default function HomeScreen() {
   const [message, setMessage] = useState('')
   // const [message, setMessage] = useState('')
   
+  //TO-DO: change each reference to be dependent on user's chatID
   const database = getDatabase(app);
   const messagesRef = ref(database, 'messages/test2')
 
@@ -51,16 +52,18 @@ export default function HomeScreen() {
     setSelectedItem(item)
   }
 
+  //TO-DO: Get active user's name and display next to message
   const renderMessage = ({item}) => (
     <View style={styles.message}>
       <Text>{item.message}</Text>
     </View>
   )
   
+  //TO-DO: Replace 'testuser' with currentUser, and have 'test2' replaced with the user's chatID
   const sendMessage = () => {
 	  if (message == '')
 		  return;
-	  const newMessage = new Message(0, 'testuser', Date.now(), message, {});
+	  const newMessage = new Message(0, getActiveUser().userID, Date.now(), message, {});
 	  sendMSG(newMessage, 'test2');
 	  setMessage('');
   }
@@ -83,6 +86,7 @@ export default function HomeScreen() {
   }
 */
 
+//TO-DO: Remove 'getActiveUser().displayName' from line 128
   return (
     <View style={styles.container}>
         <View style={styles.topBar}>
