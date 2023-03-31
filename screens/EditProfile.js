@@ -27,7 +27,7 @@ export default function EditProfile(){
                     <Image style={{height:'100%', width:'100%', borderRadius:70, color: 'black'}} source={require('./images/blackCircleBorder.jpg')}/>
                 </View>
                 <View style={styles.avatarContainer}>
-                    <Image style={{height:'100%', width:'100%', borderRadius:60}} source={require('./images/persona.png')}/>
+                    <Image style={{height:'100%', width:'100%', borderRadius:60}} source={require('./images/standardpfp.png')}/>
                 </View>
                 <View style={styles.profileNameContainer}>
                    <Text style={{fontSize:20,lineheight:50,fontWeight:'bold'}}>
@@ -39,7 +39,7 @@ export default function EditProfile(){
                         Friends:
                     </Text>
                     <Text style={{fontSize:15,lineheight:50, left: 25}}>
-                    {getActiveUser().friendIDs.length}
+                    {getActiveUser().friendIDs.length-1}
                     </Text>
                 </View>
             </View>
