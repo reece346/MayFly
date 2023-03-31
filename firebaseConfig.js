@@ -60,7 +60,7 @@ export async function getUserByID(userID) {
 	return get(child(dbRef, 'users/' + userID)).then((snapshot) => {
 		if(snapshot.exists()) {
 			const val = snapshot.val();
-			const user = new User(val.displayName, userID, val.profilePicture, val.username, val.phoneNumber, val.interests, val.friendIDs);
+			const user = new User(val.displayName, userID, val.profilePicture, val.username, val.phoneNumber, val.currentChatID, val.interests, val.friendIDs);
 			return user;
 			console.log("This shouldn't print!");
 		} else {
@@ -78,7 +78,7 @@ export async function getUserByUsername(username) {
 		snapshot.forEach((data) => {
 			if (data.val().username == username) {
 				const dataVal = data.val();
-				user = new User(dataVal.displayName, data.key, dataVal.profilePicture, username, dataVal.phoneNumber, dataVal.interests, dataVal.friendIDs);
+				user = new User(dataVal.displayName, data.key, dataVal.profilePicture, username, dataVal.phoneNumber, dataVal.currentChatID, dataVal.interests, dataVal.friendIDs);
 				found = true;
 			}
 		})
@@ -97,7 +97,7 @@ export async function getUserByPhoneNumber(phoneNumber) {
 		snapshot.forEach((data) => {
 			if (data.val().phoneNumber == phoneNumber) {
 				const dataVal = data.val();
-				user = new User(dataVal.displayName, data.key, dataVal.profilePicture, dataVal.username, phoneNumber, dataVal.interests, dataVal.friendIDs);
+				user = new User(dataVal.displayName, data.key, dataVal.profilePicture, dataVal.username, phoneNumber, dataVal.currentChatID, dataVal.interests, dataVal.friendIDs);
 				found = true;
 			}
 		})
