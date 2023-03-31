@@ -84,6 +84,13 @@ export default function LoginScreen(){
         goToScreen('Login')
     }
 
+    const handleGo = () => {
+        if (userTest.currentChatID != "") {
+            goToScreen('HomeScreen')
+        }
+        goToScreen('NoChatScreen')
+    }
+
     //function for second button being clicked
     const goToScreen = (screen) => {
         RootNavigation.navigate(screen);
@@ -111,7 +118,7 @@ export default function LoginScreen(){
     <View style={styles.container}>
         <Text style={styles.title}>Welcome back!</Text>
         <TouchableOpacity style = {styles.button}
-                onPress={() => {goToScreen('HomeScreen')}}>
+                onPress={() => {handleGo()}}>
                 <Text style = {styles.buttonText}>Go</Text>
         </TouchableOpacity>
         <TouchableOpacity style = {styles.button}

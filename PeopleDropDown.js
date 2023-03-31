@@ -1,6 +1,8 @@
 import React, {Component, useState} from "react";
 import {View, Button, Text, StyleSheet, TouchableOpacity, Image, Alert} from "react-native";
 import * as RootNavigation from './RootNavigation';
+import { getActiveUser } from './screens/LoginScreen';
+import { updateUser } from './firebaseConfig';
 
 const PeopleDropDown = ({ 
     data = [], 
@@ -20,6 +22,11 @@ const PeopleDropDown = ({
                 {
                     text: "Yes",
                     onPress: () => {
+                        let tempUser = getActiveUser();
+                        console.log('=====================' + tempUser.currentChatID)
+                        tempUser.currentChatID = "";
+                        updateUser(tempUser);
+                        console.log(' +++++++++++++++++++++++++' + tempUser.currentChatID)
                         RootNavigation.navigate("NoChatScreen");
                     },
                 },
@@ -35,10 +42,21 @@ const PeopleDropDown = ({
 
 
     const onSelectedItem = (val) =>{
-        if (val.name == "User1")
-        if (val.name == "User2")
-        if (val.name == "User3")
-        if (val.name == "User4")
+        if (val.name == "User1") {
+
+        }
+        if (val.name == "User2") {
+
+        }
+        if (val.name == "User3") {
+
+        }
+        if (val.name == "User4") {
+
+        }
+        if (val.name == "Leave Chat") {
+            showConfirmDialog();
+        }
         setShowOption(false);
     }
   
