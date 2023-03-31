@@ -177,3 +177,5 @@ export async function sendMessage(message, chatID) {
 	});
 	return;
 }
+
+module.exports.app = app;
