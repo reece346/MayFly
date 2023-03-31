@@ -10,8 +10,11 @@ import { getAuth, RecaptchaVerifier } from 'firebase/auth';
 import { render } from 'react-dom';
 import { getActiveUser } from './LoginScreen';
 import {app, getUserByID} from '../firebaseConfig';
+import PeopleDropDown from '../PeopleDropDown';
+
 
 let hamburger =[{id:1, name: 'View Profile'}, {id:2, name:'Friends'}, {id:3, name:'Add Friends'}, {id:4, name:'Logout'}]
+let users =[{id:1, name: 'User1'}, {id:2, name:'User2'}, {id:3, name:'User3'}, {id:4, name:'User4'}]
 
 
 export function chatMessage ({item}) {
@@ -59,8 +62,8 @@ export default function HomeScreen() {
   //TO-DO: Get active user's name and display next to message
   const renderMessage = ({item}) => (
     <View style={styles.message}>
-      <Text style={styles.container}>{item.displayName}</Text>
-      <Text>{item.message}</Text>
+      <Text style={styles.authorName}>{item.displayName}</Text>
+      <Text style={styles.message}>{item.message}</Text>
     </View>
   )
   
@@ -109,11 +112,11 @@ export default function HomeScreen() {
             </Text>
           </View>
 
-          <View>
-            <Text>
-              People
-            </Text>
-          </View>
+          <PeopleDropDown
+            data={users}
+            onSelect={onSelect}
+            value={selectedItem}
+          />
         </View>
         
         <KeyboardAvoidingView {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})} style={{flex: 5}}>
@@ -131,7 +134,7 @@ export default function HomeScreen() {
           }
         />
         <View style={styles.chatBoxContainer}>
-          <TextInput placeholder={'Send a message'} onChangeText={message => setMessage(getActiveUser().displayName + ": " + message)}  style={styles.messageInput}/>
+          <TextInput placeholder={'Send a message'} onChangeText={message => setMessage(message)}  style={styles.messageInput}/>
           <Button onPress={() => {sendMessage()}} style={styles.sendButton} color='blue' title='Send'/>
         </View>
         </KeyboardAvoidingView>
@@ -200,9 +203,16 @@ const styles = StyleSheet.create({
     margin: 5,
     width: '80%'
   },
+  authorName : {
+    backgroundColor: '#d7d7d7',
+    fontWeight: 'bold',
+    textDecorationLine: 'underline',
+    padding: 5,
+    borderRadius: 5,
+  },
   message : {
     backgroundColor: '#d7d7d7',
-    padding: 5,
+    padding: 1,
     margin: 5,
     borderRadius: 5,
   }
