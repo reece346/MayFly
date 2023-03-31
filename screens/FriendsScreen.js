@@ -25,16 +25,26 @@ const FriendScreen = () => {
         //i is set to 1 because of friendIDs layout in database???
         for(let i = 1; i < getActiveUser().friendIDs.length; i++){
             tempUser = await getUserByID(getActiveUser().friendIDs[i]);
-            console.log(tempUser.displayName);
             if(textInput == ""){
                 Alert.alert("Input required");
                 break;
             }
             if(tempUser.phoneNumber == textInput){
-                Alert.alert(tempUser.displayName);
+                console.log(tempUser.displayName);
+                for(let j = 0; j < friendsDATA.length; j++){
+                    if(friendsDATA[j].id == tempUser.userID){
+                        friendsDATA[0] = friendsDATA[j];
+                        break;
+                    }
+                }
+                do{
+                    friendsDATA.pop();
+                }while(typeof friendsDATA[1] !== 'undefined')
+                toggleModal();
                 break;
             }
             else if(tempUser.username == textInput){
+                //display user card
                 Alert.alert(tempUser.displayName);
                 break;
             }
@@ -49,21 +59,22 @@ const FriendScreen = () => {
     
     var currUser;
     let duplicate;
-    for(let i = 0; i < getActiveUser().friendIDs.length; i++){
-        duplicate = false;
-        getUserByID(getActiveUser().friendIDs[i]).then(user => {
-        currUser = user;
-        for(let j = 0; j < friendsDATA.length; j++){
-            if(currUser.userID == friendsDATA[j].id){
-                duplicate = true;
+    //if(searched == false){
+        for(let i = 0; i < getActiveUser().friendIDs.length; i++){
+            duplicate = false;
+            getUserByID(getActiveUser().friendIDs[i]).then(user => {
+            currUser = user;
+            for(let j = 0; j < friendsDATA.length; j++){
+                if(currUser.userID == friendsDATA[j].id){
+                    duplicate = true;
+                }
             }
+            if(!duplicate){
+                friendsDATA.push({id: currUser.userID, name: currUser.displayName, desc: currUser.interests}); 
+                toggleModal();
+            }});
         }
-        if(!duplicate){
-            friendsDATA.push({id: currUser.userID, name: currUser.displayName, desc: currUser.interests}); 
-            toggleModal();
-        }});
-            
-    }
+    //}
     
     const renderItem = ({ item }) => (
         //<TouchableOpacity onPress={() => {RootNavigation.navigate("Profile")}}>
