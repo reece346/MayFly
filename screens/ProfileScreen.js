@@ -5,6 +5,9 @@ import { getActiveUser } from './LoginScreen';
 
 
 export default function Profile() {
+    interestArray = [];
+    interestArray = getActiveUser().interests;
+    favoriteFriend = [];
     return (
         <View style={styles.container}>
             <View style={styles.imageContainer}>
@@ -39,14 +42,17 @@ export default function Profile() {
             <View style={styles.InterestsHeader}>
                 <Text style={{fontSize: 25, color: 'white', fontWeight: '600'}}>
                      Interests
-                    <Text style={{fontSize:20, color: 'white', fontWeight: '600', top: 100}}>
-                             {getActiveUser().interests}
-                    </Text>
+
+                </Text>
+            </View>
+            <View style={styles.InterestsHeader}>
+                <Text style={{fontSize: 25, color: 'white',fontWeight: '600'}}>
+                     {interestArray}
                 </Text>
             </View>
             <View style={styles.FriendsHeader}>
                 <Text style={{fontSize: 25, color: 'white', fontWeight: '600'}}>
-                    {getActiveUser().friendIDs}
+                    Favorite Friends
                 </Text>
             </View>
             <View style={styles.LinkedAccountsHeader}>
