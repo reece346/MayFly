@@ -4,7 +4,6 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import {FlatList,Image,StyleSheet,Text,View,TouchableOpacity, TextInput, Button, Alert} from 'react-native';
 import * as RootNavigation from '../RootNavigation';
-import { userTest } from './LoginScreen';
 import { getActiveUser } from './LoginScreen';
 import User from '../user';
 
@@ -30,26 +29,32 @@ const FriendScreen = () => {
                 break;
             }
             if(tempUser.phoneNumber == textInput){
-                console.log(tempUser.displayName);
                 for(let j = 0; j < friendsDATA.length; j++){
                     if(friendsDATA[j].id == tempUser.userID){
+                        let temp = friendsDATA[0];
                         friendsDATA[0] = friendsDATA[j];
+                        friendsDATA[j] = temp;
                         break;
                     }
                 }
-                do{
-                    friendsDATA.pop();
-                }while(typeof friendsDATA[1] !== 'undefined')
                 toggleModal();
                 break;
             }
             else if(tempUser.username == textInput){
-                //display user card
-                Alert.alert(tempUser.displayName);
+                for(let j = 0; j < friendsDATA.length; j++){
+                    let temp = await getUserByID(friendsDATA[j].id)
+                    if (temp.username == textInput){
+                        temp = friendsDATA[0];
+                        friendsDATA[0] = friendsDATA[j];
+                        friendsDATA[j] = temp;
+                        break;
+                    }
+                }
+                toggleModal();
                 break;
             }
             else{
-                if(i == getActiveUser().friendIDs.length){
+                if(i == getActiveUser().friendIDs.length-1){
                     Alert.alert("Friend not found");
                 } 
                 continue;
@@ -59,22 +64,20 @@ const FriendScreen = () => {
     
     var currUser;
     let duplicate;
-    //if(searched == false){
-        for(let i = 0; i < getActiveUser().friendIDs.length; i++){
-            duplicate = false;
-            getUserByID(getActiveUser().friendIDs[i]).then(user => {
-            currUser = user;
-            for(let j = 0; j < friendsDATA.length; j++){
-                if(currUser.userID == friendsDATA[j].id){
-                    duplicate = true;
-                }
+    for(let i = 0; i < getActiveUser().friendIDs.length; i++){
+        duplicate = false;
+        getUserByID(getActiveUser().friendIDs[i]).then(user => {
+        currUser = user;
+        for(let j = 0; j < friendsDATA.length; j++){
+            if(currUser.userID == friendsDATA[j].id){
+                duplicate = true;
             }
-            if(!duplicate){
-                friendsDATA.push({id: currUser.userID, name: currUser.displayName, desc: currUser.interests}); 
-                toggleModal();
-            }});
         }
-    //}
+        if(!duplicate){
+            friendsDATA.push({id: currUser.userID, name: currUser.displayName, desc: currUser.interests}); 
+            toggleModal();
+        }});
+    }    
     
     const renderItem = ({ item }) => (
         //<TouchableOpacity onPress={() => {RootNavigation.navigate("Profile")}}>
@@ -105,9 +108,10 @@ const FriendScreen = () => {
                             paddingHorizontal: 10,
                             fontSize: 18,
                         }}
-                        placeholder={'Username'}
+                        placeholder={'Username or Phone Number'}
                         placeholderTextColor={'#666'}
                         onChangeText={(val) => setTextInput(val)}
+                        clearButtonMode='always'
                         />
                     </View>
                 </View>
