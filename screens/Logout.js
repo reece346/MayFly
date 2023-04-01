@@ -15,7 +15,7 @@ export default function LogOutScreen(){
         if(userName!= "" && phoneNum!= "" && interests != ""){
             let thisUser = new User(displayName, 0, null, userName, phoneNum, "", interests, null)
             createUser(thisUser);
-            RootNavigation.navigate("LoginScreen");
+            RootNavigation.navigate("Login");
         }
 	    else{
             return Alert.alert("Invalid input. Make sure all the fields are filled out.");

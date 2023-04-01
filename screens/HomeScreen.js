@@ -11,6 +11,8 @@ import { render } from 'react-dom';
 import { getActiveUser } from './LoginScreen';
 import {app, getUserByID} from '../firebaseConfig';
 import PeopleDropDown from '../PeopleDropDown';
+import RenderMessage from './RenderMessage';
+import Render from 'react-native-web/dist/cjs/exports/render';
 
 
 let hamburger =[{id:1, name: 'View Profile'}, {id:2, name:'Friends'}, {id:3, name:'Add Friends'}, {id:4, name:'Logout'}]
@@ -42,14 +44,7 @@ export default function HomeScreen() {
   useEffect(()=> {
     onChildAdded(messagesRef, (snapshot) => {
       const currData = snapshot.val();
-      getUserByID(currData.authorID).then(user => {
-	      console.log("Current data: " + JSON.stringify(currData));
-	      console.log("Current message: " + currData.contents);
-	      const author = user.displayName;
-	      console.log("Current author: " + author);
-	      const data = {message: currData.contents, displayName: author};
-	      setMessageList((messageList) => [data, ...messageList]);
-      });
+	    setMessageList((messageList) => [currData, ...messageList]);
     })
   },[])
 
@@ -61,10 +56,7 @@ export default function HomeScreen() {
 
   //TO-DO: Get active user's name and display next to message
   const renderMessage = ({item}) => (
-    <View style={styles.message}>
-      <Text style={styles.authorName}>{item.displayName}</Text>
-      <Text style={styles.message}>{item.message}</Text>
-    </View>
+    <RenderMessage authorID={item.authorID} message={item.contents}/>
   )
   
   //TO-DO: Replace 'testuser' with currentUser, and have 'test2' replaced with the user's chatID

@@ -63,6 +63,7 @@ const AddFriendsScreen = () => {
         updateActiveUser(temp);
         //update user firebase isnt working here
         await updateUser(temp);
+        await updateActiveUser(temp);
         return Alert.alert("Friend added");
     }
     
