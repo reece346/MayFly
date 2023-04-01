@@ -20,6 +20,18 @@ export default function NoChatScreen() {
                 onSelect={onSelect}
             />
             </View>
+            <Text style={styles.messageBold}>
+                You are not currently in a chat!
+            </Text>
+            <Text style={styles.message}>
+                A new chat should be created soon!
+            </Text>
+            <Text style={styles.message}>
+                In the meantime, you can check out your Profile or add a few of your friends!
+            </Text>
+            <Text style={styles.message}>
+                Check back soon for your new chat!
+            </Text>
         </View>
     )  
 }
@@ -30,5 +42,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#3A3B50',
     paddingHorizontal: 10,
     paddingBottom: 10,
+  },
+  messageBold: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 24,
+    top: 200,
+    padding: 10,
+    textAlign: 'center'
+  },
+  message: {
+    color: 'darkgrey',
+    top: 200,
+    textAlign: 'center',
+    padding: 8,
+    fontSize: 18
   }
 });
