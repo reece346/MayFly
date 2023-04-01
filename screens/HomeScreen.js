@@ -134,7 +134,7 @@ export default function HomeScreen() {
           }
         />
         <View style={styles.chatBoxContainer}>
-          <TextInput placeholder={'Send a message'} onChangeText={message => setMessage(message)}  style={styles.messageInput}/>
+          <TextInput placeholder={'Send a message'} onChangeText={message => setMessage(message)} value={message} style={styles.messageInput}/>
           <Button onPress={() => {sendMessage()}} style={styles.sendButton} color='blue' title='Send'/>
         </View>
         </KeyboardAvoidingView>
