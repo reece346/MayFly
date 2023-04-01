@@ -51,6 +51,9 @@ export default function Profile() {
                 </Text>
             </View>
             <View style={styles.FriendsHeader}>
+            <TouchableOpacity onPress={() => {RootNavigation.navigate("AddFriends")}}>
+                    <Image style={{height:20, width:20, color: 'black', left: 315, top: 10}} source={require('./images/addfriends.png')}/>
+                </TouchableOpacity>
                 <Text style={{fontSize: 25, color: 'white', fontWeight: '600'}}>
                     Favorite Friends
                 </Text>
