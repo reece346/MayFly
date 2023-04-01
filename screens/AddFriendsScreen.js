@@ -55,15 +55,22 @@ const AddFriendsScreen = () => {
         if(phoneNum == getActiveUser().phoneNumber){
             return Alert.alert("Invalid input");
         }
+        for(let i = 0; i < getActiveUser().friendIDs.length; i++){
+            if(getActiveUser().friendIDs[i] == phoneNum){
+                return Alert.alert("Already a friend");
+            } 
+        }
         let temp = new User();
         temp = await getUserByPhoneNumber(phoneNum);
+        if(typeof temp.userID == 'undefined'){
+            return Alert.alert("User not found");
+        }
         let friend = temp.userID;
         temp = getActiveUser();
         temp.friendIDs.push(friend);
         updateActiveUser(temp);
-        //update user firebase isnt working here
         await updateUser(temp);
-        return Alert.alert("Friend added");
+        return Alert.alert("Friend added");  
     }
     
     const renderItem = ({ item }) => (

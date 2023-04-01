@@ -81,7 +81,7 @@ export default function LoginScreen(){
 
     const handleLogout = () => {
         logOutCurrentUser();
-        goToScreen('Login')
+        goToScreen("Login")
     }
 
     const handleGo = () => {
@@ -112,7 +112,6 @@ export default function LoginScreen(){
         )()
     }, [])
 
-    //TODO: replace beer image with mayfly logo
     return(
     getActiveUser().displayName ?
     <View style={styles.container}>

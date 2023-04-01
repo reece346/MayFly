@@ -19,10 +19,9 @@ const FriendScreen = () => {
     }
 
     buttonClick = async() =>{
-        //check if text input is valid
+        //TODO check if text input is valid
         let tempUser;
-        //i is set to 1 because of friendIDs layout in database???
-        for(let i = 1; i < getActiveUser().friendIDs.length; i++){
+        for(let i = 0; i < getActiveUser().friendIDs.length; i++){
             tempUser = await getUserByID(getActiveUser().friendIDs[i]);
             if(textInput == ""){
                 Alert.alert("Input required");
@@ -74,7 +73,7 @@ const FriendScreen = () => {
             }
         }
         if(!duplicate){
-            friendsDATA.push({id: currUser.userID, name: currUser.displayName, desc: currUser.interests}); 
+            friendsDATA.push({id: currUser.userID, name: currUser.displayName, desc: currUser.interests.join(",")}); 
             toggleModal();
         }});
     }    
