@@ -55,14 +55,10 @@ export default function Profile() {
                     <Image style={{height:20, width:20, color: 'black', left: 315, top: 10}} source={require('./images/addfriends.png')}/>
                 </TouchableOpacity>
                 <Text style={{fontSize: 25, color: 'white', fontWeight: '600'}}>
-                    Favorite Friends
+                    Favorite Friend
                 </Text>
             </View>
-            <View style={styles.LinkedAccountsHeader}>
-                <Text style={{fontSize: 25, color: 'white', fontWeight: '600'}}>
-                    Linked Accounts
-                </Text>
-            </View>
+
             <View style={styles.InstagramButton}>
                 <Button title='Instagram' onPress={()=>{Linking.openURL('https://www.instagram.com/')}}></Button>
             </View>
