@@ -87,7 +87,9 @@ export default function LoginScreen(){
         if (userTest.currentChatID != "") {
             goToScreen('HomeScreen')
         }
-        goToScreen('NoChatScreen')
+        else {
+            goToScreen('NoChatScreen')
+        }
     }
 
     //function for second button being clicked
@@ -111,45 +113,48 @@ export default function LoginScreen(){
         )()
     }, [])
 
-    return(
-    getActiveUser().displayName ?
-    <View style={styles.container}>
-        <Text style={styles.title}>Welcome back!</Text>
-        <TouchableOpacity style = {styles.button}
-                onPress={() => {handleGo()}}>
-                <Text style = {styles.buttonText}>Go</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style = {styles.button}
-                onPress={() => {handleLogout()}}>
-                <Text style = {styles.buttonText}>Log Out</Text>
-        </TouchableOpacity>
-    </View>
-    :
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss} 
-                            accessible={false}>
-            <View style = {styles.container}>
-                <Image style = {styles.logo} source={require('./images/icon.png')}/> 
-                <Text style ={styles.title}>Existing User?</Text>
-                <TextInput style = {styles.input}
-                clearButtonMode='always'
-                placeholder = 'ex. 8037779311'
-                placeholderTextColor= 'gray' 
-                onChangeText={(val) => setPhoneNum(val)}
-                keyboardType = 'number-pad'
-                maxLength={11}
-                />
+    if(getActiveUser().displayName) {
+        return(
+            <View style={styles.container}>
+                <Text style={styles.title}>Welcome back!</Text>
                 <TouchableOpacity style = {styles.button}
-                    onPress={() => {login()}}>
-                    <Text style = {styles.buttonText}>Go</Text>
+                        onPress={() => {handleGo()}}>
+                        <Text style = {styles.buttonText}>Go</Text>
                 </TouchableOpacity>
-                <Text style ={styles.title}>Haven't created an account?</Text>
                 <TouchableOpacity style = {styles.button}
-                    onPress={() => {goToScreen('Startup')}}>
-                    <Text style = {styles.buttonText}>Create Account</Text>
+                        onPress={() => {handleLogout()}}>
+                        <Text style = {styles.buttonText}>Log Out</Text>
                 </TouchableOpacity>
             </View>
-        </TouchableWithoutFeedback>
-    )
+        )
+    } else {
+        return(
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss} 
+                                accessible={false}>
+                <View style = {styles.container}>
+                    <Image style = {styles.logo} source={require('./images/icon.png')}/> 
+                    <Text style ={styles.title}>Existing User?</Text>
+                    <TextInput style = {styles.input}
+                    clearButtonMode='always'
+                    placeholder = 'ex. 8037779311'
+                    placeholderTextColor= 'gray' 
+                    onChangeText={(val) => setPhoneNum(val)}
+                    keyboardType = 'number-pad'
+                    maxLength={11}
+                    />
+                    <TouchableOpacity style = {styles.button}
+                        onPress={() => {login()}}>
+                        <Text style = {styles.buttonText}>Go</Text>
+                    </TouchableOpacity>
+                    <Text style ={styles.title}>Haven't created an account?</Text>
+                    <TouchableOpacity style = {styles.button}
+                        onPress={() => {goToScreen('Startup')}}>
+                        <Text style = {styles.buttonText}>Create Account</Text>
+                    </TouchableOpacity>
+                </View>
+            </TouchableWithoutFeedback>
+        )
+    }
 }
 
 const styles = StyleSheet.create({
