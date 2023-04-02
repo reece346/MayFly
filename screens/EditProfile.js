@@ -72,15 +72,7 @@ export default function EditProfile(){
                     placeholder = {'ex. Fishing\nex. Archery'}
                     placeholderTextColor= 'gray' 
                     onChangeText={(val) => setInterests(val.split(/\r?\n/))}/>
-                <View style={styles.text}>
-                    <Text style = {styles.text}>Edit Your Profile Picture</Text>
-                </View>
-                <TextInput 
-                    style ={styles.input} 
-                    multiline
-                    placeholder = {'ex. imgur'}
-                    placeholderTextColor= 'gray' 
-                    onChangeText={(val) => setInterests(val.split(/\r?\n/))}/>
+                
                 <Button style ={{padding: 8}}
                         title='Submit'
                         color = 'white'
