@@ -7,11 +7,11 @@ import * as RootNavigation from '../RootNavigation';
 import { getActiveUser } from './LoginScreen';
 import User from '../user';
 
-const friendsDATA = [];
+
 
 const FriendScreen = () => {
     const [modalVisible, setModalVisible] = useState(false);
-
+    const [friendsDATA, setFriendsDATA] = useState([])
     const [textInput, setTextInput] = useState('');
 
     const toggleModal = () => {
@@ -61,22 +61,25 @@ const FriendScreen = () => {
         }
     }
     
-    var currUser;
-    let duplicate;
-    for(let i = 0; i < getActiveUser().friendIDs.length; i++){
-        duplicate = false;
-        getUserByID(getActiveUser().friendIDs[i]).then(user => {
-        currUser = user;
-        for(let j = 0; j < friendsDATA.length; j++){
-            if(currUser.userID == friendsDATA[j].id){
-                duplicate = true;
+    useEffect(()=>{
+        var currUser;
+        let duplicate;
+        for(let i = 0; i < getActiveUser().friendIDs.length; i++){
+            duplicate = false;
+            getUserByID(getActiveUser().friendIDs[i]).then(user => {
+            currUser = user;
+            for(let j = 0; j < friendsDATA.length; j++){
+                if(currUser.userID == friendsDATA[j].id){
+                    duplicate = true;
+                }
             }
-        }
-        if(!duplicate){
-            friendsDATA.push({id: currUser.userID, name: currUser.displayName, desc: currUser.interests.join(",")}); 
-            toggleModal();
-        }});
-    }    
+            if(!duplicate){
+                console.log('friendsData is: ', friendsDATA)
+                friendsDATA.push({id: currUser.userID, name: currUser.displayName, desc: currUser.interests.join(",")}); 
+                toggleModal();
+            }});
+        } 
+    },[getActiveUser.friendIDs])   
     
     const renderItem = ({ item }) => (
         //<TouchableOpacity onPress={() => {RootNavigation.navigate("Profile")}}>
