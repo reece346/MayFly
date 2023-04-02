@@ -107,7 +107,7 @@ const AddFriendsScreen = () => {
                         placeholderTextColor={'#666'}
                         onChangeText={(val) => setPhoneNum(val)}
                         keyboardType = 'number-pad'
-                        maxLength={11}
+                        maxLength={10}
                         clearButtonMode='always'
                         />
                     </View>

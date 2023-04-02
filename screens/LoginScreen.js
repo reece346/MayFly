@@ -105,9 +105,7 @@ export default function LoginScreen(){
                 let user = await getCurrentUser();
                 if(user) {
                     updateActiveUser(user)
-                }
-                else{
-                    login()
+                    goToScreen('Login')
                 }
             }
         )()

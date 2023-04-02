@@ -113,6 +113,8 @@ const FriendScreen = () => {
                         placeholder={'Username or Phone Number'}
                         placeholderTextColor={'#666'}
                         onChangeText={(val) => setTextInput(val)}
+                        keyboardType='number-pad'
+                        maxLength={10}
                         clearButtonMode='always'
                         />
                     </View>
