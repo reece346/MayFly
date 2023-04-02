@@ -1,21 +1,23 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {StyleSheet,Text,ScrollView,View,TextInput,Button, Alert} from 'react-native';
 import * as RootNavigation from '../RootNavigation';
 import User from '../user';
 import {createUser} from '../firebaseConfig';
+import UIContext from './UIHandler';
 
 export default function LogOutScreen(){
     const [phoneNum, setPhoneNum] = useState('');
     const [displayName, setDisplayName] = useState('');
     const [userName, setUserName] = useState('');
     const [interests, setInterests] = useState([]);
+    const {setCurrentPanel, currentPanel} = useContext(UIContext)
 
     submitNewUser = () => {
         if(userName!= "" && phoneNum!= "" && interests != ""){
             let thisUser = new User(displayName, 0, null, userName, phoneNum, "", interests, null)
             createUser(thisUser);
-            RootNavigation.navigate("Login");
+            setCurrentPanel("Login");
         }
 	    else{
             return Alert.alert("Invalid input. Make sure all the fields are filled out.");

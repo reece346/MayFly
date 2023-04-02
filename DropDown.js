@@ -1,15 +1,17 @@
-import React, {Component, useState} from "react";
+import React, {Component, useContext, useState} from "react";
 import {View, Button, Text, StyleSheet, TouchableOpacity, Image, Alert} from "react-native";
 import * as RootNavigation from './RootNavigation';
+import { screens } from "./App";
+import UIContext from "./screens/UIHandler";
 
-const DropDown =({
-    data = [],
+export default function DropDown({
+    data = [screens],
     value = {},
-    onSelect = () =>{}
-}) => {
+    onSelect = () =>{},
+}) {
 
 const [showOption, setShowOption] = useState(false);
-
+const {setCurrentScreen, currentScreen} = useContext(UIContext)
 const [showBox, setShowBox] = useState(true);
 
 const showConfirmDialog = () => {
@@ -34,13 +36,13 @@ const showConfirmDialog = () => {
 };
 
 const onSelectedItem = (val) =>{
-    if (val.name == "View Profile")
-        RootNavigation.navigate("Profile");
-    if (val.name == "Friends")
-        RootNavigation.navigate("Friends");
-    if (val.name == "Add Friends")
-        RootNavigation.navigate("AddFriends");
-    if (val.name == "Logout")
+    if (val.key == "View Profile")
+        setCurrentScreen("Profile");
+    if (val.key == "Friends")
+        setCurrentScreen("Friends");
+    if (val.key == "Add Friends")
+        setCurrentScreen("AddFriends");
+    if (val.key == "Logout")
         showConfirmDialog();
     setShowOption(false);
 }
@@ -85,4 +87,3 @@ const styles = StyleSheet.create({
     }
 });
 
-export default DropDown;

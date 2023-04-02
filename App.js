@@ -9,48 +9,32 @@ import LogOutScreen from './screens/Logout';
 import LoginScreen from './screens/LoginScreen';
 import EditProfile from './screens/EditProfile';
 import NoChatScreen from './screens/NoChatScreen';
+import UIHandler from './screens/UIHandler';
+import { useState, View } from 'react';
 
 const Stack = createNativeStackNavigator();
 
+export const screens = {
+    Login : LoginScreen,
+    Startup : LogOutScreen,
+    NoChatScreen : NoChatScreen,
+    HomeScreen : HomeScreen,
+    Profile : Profile,
+    EditProfile : EditProfile,
+    Friends : FriendScreen,
+    AddFriends : AddFriendsScreen
+}
+
 export default function App() {
+    const [currentScreen, setCurrentScreen] = useState('Login')
+    let Screen = screens[currentScreen]
+
   return(
-    <NavigationContainer ref={navigationRef}>
-        <Stack.Navigator>
-            <Stack.Screen 
-                name = "Login"
-                component = {LoginScreen}
-            />
-            <Stack.Screen 
-                name = "Startup"
-                component = {LogOutScreen}
-            />
-            <Stack.Screen
-                name = "NoChatScreen"
-                component = {NoChatScreen}
-            />
-            <Stack.Screen 
-                name = "HomeScreen"
-                component = {HomeScreen}
-                options = {{headerBackVisible: false}}
-            />
-            <Stack.Screen 
-                name = "Profile"
-                component = {Profile}
-            />
-            <Stack.Screen 
-                name = "EditProfile"
-                component = {EditProfile}
-            />
-            <Stack.Screen 
-                name = "Friends"
-                component = {FriendScreen}
-            />
-            <Stack.Screen 
-                name = "AddFriends"
-                component = {AddFriendsScreen}
-            />
-        </Stack.Navigator>
-    </NavigationContainer>
+    <View>
+        <UIHandler currentScreen={currentScreen} setCurrentScreen={setCurrentScreen}>
+            <Screen/>
+        </UIHandler>
+    </View>
   );
 }
 

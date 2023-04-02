@@ -1,11 +1,12 @@
 import { View , Image, Text, StyleSheet, TextInput, Button, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Alert} from "react-native"
-import React, {useEffect, useState} from "react"
+import React, {useContext, useEffect, useState} from "react"
 import * as RootNavigation from '../RootNavigation';
 import { getUserByPhoneNumber , updateUser} from "../firebaseConfig";
 import User from "../user";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { async } from "@firebase/util";
 import { updateCurrentUser } from "firebase/auth";
+import UIContext from "./UIHandler";
 
 let userTest = {};
 
@@ -18,6 +19,8 @@ export function updateActiveUser(user){
 }
 
 export default function LoginScreen(){
+
+    const {setCurrentScreen, currentScreen} = useContext(UIContext)
 
     //save user so we don't have to log in every time
     const saveUser = async(user) => {
@@ -56,9 +59,9 @@ export default function LoginScreen(){
         if(userTest.phoneNumber == phoneNum){
             saveUser(userTest)
             if(userTest.currentChatID != "") {
-                RootNavigation.navigate("HomeScreen");
+                goToScreen("HomeScreen");
             } else {
-                RootNavigation.navigate("NoChatScreen");
+                goToScreen("NoChatScreen");
             }
             
         }
@@ -92,7 +95,7 @@ export default function LoginScreen(){
 
     //function for second button being clicked
     const goToScreen = (screen) => {
-        RootNavigation.navigate(screen);
+        setCurrentScreen(screen);
     return;    
     }
 
