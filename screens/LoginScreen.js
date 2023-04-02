@@ -17,7 +17,6 @@ export function updateActiveUser(user){
     userTest = user;
 }
 
-
 export default function LoginScreen(){
 
     //save user so we don't have to log in every time
