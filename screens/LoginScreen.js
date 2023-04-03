@@ -115,19 +115,6 @@ export default function LoginScreen(){
 
     
     return(
-        userTest.displayName ?
-        <View style={styles.container}>
-            <Text style={styles.title}>Welcome back!</Text>
-            <TouchableOpacity style = {styles.button}
-                    onPress={() => {handleGo()}}>
-                    <Text style = {styles.buttonText}>Go</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style = {styles.button}
-                    onPress={() => {handleLogout()}}>
-                    <Text style = {styles.buttonText}>Log Out</Text>
-            </TouchableOpacity>
-        </View>
-        :
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} 
                             accessible={false}>
             <View style = {styles.container}>
