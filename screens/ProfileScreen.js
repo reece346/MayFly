@@ -8,6 +8,8 @@ export default function Profile() {
     interestArray = [];
     interestArray = getActiveUser().interests.join(",");
     favoriteFriend = [];
+    displayNameSaved = getActiveUser().displayName;
+    numberOfFriends = getActiveUser().friendIDs.length-1;
     return (
         <View style={styles.container}>
             <View style={styles.imageContainer}>
@@ -22,12 +24,12 @@ export default function Profile() {
                 </View>
                 <View style={styles.profileNameContainer}>
                    <Text style={{fontSize:20,lineheight:50,fontWeight:'bold'}}>
-                        {getActiveUser().displayName}
+                        {displayNameSaved}
                     </Text>
                 </View>
                 <View style={styles.userNameContainer}>
                    <Text style={{fontSize:16,lineheight:50}}>
-                        {getActiveUser().displayName}
+                        {displayNameSaved}
                     </Text>
                 </View>
                 <View style={styles.MayFlySinceContainer}>
@@ -35,7 +37,7 @@ export default function Profile() {
                         Friends:
                     </Text>
                     <Text style={{fontSize:15,lineheight:50, left: 25}}>
-                        {getActiveUser().friendIDs.length-1}
+                        {numberOfFriends}
                     </Text>
                 </View>
             </View>
