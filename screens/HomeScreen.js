@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import { FlatList, StyleSheet, Text, View, Modal, TouchableOpacity, TextInput, RefreshControl, TouchableWithoutFeedback, Button, KeyboardAvoidingView } from 'react-native';
 import { useEffect, useState } from 'react';
+import { FlatList, StyleSheet, Text, View, Modal, TouchableOpacity, TextInput, RefreshControl, TouchableWithoutFeedback, Button, KeyboardAvoidingView } from 'react-native';
 import DropDown from '../DropDown';
 import { initializeApp } from 'firebase/app';
 import { sendMessage as sendMSG } from '../firebaseConfig';
@@ -11,11 +11,13 @@ import { render } from 'react-dom';
 import { getActiveUser } from './LoginScreen';
 import {app, getUserByID} from '../firebaseConfig';
 import PeopleDropDown from '../PeopleDropDown';
+import Timer from '../Timer';
 
 
 let hamburger =[{id:1, name: 'View Profile'}, {id:2, name:'Friends'}, {id:3, name:'Add Friends'}, {id:4, name:'Logout'}]
 let users =[{id:1, name: 'User1'}, {id:2, name:'User2'}, {id:3, name:'User3'}, {id:4, name:'User4'}, {id:5, name:'Leave Chat'}]
 
+let chatDuration = 86400;
 
 export function chatMessage ({item}) {
   return (
@@ -104,12 +106,7 @@ export default function HomeScreen() {
             onSelect={onSelect}
           />
           <View style={{borderRadius: 5, backgroundColor: '#d7d7d7', paddingHorizontal : 5, paddingVertical: 5, height: '27%', justifyContent: 'center', alignItems: 'center' }}>
-            <Text>
-              Alive for
-            </Text>
-            <Text>
-              A While
-            </Text>
+            <Timer maxRange={chatDuration}/>
           </View>
 
           <PeopleDropDown
