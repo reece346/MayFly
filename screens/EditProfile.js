@@ -2,7 +2,7 @@
 import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, set, onValue, child, get, push } from 'firebase/database';
 import { getAuth} from 'firebase/auth';
-import {getUserByID, updateUser} from '../firebaseConfig.js';
+import {getUserByID, updateUser} from '../firebaseConfig';
 import { getActiveUser } from './LoginScreen';
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
@@ -10,6 +10,7 @@ import {StyleSheet,Text,ScrollView,View,TextInput,Button, Alert, Image} from 're
 import * as RootNavigation from '../RootNavigation';
 import User from '../user';
 import {createUser} from '../firebaseConfig';
+
 
 export default function EditProfile(){
     const [phoneNum, setPhoneNum] = useState('');
@@ -60,7 +61,7 @@ export default function EditProfile(){
 
                 <View style={styles.text}>
                 <Text style = {styles.text}>Edit Your Interests</Text>
-                <Text style = {styles.subtext}>(Separate Them by Clicking 'return')</Text>
+                <Text style = {styles.text}>(Separate Them by Clicking 'return')</Text>
                 </View>
                 <TextInput 
                         style ={styles.input} 

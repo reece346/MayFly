@@ -1,6 +1,7 @@
 import React, {Component, useState} from "react";
 import {View, Button, Text, StyleSheet, TouchableOpacity, Image, Alert} from "react-native";
 import * as RootNavigation from './RootNavigation';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const DropDown =({
     data = [],
@@ -12,6 +13,16 @@ const [showOption, setShowOption] = useState(false);
 
 const [showBox, setShowBox] = useState(true);
 
+const logOutCurrentUser = async () => {
+    try {
+        await AsyncStorage.removeItem('@userData');
+        updateActiveUser({})
+    }
+    catch(e) {
+        return false
+    }
+}
+
 const showConfirmDialog = () => {
     return Alert.alert(
         "Are you sure?",
@@ -20,6 +31,7 @@ const showConfirmDialog = () => {
             {
                 text: "Yes",
                 onPress: () => {
+                    logOutCurrentUser()
                     RootNavigation.navigate("Login");
                 },
             },
