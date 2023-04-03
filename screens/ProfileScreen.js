@@ -57,7 +57,7 @@ export default function Profile() {
                     <Image style={{height:20, width:20, color: 'black', left: 315, top: 10}} source={require('./images/addfriends.png')}/>
                 </TouchableOpacity>
                 <Text style={{fontSize: 25, color: 'white', fontWeight: '600'}}>
-                    Favorite Friend
+                    Favorite Friends
                 </Text>
             </View>
 
@@ -65,10 +65,10 @@ export default function Profile() {
                 <Button title='Instagram' onPress={()=>{Linking.openURL('https://www.instagram.com/')}}></Button>
             </View>
             <View style={styles.TwitterButton}>
-                <Button title='Twitter' onPress={()=>{Linking.openURL('https://twitter.com/ChadT12054309')}}></Button>
+                <Button title='Twitter' onPress={()=>{Linking.openURL('https://twitter.com/')}}></Button>
             </View>
             <View style={styles.YoutubeButton}>
-                <Button title='Youtube' onPress={()=>{Linking.openURL('https://www.youtube.com/channel/UCZjQDA528gyGjo_LNDRE3HQ')}}></Button>
+                <Button title='Youtube' onPress={()=>{Linking.openURL('https://www.youtube.com/')}}></Button>
             </View>
             </View>
     )
