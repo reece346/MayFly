@@ -14,7 +14,7 @@ export default function Profile() {
         <View style={styles.container}>
             <View style={styles.imageContainer}>
                 <TouchableOpacity onPress={() => {RootNavigation.navigate("EditProfile")}}>
-                    <Image style={{height:20, width:20, color: 'black', left: 315, top: 10}} source={require('./images/editProfileIcon.png')}/>
+                    <Image style={{height:20, width:20, color: 'black', left: '315', top: 10, left: 300}} source={require('./images/editProfileIcon.png')}/>
                 </TouchableOpacity>
                 <View style={styles.avatarBorderContainer}>
                     <Image style={{height:'100%', width:'100%', borderRadius:70, color: 'black'}} source={require('./images/blackCircleBorder.jpg')}/>
@@ -23,20 +23,20 @@ export default function Profile() {
                     <Image style={{height:'100%', width:'100%', borderRadius:60}} source={require('./images/standardpfp.png')}/>
                 </View>
                 <View style={styles.profileNameContainer}>
-                   <Text style={{fontSize:20,lineHeight:50,fontWeight:'bold'}}>
+                   <Text style={{fontSize:20,fontWeight:'bold'}}>
                         {displayNameSaved}
                     </Text>
                 </View>
                 <View style={styles.userNameContainer}>
-                   <Text style={{fontSize:16,lineHeight:50}}>
+                   <Text style={{fontSize:16,}}>
                         {displayNameSaved}
                     </Text>
                 </View>
                 <View style={styles.MayFlySinceContainer}>
-                   <Text style={{fontSize:15,lineHeight:50}}>
+                   <Text style={{fontSize:15,}}>
                         Friends:
                     </Text>
-                    <Text style={{fontSize:15,lineHeight:50, left: 25}}>
+                    <Text style={{fontSize:15, left: 25}}>
                         {numberOfFriends}
                     </Text>
                 </View>
@@ -54,7 +54,7 @@ export default function Profile() {
             </View>
             <View style={styles.FriendsHeader}>
             <TouchableOpacity onPress={() => {RootNavigation.navigate("AddFriends")}}>
-                    <Image style={{height:20, width:20, color: 'black', left: 315, top: 10}} source={require('./images/addfriends.png')}/>
+                    <Image style={{height:20, width:20, color: 'black', left: 315, top: 30}} source={require('./images/addfriends.png')}/>
                 </TouchableOpacity>
                 <Text style={{fontSize: 25, color: 'white', fontWeight: '600'}}>
                     Favorite Friends
@@ -106,20 +106,20 @@ const styles = StyleSheet.create({
         position:'absolute',
         top: 30,
         left: 135,
-        alignItems:'center',
+
         color: 'black'
     },
     userNameContainer:{
         position:'absolute',
         top: 58,
         left: 145,
-        alignItems:'center',
+        
     },
     MayFlySinceContainer:{
         position:'absolute',
         top: 85,
         left: 138,
-        alignItems:'center',
+        alignItems:'flex',
     },
     InterestsHeader:{
         top: 50,
@@ -133,20 +133,20 @@ const styles = StyleSheet.create({
 
     InstagramButton:{
         position:'absolute',
-        alignItems:'left',
+
         top: 630,
         left: 30
     },
     TwitterButton:{
         position:'absolute',
-        alignItems:'left',
+        
         top: 630,
         left: 173
 
     },
     YoutubeButton:{
         position:'absolute',
-        alignItems:'left',
+        
         top: 630,
         left: 300
     }
