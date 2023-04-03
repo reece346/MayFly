@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getDatabase, ref, set, onValue, child, get, push } from 'firebase/database';
+import { getDatabase, ref, set, onValue, child, get, push, remove } from 'firebase/database';
 import { getAuth, RecaptchaVerifier } from 'firebase/auth';
 import User from './user.js';
 import Chat from './chat.js';
@@ -173,6 +173,22 @@ export async function sendMessage(message, chatID) {
 	const msgRef = ref(database, 'messages/' + chatID);
 	delete message.messageID;
 	push(msgRef, message).catch((error) => {
+		console.error(error);
+	});
+	return;
+}
+
+export async function removeUser(userID) {
+	const userRef = ref(database, 'users/' + userID);
+	remove(userRef).catch((error) => {
+		console.error(error);
+	});
+	return;
+}
+
+export async function removeMessage(messageID, chatID) {
+	const msgRef = ref(database, 'messages/' + chatID + '/' + messageID);
+	remove(msgRef).catch((error) => {
 		console.error(error);
 	});
 	return;

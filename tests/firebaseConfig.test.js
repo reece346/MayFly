@@ -1,8 +1,10 @@
 import User from '../user.js';
 import Message from '../message.js';
-import {getUserByID, updateUser, getUserByPhoneNumber, createUser, sendMessage, getMessageByID, getMessagesByUser} from '../firebaseConfig.js';
+import {getUserByID, updateUser, getUserByPhoneNumber, createUser, sendMessage, getMessageByID, getMessagesByUser, removeUser, removeMessage} from '../firebaseConfig.js';
 
 var INITUSER;
+var NEWUSER;
+var NEWMSG;
 
 describe("Firebase Realtime Database Access", () => {
 	it("Should obtain the test user by ID", async () => {
@@ -14,7 +16,7 @@ describe("Firebase Realtime Database Access", () => {
 	});
 	it("Should recieve the test user by phone number", async () => {
 		//console.log("Grabbing '+16505553434' from the database...");
-		let user = await getUserByPhoneNumber("+16505553434");
+		let user = await getUserByPhoneNumber("6505553434");
 		expect(user.displayName).toBe("Chad Thompson");
 	});
 	it("Should edit the test user's name", async () => {
@@ -28,10 +30,11 @@ describe("Firebase Realtime Database Access", () => {
 		expect(updatedUser.displayName).toBe("Brad Thompson");
 	});
 	it("Should add a new user to the database", async () => {
-		const newUser = new User("Testy McTestFace II", 0, undefined, "+1234567890", undefined, undefined);
+		const newUser = new User("Testy McTestFace II", 0, "default", "testy", "9876543210", "test2", 0, 0);
 		await createUser(newUser); // Create the user in the database
-		let user = await getUserByPhoneNumber("+1234567890");
+		let user = await getUserByPhoneNumber("9876543210");
 		expect(user.displayName).toBe("Testy McTestFace II");
+		NEWUSER = user.userID;
 	});
 	it("Should recieve chat messages from the database", async () => {
 		let message = await getMessageByID('testmsg2', 'test2');
@@ -39,7 +42,12 @@ describe("Firebase Realtime Database Access", () => {
 	});
 	it("Should filter chat messages by authorID", async () => {
 		let messages = await getMessagesByUser('testuser', 'test2');
-		expect(messages[0].contents).toBe("Testy test test!");
+		var containsMessage = false;
+		messages.forEach(msg => {
+			if(msg.contents == "Testy test test!")
+				containsMessage = true;
+		});
+		expect(containsMessage).toBe(true);
 	});
 	it("Should send a chat message to the database", async () => {
 		const newMessage = new Message(0, 'testuser', 1677224028, "This is a test!", {});
@@ -47,8 +55,10 @@ describe("Firebase Realtime Database Access", () => {
 		var containsMessage = false;
 		let messages = await getMessagesByUser('testuser', 'test2');
 		messages.forEach(msg => {
-			if (msg.contents == "This is a test!")
+			if (msg.contents == "This is a test!") {
 				containsMessage = true;
+				NEWMSG = msg.messageID;
+			}
 		});
 		expect(containsMessage).toBe(true);
 	});
@@ -57,4 +67,10 @@ describe("Firebase Realtime Database Access", () => {
 afterAll(async () => {
 	// Change Brad Thompson back to Brad Thompson
 	await updateUser(INITUSER);
+	// Delete Testy McTestFace II
+	await removeUser(NEWUSER);
+	// Delete test message
+	await removeMessage(NEWMSG, 'test2').catch((error) => {
+		console.error(error);
+	});
 });
