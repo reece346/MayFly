@@ -47,7 +47,7 @@ const AddFriendsScreen = () => {
 
     const [phoneNum, setPhoneNum] = useState('');
     
-    buttonClick = async() =>{
+    addFriend = async() =>{
         //get user by phone number, update active user to have that friend id
         //if left blank, already a friend, or same as active user
         if(phoneNum == "")
@@ -70,8 +70,7 @@ const AddFriendsScreen = () => {
         temp.friendIDs.push(friend);
         console.log('temp is: ', temp)
         updateActiveUser(temp);
-        await updateUser(temp);
-        return Alert.alert("Friend added");  
+        await updateUser(temp).then(Alert.alert("Friend added"));  
     }
     
     const renderItem = ({ item }) => (
@@ -113,7 +112,7 @@ const AddFriendsScreen = () => {
                     </View>
                 </View>
                 <View style={styles.AddButton}>
-                    <TouchableOpacity onPress={() => buttonClick()} style={{flexDirection: 'row', alignSelf: 'center', }}>
+                    <TouchableOpacity onPress={() => addFriend()} style={{flexDirection: 'row', alignSelf: 'center', }}>
                         <Text style={{color: 'white'}}>Search</Text>
                     </TouchableOpacity>
                 </View>

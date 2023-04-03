@@ -4,8 +4,10 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import {FlatList,Image,StyleSheet,Text,View,TouchableOpacity, TextInput, Button, Alert} from 'react-native';
 import * as RootNavigation from '../RootNavigation';
-import { getActiveUser } from './LoginScreen';
+import { getActiveUser, updateActiveUser } from './LoginScreen';
 import User from '../user';
+import { updateUser } from '../firebaseConfig';
+import { hydrate } from 'react-dom';
 
 
 
@@ -18,67 +20,44 @@ const FriendScreen = () => {
         setModalVisible(!modalVisible)
     }
 
-    buttonClick = async() =>{
-        //TODO check if text input is valid
-        let tempUser;
-        for(let i = 0; i < getActiveUser().friendIDs.length; i++){
-            tempUser = await getUserByID(getActiveUser().friendIDs[i]);
-            if(textInput == ""){
-                Alert.alert("Input required");
-                break;
-            }
-            if(tempUser.phoneNumber == textInput){
-                for(let j = 0; j < friendsDATA.length; j++){
-                    if(friendsDATA[j].id == tempUser.userID){
-                        let temp = friendsDATA[0];
-                        friendsDATA[0] = friendsDATA[j];
-                        friendsDATA[j] = temp;
-                        break;
-                    }
-                }
-                toggleModal();
-                break;
-            }
-            else if(tempUser.username == textInput){
-                for(let j = 0; j < friendsDATA.length; j++){
-                    let temp = await getUserByID(friendsDATA[j].id)
-                    if (temp.username == textInput){
-                        temp = friendsDATA[0];
-                        friendsDATA[0] = friendsDATA[j];
-                        friendsDATA[j] = temp;
-                        break;
-                    }
-                }
-                toggleModal();
-                break;
-            }
-            else{
-                if(i == getActiveUser().friendIDs.length-1){
-                    Alert.alert("Friend not found");
-                } 
-                continue;
-            }
+    const [phoneNum, setPhoneNum] = useState('')
+
+    addFriend = async() =>{
+        //get user by phone number, update active user to have that friend id
+        //if left blank, already a friend, or same as active user
+        if(phoneNum == "")
+            return Alert.alert("Input required");
+        if(phoneNum == getActiveUser().phoneNumber){
+            return Alert.alert("Invalid input");
         }
+        for(let i = 0; i < getActiveUser().friendIDs.length; i++){
+            if(getActiveUser().friendIDs[i] == phoneNum){
+                return Alert.alert("Already a friend");
+            } 
+        }
+        let temp = new User();
+        temp = await getUserByPhoneNumber(phoneNum);
+        if(typeof temp.userID == 'undefined'){
+            return Alert.alert("User not found");
+        }
+        let friend = temp.userID;
+        temp = getActiveUser();
+        temp.friendIDs.push(friend);
+        console.log('temp is: ', temp)
+        updateActiveUser(temp);
+        await updateUser(temp).then(Alert.alert("Friend added"));  
     }
     
     useEffect(()=>{
-        var currUser;
-        let duplicate;
-        for(let i = 0; i < getActiveUser().friendIDs.length; i++){
-            duplicate = false;
-            getUserByID(getActiveUser().friendIDs[i]).then(user => {
-            currUser = user;
-            for(let j = 0; j < friendsDATA.length; j++){
-                if(currUser.userID == friendsDATA[j].id){
-                    duplicate = true;
+
+        getActiveUser().friendIDs.map(async(ID)=>{
+            await getUserByID(ID).then( user => {
+                if(user){
+                    setFriendsDATA(friendsDATA => [{id: user.userID, name: user.displayName, desc : user.interests.join(', ')}, ...friendsDATA])
                 }
-            }
-            if(!duplicate){
-                console.log('friendsData is: ', friendsDATA)
-                friendsDATA.push({id: currUser.userID, name: currUser.displayName, desc: currUser.interests.join(",")}); 
-                toggleModal();
-            }});
-        } 
+            })
+        })
+
     },[getActiveUser.friendIDs])   
     
     const renderItem = ({ item }) => (
@@ -112,7 +91,7 @@ const FriendScreen = () => {
                         }}
                         placeholder={'Username or Phone Number'}
                         placeholderTextColor={'#666'}
-                        onChangeText={(val) => setTextInput(val)}
+                        onChangeText={(val) => setPhoneNum(val)}
                         keyboardType='number-pad'
                         maxLength={10}
                         clearButtonMode='always'
@@ -120,7 +99,7 @@ const FriendScreen = () => {
                     </View>
                 </View>
                 <View style={styles.AddButton}>
-                    <TouchableOpacity onPress= {() => buttonClick()} style={{flexDirection: 'row', alignSelf: 'center', }}>
+                    <TouchableOpacity onPress= {() => addFriend()} style={{flexDirection: 'row', alignSelf: 'center', }}>
                         <Text style={{color: 'white'}}>Search</Text>
                     </TouchableOpacity>
                 </View>
