@@ -51,8 +51,6 @@ const onSelectedItem = (val) =>{
         RootNavigation.navigate("Profile");
     if (val.name == "Friends")
         RootNavigation.navigate("Friends");
-    if (val.name == "Add Friends")
-        RootNavigation.navigate("AddFriends");
     if (val.name == "Logout")
         showConfirmDialog();
     setShowOption(false);
