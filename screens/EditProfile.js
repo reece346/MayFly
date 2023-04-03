@@ -17,9 +17,9 @@ export default function EditProfile(){
     const [userName, setUserName] = useState('');
     const [interests, setInterests] = useState([]);
 
-    editUser = () => {
-            let thisUser = getActiveUser(displayName, 0, null, userName, phoneNum, "", interests, null);
-            updateUser(thisUser);
+    editUser = async () => {
+            let thisUser = getActiveUser(displayName, interests);
+            await updateUser(thisUser);
             RootNavigation.navigate("Profile");
 }
 
@@ -57,15 +57,7 @@ export default function EditProfile(){
                     placeholderTextColor= 'gray' 
                     onChangeText={(val) => setUserName(val)}
                     />
-                <View style={styles.text}>
-                    <Text style = {styles.text}>Edit Your Username</Text>
-                </View>
-                <TextInput 
-                    clearButtonMode='always'
-                    style ={styles.input} 
-                    placeholder = 'ex. steve1999'
-                    placeholderTextColor= 'gray' 
-                    onChangeText={(val) => setUserName(val)}/>
+
                 <View style={styles.text}>
                 <Text style = {styles.text}>Edit Your Interests</Text>
                 <Text style = {styles.subtext}>(Separate Them by Clicking 'return')</Text>
