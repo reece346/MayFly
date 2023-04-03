@@ -31,8 +31,9 @@ const showConfirmDialog = () => {
             {
                 text: "Yes",
                 onPress: () => {
-                    logOutCurrentUser()
-                    RootNavigation.navigate("Login");
+                    logOutCurrentUser().then(
+                        RootNavigation.navigate("Login")
+                    )
                 },
             },
             {
