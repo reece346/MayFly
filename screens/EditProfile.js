@@ -34,15 +34,15 @@ export default function EditProfile(){
                     <Image style={{height:'100%', width:'100%', borderRadius:60}} source={require('./images/standardpfp.png')}/>
                 </View>
                 <View style={styles.profileNameContainer}>
-                   <Text style={{fontSize:20,lineheight:50,fontWeight:'bold'}}>
+                   <Text style={{fontSize:20,fontWeight:'bold'}}>
                         {getActiveUser().displayName}
                     </Text>
                 </View>
-                <View style={styles.MayFlySinceContainer}>
-                   <Text style={{fontSize:15,lineheight:50}}>
+                <View style={styles.friendsCounterContainer}>
+                   <Text style={{fontSize:15}}>
                         Friends:
                     </Text>
-                    <Text style={{fontSize:15,lineheight:50, left: 25}}>
+                    <Text style={{fontSize:15, left: 25}}>
                     {getActiveUser().friendIDs.length-1}
                     </Text>
                 </View>
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
         left: 145,
         alignItems:'center',
     },
-    MayFlySinceContainer:{
+    friendsCounterContainer:{
         position:'absolute',
         top: 85,
         left: 138,
