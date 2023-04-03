@@ -1,12 +1,15 @@
-import { StatusBar } from 'expo-status-bar';
-import React, { useState} from 'react';
-import {StyleSheet,Text,View,TextInput,Button,Image} from 'react-native';
-import * as RootNavigation from '../RootNavigation';
+
 import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, set, onValue, child, get, push } from 'firebase/database';
 import { getAuth} from 'firebase/auth';
 import {getUserByID, updateUser} from '../firebaseConfig.js';
 import { getActiveUser } from './LoginScreen';
+import { StatusBar } from 'expo-status-bar';
+import React, { useState } from 'react';
+import {StyleSheet,Text,ScrollView,View,TextInput,Button, Alert, Image} from 'react-native';
+import * as RootNavigation from '../RootNavigation';
+import User from '../user';
+import {createUser} from '../firebaseConfig';
 
 export default function EditProfile(){
     const [phoneNum, setPhoneNum] = useState('');
@@ -14,11 +17,11 @@ export default function EditProfile(){
     const [userName, setUserName] = useState('');
     const [interests, setInterests] = useState([]);
 
-    buttonClick = async() => {
-            let thisUser = getActiveUser(userName, 0, null, phoneNum, interests, null)
-            await updateUser(thisUser);
-        return;
-    }
+    editUser = () => {
+            let thisUser = getActiveUser(displayName, 0, null, userName, phoneNum, "", interests, null);
+            updateUser(thisUser);
+            RootNavigation.navigate("Profile");
+}
 
     return (
         <View style={styles.container}>
@@ -64,19 +67,20 @@ export default function EditProfile(){
                     placeholderTextColor= 'gray' 
                     onChangeText={(val) => setUserName(val)}/>
                 <View style={styles.text}>
-                    <Text style = {styles.text}>Edit Your Interests</Text>
+                <Text style = {styles.text}>Edit Your Interests</Text>
+                <Text style = {styles.subtext}>(Separate Them by Clicking 'return')</Text>
                 </View>
                 <TextInput 
-                    style ={styles.input} 
-                    multiline
-                    placeholder = {'ex. Fishing\nex. Archery'}
-                    placeholderTextColor= 'gray' 
-                    onChangeText={(val) => setInterests(val.split(/\r?\n/))}/>
+                        style ={styles.input} 
+                        multiline
+                        placeholder = {'ex. Fishing\nex. Archery'}
+                        placeholderTextColor= 'gray' 
+                        onChangeText={(val) => setInterests(val.split(/\r?\n/))}/>
                 
                 <Button style ={{padding: 8}}
                         title='Submit'
                         color = 'white'
-                        onPress={() => {buttonClick()}}
+                        onPress={() => {editUser()}}
                 ></Button>
             </View>
         </View>
