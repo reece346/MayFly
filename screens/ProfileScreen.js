@@ -6,7 +6,7 @@ import { getActiveUser } from './LoginScreen';
 
 export default function Profile() {
     interestArray = [];
-    interestArray = getActiveUser().interests.join(",");
+    interestArray = getActiveUser().interests.join(" , ");
     favoriteFriend = [];
     displayNameSaved = getActiveUser().displayName;
     numberOfFriends = getActiveUser().friendIDs.length-1;
