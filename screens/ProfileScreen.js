@@ -23,20 +23,20 @@ export default function Profile() {
                     <Image style={{height:'100%', width:'100%', borderRadius:60}} source={require('./images/standardpfp.png')}/>
                 </View>
                 <View style={styles.profileNameContainer}>
-                   <Text style={{fontSize:20,lineheight:50,fontWeight:'bold'}}>
+                   <Text style={{fontSize:20,lineHeight:50,fontWeight:'bold'}}>
                         {displayNameSaved}
                     </Text>
                 </View>
                 <View style={styles.userNameContainer}>
-                   <Text style={{fontSize:16,lineheight:50}}>
+                   <Text style={{fontSize:16,lineHeight:50}}>
                         {displayNameSaved}
                     </Text>
                 </View>
                 <View style={styles.MayFlySinceContainer}>
-                   <Text style={{fontSize:15,lineheight:50}}>
+                   <Text style={{fontSize:15,lineHeight:50}}>
                         Friends:
                     </Text>
-                    <Text style={{fontSize:15,lineheight:50, left: 25}}>
+                    <Text style={{fontSize:15,lineHeight:50, left: 25}}>
                         {numberOfFriends}
                     </Text>
                 </View>
@@ -130,10 +130,7 @@ const styles = StyleSheet.create({
         top: 200,
         left: 30
     },
-    LinkedAccountsHeader:{
-        top: 375,
-        left: 30
-    },
+
     InstagramButton:{
         position:'absolute',
         alignItems:'left',
