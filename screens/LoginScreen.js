@@ -6,6 +6,7 @@ import User from "../user";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { async } from "@firebase/util";
 import { updateCurrentUser } from "firebase/auth";
+import { Platform } from "react-native";
 
 let userTest = {};
 
@@ -125,8 +126,8 @@ export default function LoginScreen(){
                 placeholder = 'ex. 8037779311'
                 placeholderTextColor= 'gray' 
                 onChangeText={(val) => setPhoneNum(val)}
-                keyboardType = 'number-pad'
-                maxLength={11}
+                keyboardType = {Platform.OS === 'ios' ? "number-pad" : "numeric"}
+                maxLength={10}
                 />
                 <TouchableOpacity style = {styles.button}
                     onPress={() => {login()}}>

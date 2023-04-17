@@ -1,9 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import {StyleSheet,Text,ScrollView,View,TextInput,Button, Alert} from 'react-native';
+import {StyleSheet,Text,ScrollView,View,TextInput,Button, Alert, TouchableOpacity} from 'react-native';
 import * as RootNavigation from '../RootNavigation';
 import User from '../user';
 import {createUser} from '../firebaseConfig';
+import { Platform } from 'react-native';
 
 export default function LogOutScreen(){
     const [phoneNum, setPhoneNum] = useState('');
@@ -34,8 +35,8 @@ export default function LogOutScreen(){
                         placeholder = 'ex. 8037779311'
                         placeholderTextColor= 'gray' 
                         onChangeText={(val) => setPhoneNum(val)}
-                        keyboardType = 'number-pad'
-                        maxLength={11}/>
+                        keyboardType = {Platform.OS === 'ios' ? "number-pad" : "numeric"}
+                        maxLength={10}/>
 
                     <Text style = {styles.text}>Enter Full Name</Text>
                     <TextInput 
@@ -69,13 +70,18 @@ export default function LogOutScreen(){
                         placeholder = {'ex. imgur'}
                         placeholderTextColor= 'gray' />
 
-                    <Button style ={styles.buttonStyle}
+                    <View>
+                        <TouchableOpacity style ={styles.buttonStyle}
                             title='Submit'
                             testID='submitButton'
                             color = 'white'
-                            onPress={() => {submitNewUser()}}>
-
-                    </Button>
+                            onPress={() => {submitNewUser()}}
+                        >
+                            <Text style={{color: 'white'}}>
+                                Submit
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </ScrollView>
         </View>
@@ -91,7 +97,12 @@ const styles = StyleSheet.create({
         justifyCOntent:'center',
     },
     buttonStyle:{
-        padding: 8,
+        width: '40%',
+        backgroundColor : '#5D5F82',
+        alignItems: 'center',
+        alignSelf : 'center',
+        margin: 10,
+        padding: 8
     },
     input:{
         alignSelf: 'center',
