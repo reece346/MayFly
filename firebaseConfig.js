@@ -194,4 +194,20 @@ export async function removeMessage(messageID, chatID) {
 	return;
 }
 
+export async function getUsersInChat(chatID) {
+	var users = [];
+	const userRef = ref(database, 'users/');
+	return get(userRef).then((snapshot) => {
+		snapshot.forEach((data) => {
+			const val = data.val();
+			if (val.currentChatID == chatID) {
+				users.push(val.key);
+			}
+				
+		});
+		return users;
+	});
+}
+
+
 module.exports.app = app;

@@ -1,6 +1,6 @@
 import User from '../user.js';
 import Message from '../message.js';
-import {getUserByID, updateUser, getUserByPhoneNumber, createUser, sendMessage, getMessageByID, getMessagesByUser, removeUser, removeMessage} from '../firebaseConfig.js';
+import {getUserByID, updateUser, getUserByPhoneNumber, createUser, sendMessage, getMessageByID, getMessagesByUser, removeUser, removeMessage, getUsersInChat} from '../firebaseConfig.js';
 
 var INITUSER;
 var NEWUSER;
@@ -61,6 +61,13 @@ describe("Firebase Realtime Database Access", () => {
 			}
 		});
 		expect(containsMessage).toBe(true);
+	});
+	it("Should get all users from a chat", async () => {
+		const users = await getUsersInChat('test2');
+		users.forEach((user) => {
+			console.log(user);
+		});
+		expect(users.length).toBeGreaterThan(0);
 	});
 });
 
