@@ -18,7 +18,7 @@ export default function Profile() {
                         <Image style={{height:60, width:60, borderWidth:2, borderRadius: 60, borderColor: 'grey'}} source={require('./images/standardpfp.png')}/>
                     </View>
                     <View style={styles.profileNameContainer}>
-                        <Text style={{fontSize:20,fontWeight:'bold'}}>
+                        <Text style={{fontSize:20,fontWeight:'bold', paddingBottom: 5}}>
                             {displayNameSaved}
                         </Text>
                         <Text style={{fontSize:16,}}>
@@ -26,10 +26,10 @@ export default function Profile() {
                         </Text>
                     </View>
                     <View style={styles.MayFlySinceContainer}>
-                        <Text style={{fontSize:15,}}>
+                        <Text style={{fontSize:17, fontWeight: 'bold'}}>
                             Friends: {numberOfFriends}
                         </Text>
-                    </View>Merge
+                    </View>
                     <TouchableOpacity onPress={() => {RootNavigation.navigate("EditProfile")}}>
                         <Image style={{height:20, width:20, color: 'black'}} source={require('./images/editProfileIcon.png')}/>
                     </TouchableOpacity>
