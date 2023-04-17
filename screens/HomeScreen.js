@@ -14,7 +14,7 @@ import PeopleDropDown from '../PeopleDropDown';
 import Timer from '../Timer';
 
 
-let hamburger =[{id:1, name: 'View Profile'}, {id:2, name:'Friends'}, {id:3, name:'Add Friends'}, {id:4, name:'Logout'}]
+let hamburger =[{id:1, name: 'View Profile'}, {id:2, name:'Friends'},{id:4, name:'Logout'}]
 let users =[{id:1, name: 'User1'}, {id:2, name:'User2'}, {id:3, name:'User3'}, {id:4, name:'User4'}, {id:5, name:'Leave Chat'}]
 
 let chatDuration = 86400;
