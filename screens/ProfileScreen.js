@@ -29,7 +29,7 @@ export default function Profile() {
                         <Text style={{fontSize:15,}}>
                             Friends: {numberOfFriends}
                         </Text>
-                    </View>
+                    </View>Merge
                     <TouchableOpacity onPress={() => {RootNavigation.navigate("EditProfile")}}>
                         <Image style={{height:20, width:20, color: 'black'}} source={require('./images/editProfileIcon.png')}/>
                     </TouchableOpacity>
