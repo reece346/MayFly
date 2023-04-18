@@ -8,24 +8,24 @@ var NEWMSG;
 
 describe("Firebase Realtime Database Access", () => {
 	it("Should obtain the test user by ID", async () => {
-		//console.log("Grabbing 'testuser' from the database...");
+		//console.log("Testing: Grabbing 'testuser' from the database...");
 		let user = await getUserByID('testuser');
 		INITUSER = user;
 		//console.log(JSON.stringify(user));
 		expect(user.displayName).toBe("Chad Thompson");
 	});
 	it("Should recieve the test user by phone number", async () => {
-		//console.log("Grabbing '+16505553434' from the database...");
+		//console.log("Testing: Grabbing '+16505553434' from the database...");
 		let user = await getUserByPhoneNumber("6505553434");
 		expect(user.displayName).toBe("Chad Thompson");
 	});
 	it("Should edit the test user's name", async () => {
 		let user = await getUserByID('testuser');
-		//console.log("Obtained user: " + user.displayName);
+		//console.log("Testing: Obtained user: " + user.displayName);
 		user.displayName = "Brad Thompson";
-		//console.log("Updating username");
+		//console.log("Testing: Updating username");
 		await updateUser(user);
-		//console.log("Done, grabbing user again");
+		//console.log("Testing: Done, grabbing user again");
 		let updatedUser = await getUserByID('testuser');
 		expect(updatedUser.displayName).toBe("Brad Thompson");
 	});
@@ -63,9 +63,9 @@ describe("Firebase Realtime Database Access", () => {
 		expect(containsMessage).toBe(true);
 	});
 	it("Should get all users from a chat", async () => {
-		const users = await getUsersInChat('test2');
+		const users = await getUsersInChat('test');
 		users.forEach((user) => {
-			console.log(user);
+			console.log("Testing: " + user);
 		});
 		expect(users.length).toBeGreaterThan(0);
 	});
