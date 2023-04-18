@@ -3,9 +3,10 @@ import { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, Text, View, Modal, TouchableOpacity, TextInput, RefreshControl, TouchableWithoutFeedback, Button, KeyboardAvoidingView } from 'react-native';
 import DropDown from '../DropDown';
 import { initializeApp } from 'firebase/app';
-import { sendMessage as sendMSG } from '../firebaseConfig';
+import { getChatByChatID, sendMessage as sendMSG } from '../firebaseConfig';
 import Message from '../message'
-import { getDatabase, onValue, ref, set, push, onChildAdded } from 'firebase/database';
+import Chat from '../chat'
+import { getDatabase, onValue, ref, set, push, onChildAdded, child, get } from 'firebase/database';
 import { getAuth, RecaptchaVerifier } from 'firebase/auth';
 import { render } from 'react-dom';
 import { getActiveUser } from './LoginScreen';
@@ -24,6 +25,9 @@ let systemTimeInSecs = (systemHours * 60 * 60) + (systemMinutes * 60) + systemSe
 
 //TODO: 21600 must be replaced with timeCreated from database
 let chatDuration = (86400 - (systemTimeInSecs - 21600));    
+
+const userChatID = getActiveUser().currentChatID;
+//console.log("Users Chat ID: " + userChatID);
 
 export function chatMessage ({item}) {
   return (
@@ -46,6 +50,7 @@ export default function HomeScreen() {
   //TO-DO: change each reference to be dependent on user's chatID
   const database = getDatabase(app);
   const messagesRef = ref(database, 'messages/test2')
+  const chatRef = ref(database, 'chats/' + userChatID);
 
   useEffect(()=> {
     onChildAdded(messagesRef, (snapshot) => {
@@ -59,6 +64,13 @@ export default function HomeScreen() {
 	      setMessageList((messageList) => [data, ...messageList]);
       });
     })
+    onValue(chatRef, (snapshot) => {
+      const val = snapshot.val();
+      const timeCreated = val.timeCreated;
+      console.log("Time Created: " + timeCreated);
+    }, (error) => {
+      console.log(error);
+    });
   },[])
 
   const [selectedItem, setSelectedItem] = useState(null)

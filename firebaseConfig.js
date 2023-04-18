@@ -178,6 +178,25 @@ export async function sendMessage(message, chatID) {
 	return;
 }
 
+export async function getChatByChatID(chatID) {
+	const dbRef = ref(database);
+	return get(child(dbRef, 'chats/')).then((snapshot) => {
+		let chat, found = false;
+		snapshot.forEach((data) => {
+			if (data.val().chatID == chatID) {
+				const dataVal = data.val();
+				chat = new Chat(data.key, dataVal.isActive, dataVal.memberID, dataVal.expireTime, dataVal.messagesID, dataVal.timeCreated);
+				found = true;
+			}
+		})
+		if(found)
+			return chat;
+		return 0;
+	}).catch((error) => {
+		console.error(error);
+	});
+}
+
 export async function removeUser(userID) {
 	const userRef = ref(database, 'users/' + userID);
 	remove(userRef).catch((error) => {
