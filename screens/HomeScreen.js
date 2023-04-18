@@ -65,6 +65,7 @@ export default function HomeScreen() {
       count++;
     }
     console.log("UsersNames Array: " + usersNames);
+    usersNames.push({id:count, name:"Leave Chat"})
     setUsersNames(usersNames);
   }
 

@@ -63,16 +63,16 @@ const onSelectedItem = (val) =>{
             >
                 <Image style={styles.dropDownStyle} source={require('./screens/images/hamburger.png')} />
             </TouchableOpacity>
-            {showOption && (<View>
+                {showOption && (<View>
                 {data.map((val, i) => {
-                    return(
-                        <TouchableOpacity
+                return(
+                    <TouchableOpacity
                             style = {styles.optionsStyle}
                             key={String(i)}
                             onPress={()=>onSelectedItem(val)}
-                        >
-                            <Text style ={{fontSize: 10, color: 'white'}}>{val.name}</Text> 
-                        </TouchableOpacity> //add animation?
+                    >
+                        <Text style ={{fontSize: '15%', color: 'white'}}>{val.name}</Text> 
+                    </TouchableOpacity> //add animation?
                     )
                 })}
             </View>)}
@@ -92,6 +92,7 @@ const styles = StyleSheet.create({
     optionsStyle:{
         marginTop: 0,
         padding: 8,
+        width:'200%',
         backgroundColor: '#5D5F82'
     }
 });

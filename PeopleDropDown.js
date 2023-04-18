@@ -76,7 +76,7 @@ const PeopleDropDown = ({
                             key={String(i)}
                             onPress={()=>onSelectedItem(val)}
                         >
-                            <Text style ={{fontSize: 10, color: 'white'}}>{val.name}</Text> 
+                            <Text style ={{fontSize: '15%', color: 'white'}}>{val.name}</Text> 
                         </TouchableOpacity> //add animation?
                     )
                 })}
