@@ -213,4 +213,23 @@ export async function removeMessage(messageID, chatID) {
 	return;
 }
 
+export async function getUsersInChat(chatID) {
+	var users = [];
+	const userRef = ref(database, 'users/');
+	return get(userRef).then((snapshot) => {
+		snapshot.forEach((data) => {
+			const val = data.val();
+			console.log('User ID:', data.key);
+      		console.log('Current chat ID:', val.currentChatID);
+			if (val.currentChatID === chatID) {
+				console.log('Adding user to array:', data.key);
+				users.push(data.key);
+			}
+				
+		});
+		console.log('Users in chat:', users);
+		return users;
+	});
+}
+
 module.exports.app = app;

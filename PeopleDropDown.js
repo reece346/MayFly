@@ -95,6 +95,7 @@ const styles = StyleSheet.create({
     },
     optionsStyle:{
         marginTop: 0,
+        width: '100%',
         padding: 8,
         backgroundColor: '#5D5F82'
     }

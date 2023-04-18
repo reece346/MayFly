@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, Text, View, Modal, TouchableOpacity, TextInput, RefreshControl, TouchableWithoutFeedback, Button, KeyboardAvoidingView } from 'react-native';
 import DropDown from '../DropDown';
 import { initializeApp } from 'firebase/app';
-import { getChatByChatID, sendMessage as sendMSG } from '../firebaseConfig';
+import { getChatByChatID, getUsersInChat, sendMessage as sendMSG } from '../firebaseConfig';
 import Message from '../message'
 import Chat from '../chat'
 import { getDatabase, onValue, ref, set, push, onChildAdded, child, get } from 'firebase/database';
@@ -15,8 +15,7 @@ import PeopleDropDown from '../PeopleDropDown';
 import Timer from '../Timer';
 
 
-let hamburger =[{id:1, name: 'View Profile'}, {id:2, name:'Friends'},{id:4, name:'Logout'}]
-let users =[{id:1, name: 'User1'}, {id:2, name:'User2'}, {id:3, name:'User3'}, {id:4, name:'User4'}, {id:5, name:'Leave Chat'}]
+let hamburger = [{id:1, name:'View Profile'}, {id:2, name:'Friends'},{id:3, name:'Logout'}]
 
 let systemSeconds = new Date().getSeconds(); 
 let systemMinutes = new Date().getMinutes();
@@ -45,6 +44,8 @@ export default function HomeScreen() {
   const [isRefreshing, setRefreshing] = useState(false);
   const [testMessage, setTestMessage] = useState('wrong');
   const [message, setMessage] = useState('')
+  const [users, setUsers] = useState([]);
+  const [usersNames, setUsersNames] = useState([]);
   // const [message, setMessage] = useState('')
   
   //TO-DO: change each reference to be dependent on user's chatID
@@ -52,7 +53,30 @@ export default function HomeScreen() {
   const messagesRef = ref(database, 'messages/test2')
   const chatRef = ref(database, 'chats/' + userChatID);
 
+
+  async function populateUsersNames() {
+    const userIDs = await getUsers();
+    let count = 0;
+    const usersNames = [];
+    for (const userID of userIDs) {
+      const user = await getUserByID(userID);
+      usersNames.push({id:count, name:user.username});
+      console.log("id: " + count + "name: " + user.username)
+      count++;
+    }
+    console.log("UsersNames Array: " + usersNames);
+    setUsersNames(usersNames);
+  }
+
+  async function getUsers() {
+    const chatID = 'test';
+    const users = await getUsersInChat(chatID);
+    return users;
+  }
+
   useEffect(()=> {
+    populateUsersNames();
+
     onChildAdded(messagesRef, (snapshot) => {
       const currData = snapshot.val();
       getUserByID(currData.authorID).then(user => {
@@ -64,6 +88,7 @@ export default function HomeScreen() {
 	      setMessageList((messageList) => [data, ...messageList]);
       });
     })
+
     onValue(chatRef, (snapshot) => {
       const val = snapshot.val();
       if(val) {
@@ -130,7 +155,7 @@ export default function HomeScreen() {
           </View>
 
           <PeopleDropDown
-            data={users}
+            data={usersNames}
             onSelect={onSelect}
             value={selectedItem}
           />
