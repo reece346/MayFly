@@ -66,8 +66,10 @@ export default function HomeScreen() {
     })
     onValue(chatRef, (snapshot) => {
       const val = snapshot.val();
-      const timeCreated = val.timeCreated;
-      console.log("Time Created: " + timeCreated);
+      if(val) {
+        const timeCreated = val.timeCreated;
+        console.log("Time Created: " + timeCreated);
+      }
     }, (error) => {
       console.log(error);
     });
