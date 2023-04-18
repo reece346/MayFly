@@ -17,7 +17,13 @@ import Timer from '../Timer';
 let hamburger =[{id:1, name: 'View Profile'}, {id:2, name:'Friends'},{id:4, name:'Logout'}]
 let users =[{id:1, name: 'User1'}, {id:2, name:'User2'}, {id:3, name:'User3'}, {id:4, name:'User4'}, {id:5, name:'Leave Chat'}]
 
-let chatDuration = 86400;
+let systemSeconds = new Date().getSeconds(); 
+let systemMinutes = new Date().getMinutes();
+let systemHours = new Date().getHours();
+let systemTimeInSecs = (systemHours * 60 * 60) + (systemMinutes * 60) + systemSeconds;
+
+//TODO: 21600 must be replaced with timeCreated from database
+let chatDuration = (86400 - (systemTimeInSecs - 21600));    
 
 export function chatMessage ({item}) {
   return (
