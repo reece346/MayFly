@@ -62,21 +62,26 @@ const PeopleDropDown = ({
   
     return (
         <View style = {styles.container}>
-            <Modal visible={isReportVisible} transparent={false} style={{width: '100%', height: '100%'}}>
-                <TouchableWithoutFeedback style={{width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,1)', justifyContent: 'center', alignItems: 'center'}} onPress={()=>{setIsReportVisible(false)}}>
-                    <View style={{width: '90%', height: '30%', justifyContent: 'center', alignItems: 'center'}}>
-                        <Text>Report person?</Text>
+            <Modal visible={isReportVisible} transparent={true}>
+                <TouchableWithoutFeedback onPress={()=>{setIsReportVisible(false)}}>
+                    <View style={styles.modalContainer}>
+                        <View style={styles.reportButtonsContainer}>
+                            <Text style={{color: 'white'}}>Report person?</Text>
 
-                        <View>
-                            <TouchableOpacity>
-                                <Text>yes</Text>
-                            </TouchableOpacity>
-                            
-                            <TouchableOpacity>
-                                <Text>no</Text>
-                            </TouchableOpacity>
+                            <View style={{flexDirection: 'row'}}>
+                                <View style={styles.reportButton}>
+                                    <TouchableOpacity onPress={()=>{}}>
+                                        <Text>yes</Text>
+                                    </TouchableOpacity>
+                                </View>
+                                
+                                <View style={styles.reportButton}>
+                                    <TouchableOpacity onPress={()=>{setIsReportVisible(false)}}>
+                                        <Text>no</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
                         </View>
-
                     </View>
                 </TouchableWithoutFeedback>
             </Modal>
@@ -116,6 +121,27 @@ const styles = StyleSheet.create({
         width: '100%',
         padding: 8,
         backgroundColor: '#5D5F82'
+    },
+    modalContainer:{
+        width: '100%', 
+        height: '100%', 
+        justifyContent: 'center', 
+        alignItems: 'center',
+    },
+    reportButtonsContainer:{
+        width: '85%',
+        height: '20%',
+        backgroundColor: '#3A3B50',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 15,
+    },
+    reportButton:{
+        margin: '2%',
+        backgroundColor: '#d7d7d7',
+        borderRadius: 5,
+        paddingHorizontal: 20,
+        paddingVertical: 10
     }
 });
   
