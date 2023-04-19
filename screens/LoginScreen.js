@@ -103,6 +103,7 @@ export default function LoginScreen(){
     useEffect(() => {
         getCurrentUser().then(
             user => {
+                console.log('user is: ', user)
                 if(user.displayName){
                     updateActiveUser(user)
                     user.currentChatID ?

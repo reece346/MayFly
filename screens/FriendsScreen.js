@@ -8,6 +8,7 @@ import { getActiveUser, updateActiveUser } from './LoginScreen';
 import User from '../user';
 import { updateUser } from '../firebaseConfig';
 import { hydrate } from 'react-dom';
+import { Platform } from 'react-native';
 
 
 
@@ -92,7 +93,7 @@ const FriendScreen = () => {
                         placeholder={'Username or Phone Number'}
                         placeholderTextColor={'#666'}
                         onChangeText={(val) => setPhoneNum(val)}
-                        keyboardType='number-pad'
+                        keyboardType = {Platform.OS === 'ios' ? "number-pad" : "numeric"}
                         maxLength={10}
                         clearButtonMode='always'
                         />

@@ -12,6 +12,7 @@ import { getActiveUser } from './LoginScreen';
 import {app, getUserByID} from '../firebaseConfig';
 import PeopleDropDown from '../PeopleDropDown';
 import Timer from '../Timer';
+import NoChatScreen from './NoChatScreen';
 
 
 let hamburger =[{id:1, name: 'View Profile'}, {id:2, name:'Friends'},{id:4, name:'Logout'}]
@@ -55,6 +56,12 @@ export default function HomeScreen() {
     })
   },[])
 
+  useEffect(() => {
+    let user = getActiveUser()
+    if(user.currentChatID == ""){
+      RootNavigation.navigate('NoChatScreen');
+    }
+  }, [])
   const [selectedItem, setSelectedItem] = useState(null)
 
   const onSelect = (item) =>{
