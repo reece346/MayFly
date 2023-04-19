@@ -1,5 +1,5 @@
 import React, {Component, useState} from "react";
-import {View, Button, Text, StyleSheet, TouchableOpacity, Image, Alert} from "react-native";
+import {View, Button, Text, StyleSheet, TouchableOpacity, Image, Alert, Modal, TouchableWithoutFeedback} from "react-native";
 import * as RootNavigation from './RootNavigation';
 import { getActiveUser } from './screens/LoginScreen';
 import { updateUser } from './firebaseConfig';
@@ -10,7 +10,7 @@ const PeopleDropDown = ({
     onSelect = () =>{}
 }) => {
     const [showOption, setShowOption] = useState(false);
-
+    const [isReportVisible, setIsReportVisible] = useState(false);
     const [showBox, setShowBox] = useState(true);
 
     //Confirmation of leaving a chat
@@ -62,6 +62,29 @@ const PeopleDropDown = ({
   
     return (
         <View style = {styles.container}>
+            <Modal visible={isReportVisible} transparent={true}>
+                <TouchableWithoutFeedback onPress={()=>{setIsReportVisible(false)}}>
+                    <View style={styles.modalContainer}>
+                        <View style={styles.reportButtonsContainer}>
+                            <Text style={{color: 'white'}}>Report person?</Text>
+
+                            <View style={{flexDirection: 'row'}}>
+                                <View style={styles.reportButton}>
+                                    <TouchableOpacity onPress={()=>{}}>
+                                        <Text>yes</Text>
+                                    </TouchableOpacity>
+                                </View>
+                                
+                                <View style={styles.reportButton}>
+                                    <TouchableOpacity onPress={()=>{setIsReportVisible(false)}}>
+                                        <Text>no</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </View>
+                    </View>
+                </TouchableWithoutFeedback>
+            </Modal>
             <TouchableOpacity 
                 activeOpacity={0.8}
                 onPress={() => setShowOption(!showOption)}
@@ -74,7 +97,7 @@ const PeopleDropDown = ({
                         <TouchableOpacity
                             style = {styles.optionsStyle}
                             key={String(i)}
-                            onPress={()=>onSelectedItem(val)}
+                            onPress={()=>setIsReportVisible(true)}
                         >
                             <Text style ={{fontSize: '15%', color: 'white'}}>{val.name}</Text> 
                         </TouchableOpacity> //add animation?
@@ -98,6 +121,27 @@ const styles = StyleSheet.create({
         width: '100%',
         padding: 8,
         backgroundColor: '#5D5F82'
+    },
+    modalContainer:{
+        width: '100%', 
+        height: '100%', 
+        justifyContent: 'center', 
+        alignItems: 'center',
+    },
+    reportButtonsContainer:{
+        width: '85%',
+        height: '20%',
+        backgroundColor: '#3A3B50',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 15,
+    },
+    reportButton:{
+        margin: '2%',
+        backgroundColor: '#d7d7d7',
+        borderRadius: 5,
+        paddingHorizontal: 20,
+        paddingVertical: 10
     }
 });
   
