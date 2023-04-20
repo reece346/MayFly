@@ -51,7 +51,7 @@ export default function HomeScreen() {
   //TO-DO: change each reference to be dependent on user's chatID
   const database = getDatabase(app);
   const messagesRef = ref(database, 'messages/test2')
-  const chatRef = ref(database, 'chats/' + userChatID);
+  const chatRef = ref(database, 'chats/test');
 
 
   async function populateUsersNames() {
