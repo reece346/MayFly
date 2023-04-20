@@ -96,7 +96,6 @@ export default function HomeScreen() {
         console.log("Time Created: " + timeCreated);
         setChatDuration(86400 - (systemTimeInSecs - timeCreated)); 
         console.log("Chat Duration: " + chatDuration);
-
         const messageListLoc = val.messageList;
         setMessageListLoc(messageListLoc);
         console.log("Message List Location: " + messageListLoc);
