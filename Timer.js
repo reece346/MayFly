@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {Text} from 'react-native';
 import * as RootNavigation from './RootNavigation';
+import createChat from './firebaseConfig';
+import MessageList from './messageList';
 
 function Timer({maxRange}){
     const [counter,setCounter] = useState(maxRange);
@@ -10,6 +12,11 @@ function Timer({maxRange}){
             setTimeout(()=>setCounter(counter-1), 1000);
         }
         else if(counter == 0){
+            // Create 4 new messageLists for all messages to be placed in  for each chat
+            for (i=0;i<5;i++)  {
+                let thisMessageList = new MessageList(0);
+                createMessageList(thisMessageList);
+            }
             RootNavigation.navigate("NoChatScreen");
         }
     },[counter])

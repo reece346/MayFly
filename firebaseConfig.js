@@ -178,6 +178,15 @@ export async function sendMessage(message, chatID) {
 	return;
 }
 
+export async function createMessageList(messageList) {
+	const dbRef = ref(database);
+	delete messageList.messageListID;
+	push(child(dbRef, 'messages'), messageList).catch((error) => { // Generate new messageListID
+		console.error(error);
+	}); 
+	return;
+}
+
 export async function getChatByChatID(chatID) {
 	const dbRef = ref(database);
 	return get(child(dbRef, 'chats/')).then((snapshot) => {
@@ -185,7 +194,8 @@ export async function getChatByChatID(chatID) {
 		snapshot.forEach((data) => {
 			if (data.val().chatID == chatID) {
 				const dataVal = data.val();
-				chat = new Chat(data.key, dataVal.isActive, dataVal.memberID, dataVal.expireTime, dataVal.messagesID, dataVal.timeCreated);
+				chat = new Chat(data.key, dataVal.messageList, dataVal.timeCreated);
+				console.log("Found a chat with this ID");
 				found = true;
 			}
 		})
@@ -219,13 +229,12 @@ export async function getUsersInChat(chatID) {
 	return get(userRef).then((snapshot) => {
 		snapshot.forEach((data) => {
 			const val = data.val();
-			console.log('User ID:', data.key);
-      		console.log('Current chat ID:', val.currentChatID);
+			//console.log('User ID:', data.key);
+      		//console.log('Current chat ID:', val.currentChatID);
 			if (val.currentChatID === chatID) {
-				console.log('Adding user to array:', data.key);
+				//console.log('Adding user to array:', data.key);
 				users.push(data.key);
 			}
-				
 		});
 		console.log('Users in chat:', users);
 		return users;

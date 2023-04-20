@@ -20,9 +20,6 @@ let systemSeconds = new Date().getSeconds();
 let systemMinutes = new Date().getMinutes();
 let systemHours = new Date().getHours();
 let systemTimeInSecs = (systemHours * 60 * 60) + (systemMinutes * 60) + systemSeconds;
-   
-const userChatID = getActiveUser().currentChatID;
-//console.log("Users Chat ID: " + userChatID);
 
 export function chatMessage ({item}) {
   return (
@@ -42,13 +39,21 @@ export default function HomeScreen() {
   const [message, setMessage] = useState('')
   const [users, setUsers] = useState([]);
   const [usersNames, setUsersNames] = useState([]);
-  const [chatDuration, setChatDuration] = useState(86400);
+  const [chatDuration, setChatDuration] = useState();
+  const [chatID, setChatID] = useState(getActiveUser().currentChatID);
+  const [messageListLoc, setMessageListLoc] = useState(getChatByChatID(chatID).messageList);
+  //console.log("MessageList Location: " + getChatByChatID(getActiveUser().currentChatID).messageList)
+
   // const [message, setMessage] = useState('')
-  
+
+  //console.log("Users Chat ID: " + chatID);
+
   //TO-DO: change each reference to be dependent on user's chatID
   const database = getDatabase(app);
-  const messagesRef = ref(database, 'messages/test2')
-  const chatRef = ref(database, 'chats/test');
+  const messagesRef = ref(database, 'messages/' + messageListLoc);
+  //console.log("Message List Location: " + messageListLoc);
+  const chatRef = ref(database, 'chats/' + chatID);
+  //console.log("Chat ID: " + chatID);
 
   async function populateUsersNames() {
     const userIDs = await getUsers();
@@ -57,16 +62,15 @@ export default function HomeScreen() {
     for (const userID of userIDs) {
       const user = await getUserByID(userID);
       usersNames.push({id:count, name:user.username});
-      console.log("id: " + count + "name: " + user.username)
+      //console.log("id: " + count + "name: " + user.username)
       count++;
     }
-    console.log("UsersNames Array: " + usersNames);
+    //console.log("UsersNames Array: " + usersNames);
     usersNames.push({id:count, name:"Leave Chat"})
     setUsersNames(usersNames);
   }
 
   async function getUsers() {
-    const chatID = 'test';
     const users = await getUsersInChat(chatID);
     return users;
   }
@@ -76,10 +80,10 @@ export default function HomeScreen() {
     onChildAdded(messagesRef, (snapshot) => {
       const currData = snapshot.val();
       getUserByID(currData.authorID).then(user => {
-	      console.log("Current data: " + JSON.stringify(currData));
-	      console.log("Current message: " + currData.contents);
+	      //console.log("Current data: " + JSON.stringify(currData));
+	      //console.log("Current message: " + currData.contents);
 	      const author = user.displayName;
-	      console.log("Current author: " + author);
+	      //console.log("Current author: " + author);
 	      const data = {message: currData.contents, displayName: author};
 	      setMessageList((messageList) => [data, ...messageList]);
       });
@@ -91,11 +95,16 @@ export default function HomeScreen() {
         const timeCreated = val.timeCreated;
         console.log("Time Created: " + timeCreated);
         setChatDuration(86400 - (systemTimeInSecs - timeCreated)); 
+        console.log("Chat Duration: " + chatDuration);
+
+        const messageListLoc = val.messageList;
+        setMessageListLoc(messageListLoc);
+        console.log("Message List Location: " + messageListLoc);
       }
     }, (error) => {
       console.log(error);
     });
-  },[chatDuration])
+  },[chatDuration, messageListLoc])
 
   const [selectedItem, setSelectedItem] = useState(null)
 
@@ -115,8 +124,9 @@ export default function HomeScreen() {
   const sendMessage = () => {
 	  if (message == '')
 		  return;
-	  const newMessage = new Message(0, getActiveUser().userID, Date.now(), message, {});
-	  sendMSG(newMessage, 'test2');
+    const newMessage = new Message(0, getActiveUser().userID, Date.now(), message, {});
+	  sendMSG(newMessage, messageListLoc);
+    console.log("Message List Location: " + messageListLoc);
 	  setMessage('');
   }
 
@@ -148,7 +158,7 @@ export default function HomeScreen() {
             onSelect={onSelect}
           />
           <View style={{borderRadius: 5, backgroundColor: '#d7d7d7', paddingHorizontal : 5, paddingVertical: 5, height: '27%', justifyContent: 'center', alignItems: 'center' }}>
-            <Timer maxRange={chatDuration}/>
+              <Timer maxRange={chatDuration}/>
           </View>
 
           <PeopleDropDown
