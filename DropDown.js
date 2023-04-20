@@ -2,6 +2,7 @@ import React, {Component, useState} from "react";
 import {View, Button, Text, StyleSheet, TouchableOpacity, Image, Alert} from "react-native";
 import * as RootNavigation from './RootNavigation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { updateActiveUser } from  './screens/LoginScreen';
 
 const DropDown =({
     data = [],
