@@ -14,17 +14,13 @@ import {app, getUserByID} from '../firebaseConfig';
 import PeopleDropDown from '../PeopleDropDown';
 import Timer from '../Timer';
 
-
 let hamburger = [{id:1, name:'View Profile'}, {id:2, name:'Friends'},{id:3, name:'Logout'}]
 
 let systemSeconds = new Date().getSeconds(); 
 let systemMinutes = new Date().getMinutes();
 let systemHours = new Date().getHours();
 let systemTimeInSecs = (systemHours * 60 * 60) + (systemMinutes * 60) + systemSeconds;
-
-//TODO: 21600 must be replaced with timeCreated from database
    
-
 const userChatID = getActiveUser().currentChatID;
 //console.log("Users Chat ID: " + userChatID);
 
