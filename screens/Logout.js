@@ -3,8 +3,9 @@ import React, { useState } from 'react';
 import {StyleSheet,Text,ScrollView,View,TextInput,Button, Alert, TouchableOpacity} from 'react-native';
 import * as RootNavigation from '../RootNavigation';
 import User from '../user';
-import {createUser} from '../firebaseConfig';
+import {createUser, getUserByUsername} from '../firebaseConfig';
 import { Platform } from 'react-native';
+import { getUserByPhoneNumber } from '../firebaseConfig';
 
 export default function LogOutScreen(){
     const [phoneNum, setPhoneNum] = useState('');
@@ -12,13 +13,32 @@ export default function LogOutScreen(){
     const [userName, setUserName] = useState('');
     const [interests, setInterests] = useState([]);
 
+    async function checkUsername(userName) {
+        const user =  await getUserByUsername(userName);
+        const nameOfUser = user.userName;
+        console.log(nameOfUser);
+        return nameOfUser;
+    }
+
+    async function checkPhoneNumber() {
+        const user =  await getUserByPhoneNumber(phoneNum);
+        const phoneOfUser = user.phoneNum;
+        console.log(user.phoneNum);
+        return phoneOfUser;
+    }
+
     submitNewUser = () => {
-        if(userName!= "" && phoneNum!= "" && interests != ""){
-            let thisUser = new User(displayName, 0, null, userName, phoneNum, "", interests, null)
-            createUser(thisUser);
-            RootNavigation.navigate("Login");
-        }
-	    else{
+        if(userName!= "" && phoneNum!= ""){
+            console.log("Username check: " + checkUsername(userName));
+            console.log("Number check: " + checkPhoneNumber(phoneNum));
+            if(checkUsername(userName) == userName && checkPhoneNumber(phoneNum) == phoneNum) {
+                return Alert.alert("Username or Phone Number already in the Database. Please Try Again");
+            } else {
+                let thisUser = new User(displayName, 0, null, userName, phoneNum, "", interests, null)
+                createUser(thisUser);
+                RootNavigation.navigate("Login");
+            }
+        } else {
             return Alert.alert("Invalid input. Make sure all the fields are filled out.");
         }
         return;
