@@ -228,7 +228,10 @@ export async function getUsersInChat(chatID) {
 	const userRef = ref(database, 'users/');
 	return get(userRef).then((snapshot) => {
 		snapshot.forEach((data) => {
+			console.log('data is: ', data)
 			const val = data.val();
+			console.log('val is: ', val)
+			console.log('chatID is: ', chatID)
 			//console.log('User ID:', data.key);
       		//console.log('Current chat ID:', val.currentChatID);
 			if (val.currentChatID === chatID) {

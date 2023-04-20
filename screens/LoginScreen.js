@@ -11,6 +11,7 @@ import { Platform } from "react-native";
 let userTest = {};
 
 export function getActiveUser(){
+    console.log('userTest is: ', userTest)
     return userTest;
 }
 
