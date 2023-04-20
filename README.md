@@ -16,7 +16,7 @@ Describe how to run Expo from the command line and how to view it on your phone
 
 # Deployment
 
-Generally just something saying how to build the APK from Expo
+Install expo go on oyur mobile device, then type `expo start` on the command line and scan the QR code with your device.
 
 # Testing
 
