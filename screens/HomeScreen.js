@@ -23,7 +23,7 @@ let systemHours = new Date().getHours();
 let systemTimeInSecs = (systemHours * 60 * 60) + (systemMinutes * 60) + systemSeconds;
 
 //TODO: 21600 must be replaced with timeCreated from database
-let chatDuration = (86400 - (systemTimeInSecs - 21600));    
+   
 
 const userChatID = getActiveUser().currentChatID;
 //console.log("Users Chat ID: " + userChatID);
@@ -46,13 +46,13 @@ export default function HomeScreen() {
   const [message, setMessage] = useState('')
   const [users, setUsers] = useState([]);
   const [usersNames, setUsersNames] = useState([]);
+  const [chatDuration, setChatDuration] = useState(86400);
   // const [message, setMessage] = useState('')
   
   //TO-DO: change each reference to be dependent on user's chatID
   const database = getDatabase(app);
   const messagesRef = ref(database, 'messages/test2')
   const chatRef = ref(database, 'chats/test');
-
 
   async function populateUsersNames() {
     const userIDs = await getUsers();
@@ -74,7 +74,6 @@ export default function HomeScreen() {
     const users = await getUsersInChat(chatID);
     return users;
   }
-
   useEffect(()=> {
     populateUsersNames();
 
@@ -95,11 +94,12 @@ export default function HomeScreen() {
       if(val) {
         const timeCreated = val.timeCreated;
         console.log("Time Created: " + timeCreated);
+        setChatDuration(86400 - (systemTimeInSecs - timeCreated)); 
       }
     }, (error) => {
       console.log(error);
     });
-  },[])
+  },[chatDuration])
 
   const [selectedItem, setSelectedItem] = useState(null)
 
