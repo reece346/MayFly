@@ -39,7 +39,7 @@ export default function HomeScreen() {
   const [message, setMessage] = useState('')
   const [users, setUsers] = useState([]);
   const [usersNames, setUsersNames] = useState([]);
-  const [chatDuration, setChatDuration] = useState();
+  const [chatDuration, setChatDuration] = useState(86400);
   const [chatID, setChatID] = useState(getActiveUser().currentChatID);
   const [messageListLoc, setMessageListLoc] = useState(getChatByChatID(chatID).messageList);
   //console.log("MessageList Location: " + getChatByChatID(getActiveUser().currentChatID).messageList)
