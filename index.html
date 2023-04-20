@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Your App Name - Screenshots</title>
+    <title>MayFly - Screenshots</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-      /* Add some basic styling to the page */
       body {
         font-family: Arial, sans-serif;
         margin: 0;
@@ -14,10 +13,25 @@
       h1, h2 {
         text-align: center;
       }
+      .screenshots {
+        display: flex; 
+        justify-content: center; 
+        flex-wrap: wrap; 
+        margin: 20px 0;
+      }
+      .screenshot-container {
+        margin: 10px;
+        text-align: center;
+        max-width: 30%;
+      }
       .screenshot {
-        margin: 20px auto;
         display: block;
         max-width: 100%;
+      }
+      figcaption {
+        text-align: center;
+        font-style: italic;
+        margin-top: 5px;
       }
       .video-container {
         margin: 20px auto;
@@ -34,6 +48,7 @@
       .about-us {
         margin: 20px auto;
         max-width: 800px;
+        text-align: center;
       }
       .profile {
         display: flex;
@@ -57,20 +72,27 @@
   </head>
   <body>
     <h1>Introducing: MayFly</h1>
-    <div>
-      <img src="screenshot-1.png" alt="Screenshot 1" class="screenshot">
-        <div>
-          <p>Description</p>
+    
+    <div class="screenshots">
+        <div class="screenshot-container">
+          <figure>
+            <img src="screenshot-1.png" alt="Screenshot 1" class="screenshot">
+            <figcaption>Write a brief description here</figcaption>
+          </figure>
         </div>
-      <img src="screenshot-2.png" alt="Screenshot 2" class="screenshot">
-      <div>
-          <p>Description</p>
+        <div class="screenshot-container">
+          <figure>
+            <img src="screenshot-2.png" alt="Screenshot 2" class="screenshot">
+            <figcaption>Write a brief description here</figcaption>
+          </figure>
         </div>
-      <img src="screenshot-3.png" alt="Screenshot 3" class="screenshot">
-      <div>
-          <p>Description</p>
+        <div class="screenshot-container">
+          <figure>
+            <img src="screenshot-3.png" alt="Screenshot 3" class="screenshot">
+            <figcaption>Write a brief description here</figcaption>
+          </figure>
         </div>
-    </div>
+      </div>
     <h2>Demo Video</h2>
     <div class="video-container">
       <iframe src="https://www.youtube.com/embed/your-video-id" frameborder="0" allowfullscreen></iframe>
@@ -80,7 +102,9 @@
       <p>MayFly is based on the unique concept of placing an unpredictable group of active users in a group chat randomly each day to meet new friends and make unexpected plans.</p>
     </div>
     <h2>About Us</h2>
-    <p><a href="https://github.com/SCCapstone/Odyssey">Official GitHub Repo</a></p>
+    <div class="about-us">
+      <p><a href="https://github.com/SCCapstone/Odyssey">Official GitHub Repo</a></p>
+    </div>
     <div class="about-us">
       <div class="profile">
         <img src="profile-1.png" alt="Profile 1">
