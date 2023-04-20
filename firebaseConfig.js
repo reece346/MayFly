@@ -201,7 +201,7 @@ export async function getUsersInChat(chatID) {
 		snapshot.forEach((data) => {
 			const val = data.val();
 			if (val.currentChatID == chatID) {
-				users.push(val.key);
+				users.push(data.key);
 			}
 				
 		});

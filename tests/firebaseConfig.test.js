@@ -64,9 +64,6 @@ describe("Firebase Realtime Database Access", () => {
 	});
 	it("Should get all users from a chat", async () => {
 		const users = await getUsersInChat('test');
-		users.forEach((user) => {
-			console.log("Testing: " + user);
-		});
 		expect(users.length).toBeGreaterThan(0);
 	});
 });
