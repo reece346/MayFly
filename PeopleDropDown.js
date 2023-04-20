@@ -99,7 +99,7 @@ const PeopleDropDown = ({
                             key={String(i)}
                             onPress={()=>setIsReportVisible(true)}
                         >
-                            <Text style ={{fontSize: '15%', color: 'white'}}>{val.name}</Text> 
+                            <Text style ={{fontSize: 15, color: 'white'}}>{val.name}</Text> 
                         </TouchableOpacity> //add animation?
                     )
                 })}
