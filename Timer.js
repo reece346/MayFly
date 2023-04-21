@@ -1,13 +1,24 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {Text} from 'react-native';
 import * as RootNavigation from './RootNavigation';
 import createChat from './firebaseConfig';
 import MessageList from './messageList';
+import { onValue } from 'firebase/database';
 
 function Timer({maxRange}){
-    const [counter,setCounter] = useState(maxRange);
+    const [counter, setCounter] = useState(maxRange);
+    const maxRangeRef = useRef(maxRange);
+
+    //console.log("max Range: "  + maxRange)
+    
+    useEffect(() => {
+        maxRangeRef.current = maxRange;
+        setCounter(maxRange);
+        
+    }, [maxRange]);
 
     useEffect(() => {
+        console.log("Counter: " + counter);
         if(counter > 0){
             setTimeout(()=>setCounter(counter-1), 1000);
         }
@@ -17,7 +28,7 @@ function Timer({maxRange}){
                 let thisMessageList = new MessageList(0);
                 createMessageList(thisMessageList);
             }
-            RootNavigation.navigate("NoChatScreen");
+            RootNavigation.navigate("No Chat Screen");
         }
     },[counter])
 

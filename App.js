@@ -24,11 +24,11 @@ export default function App() {
                 component = {LogOutScreen}
             />
             <Stack.Screen
-                name = "NoChatScreen"
+                name = "No Chat Screen"
                 component = {NoChatScreen}
             />
             <Stack.Screen 
-                name = "HomeScreen"
+                name = "Home Screen"
                 component = {HomeScreen}
                 options = {{headerBackVisible: false}}
             />
@@ -37,7 +37,7 @@ export default function App() {
                 component = {Profile}
             />
             <Stack.Screen 
-                name = "EditProfile"
+                name = "Edit Profile"
                 component = {EditProfile}
             />
             <Stack.Screen 

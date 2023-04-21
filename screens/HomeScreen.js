@@ -54,6 +54,7 @@ export default function HomeScreen() {
   //console.log("Message List Location: " + messageListLoc);
   const chatRef = ref(database, 'chats/' + chatID);
   //console.log("Chat ID: " + chatID);
+  const chatRefForTimer = ref(database, 'chats/chat1');
 
   async function populateUsersNames() {
     const userIDs = await getUsers();
@@ -89,13 +90,13 @@ export default function HomeScreen() {
       });
     })
 
-    onValue(chatRef, (snapshot) => {
+    onValue(chatRefForTimer, (snapshot) => {
       const val = snapshot.val();
       if(val) {
         const timeCreated = val.timeCreated;
         console.log("Time Created: " + timeCreated);
         setChatDuration(86400 - (systemTimeInSecs - timeCreated)); 
-        console.log("Chat Duration: " + chatDuration);
+        console.log("Chat Duration: " + val.chatDuration);
 
         const messageListLoc = val.messageList;
         setMessageListLoc(messageListLoc);
@@ -104,7 +105,7 @@ export default function HomeScreen() {
     }, (error) => {
       console.log(error);
     });
-  },[chatDuration, messageListLoc])
+  },[messageListLoc, chatDuration])
 
   const [selectedItem, setSelectedItem] = useState(null)
 

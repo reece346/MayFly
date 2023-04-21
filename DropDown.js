@@ -2,6 +2,7 @@ import React, {Component, useState} from "react";
 import {View, Button, Text, StyleSheet, TouchableOpacity, Image, Alert} from "react-native";
 import * as RootNavigation from './RootNavigation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { updateActiveUser } from  './screens/LoginScreen';
 
 const DropDown =({
     data = [],
@@ -71,7 +72,7 @@ const onSelectedItem = (val) =>{
                             key={String(i)}
                             onPress={()=>onSelectedItem(val)}
                     >
-                        <Text style ={{fontSize: '15%', color: 'white'}}>{val.name}</Text> 
+                        <Text style ={{fontSize: 15, color: 'white'}}>{val.name}</Text> 
                     </TouchableOpacity> //add animation?
                     )
                 })}
@@ -92,7 +93,7 @@ const styles = StyleSheet.create({
     optionsStyle:{
         marginTop: 0,
         padding: 8,
-        width:'200%',
+        width: 200,
         backgroundColor: '#5D5F82'
     }
 });
