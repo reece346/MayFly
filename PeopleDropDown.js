@@ -94,7 +94,7 @@ export default function PeopleDropDown ({ data = [], value = {}, onSelect = () =
                             <TouchableOpacity
                                 style = {styles.optionsStyle}
                                 key={String(i)}
-                                onPress={()=>setIsReportVisible(true)}
+                                onPress={()=>showConfirmDialog()}
                             >
                                 <Text style ={{fontSize: '15%', color: 'white'}}>{val.name}</Text> 
                             </TouchableOpacity> //add animation?
@@ -104,7 +104,7 @@ export default function PeopleDropDown ({ data = [], value = {}, onSelect = () =
                             <TouchableOpacity
                                 style = {styles.optionsStyle}
                                 key={String(i)}
-                                onPress={()=>showConfirmDialog()}
+                                onPress={()=>setIsReportVisible(true)}
                             >
                                 <Text style ={{fontSize: '15%', color: 'white'}}>{val.name}</Text> 
                             </TouchableOpacity> //add animation?
@@ -143,6 +143,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 15,
+        borderWidth: 2,
+        borderColor: 'white'
     },
     reportButton:{
         margin: '2%',
