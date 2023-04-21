@@ -6,7 +6,7 @@ import { getActiveUser } from './LoginScreen';
 
 export default function Profile() {
     interestArray = [];
-    interestArray = getActiveUser().interests.join(",");
+    interestArray = getActiveUser().interests.join(", ");
     favoriteFriend = [];
     displayNameSaved = getActiveUser().displayName;
     numberOfFriends = getActiveUser().friendIDs.length-1;
@@ -18,10 +18,10 @@ export default function Profile() {
                         <Image style={{height:60, width:60, borderWidth:2, borderRadius: 60, borderColor: 'grey'}} source={require('./images/standardpfp.png')}/>
                     </View>
                     <View style={styles.profileNameContainer}>
-                        <Text style={{fontSize:20,fontWeight:'bold', paddingBottom: 5}}>
+                        <Text style={{fontSize:20, fontWeight:'bold', paddingBottom: 5}}>
                             {displayNameSaved}
                         </Text>
-                        <Text style={{fontSize:16,}}>
+                        <Text style={{fontSize:16}}>
                             {displayNameSaved}
                         </Text>
                     </View>
@@ -30,14 +30,14 @@ export default function Profile() {
                             Friends: {numberOfFriends}
                         </Text>
                     </View>
-                    <TouchableOpacity onPress={() => {RootNavigation.navigate("EditProfile")}}>
+                    <TouchableOpacity onPress={() => {RootNavigation.navigate("Edit Profile")}}>
                         <Image style={{height:20, width:20, color: 'black'}} source={require('./images/editProfileIcon.png')}/>
                     </TouchableOpacity>
                 </View>
             </View>
             <View style={styles.InterestsHeader}>
                 <Text style={{fontSize: 25, color: 'white', fontWeight: '600', paddingBottom: 15}}>
-                     Interests
+                     Interests: 
                 </Text>
                 <Text style={{fontSize: 25, color: 'white',fontWeight: '600', marginLeft: '5%'}}>
                      {interestArray}
@@ -47,8 +47,8 @@ export default function Profile() {
             <View style={styles.FriendsHeader}>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                     <Text style={{fontSize: 25, color: 'white', fontWeight: '600'}}>
-                        Favorite Friends
-                    </Text><TouchableOpacity onPress={() => {RootNavigation.navigate("AddFriends")}}>
+                        Favorite Friends: 
+                    </Text><TouchableOpacity onPress={() => {RootNavigation.navigate("Friends")}}>
                         <Image style={{height:25, width:25, color: 'black'}} source={require('./images/addfriends.png')}/>
                     </TouchableOpacity>
                 </View>

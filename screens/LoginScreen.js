@@ -57,9 +57,9 @@ export default function LoginScreen(){
         if(userTest.phoneNumber == phoneNum){
             saveUser(userTest)
             if(userTest.currentChatID != "") {
-                RootNavigation.navigate("HomeScreen");
+                RootNavigation.navigate("Home Screen");
             } else {
-                RootNavigation.navigate("NoChatScreen");
+                RootNavigation.navigate("No Chat Screen");
             }
             
         }
@@ -86,10 +86,10 @@ export default function LoginScreen(){
 
     const handleGo = () => {
         if (userTest.currentChatID != "") {
-            goToScreen('HomeScreen')
+            goToScreen('Home Screen')
         }
         else {
-            goToScreen('NoChatScreen')
+            goToScreen('No Chat Screen')
         }
     }
 
@@ -106,9 +106,9 @@ export default function LoginScreen(){
                 if(user.displayName){
                     updateActiveUser(user)
                     user.currentChatID ?
-                        goToScreen('HomeScreen')
+                        goToScreen('Home Screen')
                     :
-                        goToScreen('NoChatScreen')
+                        goToScreen('No Chat Screen')
                 }
             }
         )
