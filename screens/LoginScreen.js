@@ -105,7 +105,7 @@ export default function LoginScreen(){
             console.log('updatedUser is: ', updatedUser)
             console.log('phoneNumber is: ', phoneNumber)
             await saveUser(updatedUser).then(updateActiveUser(updatedUser))
-            updatedUser.currentChatID ? goToScreen('HomeScreen') : goToScreen('NoChatScreen')
+            updatedUser.currentChatID ? goToScreen('Home Screen') : goToScreen('No Chat Screen')
         }
 
         getCurrentUser().then(
