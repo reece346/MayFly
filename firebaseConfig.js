@@ -62,7 +62,6 @@ export async function getUserByID(userID) {
 			const val = snapshot.val();
 			const user = new User(val.displayName, userID, val.profilePicture, val.username, val.phoneNumber, val.currentChatID, val.interests, val.friendIDs);
 			return user;
-			console.log("This shouldn't print!");
 		} else {
 			console.log("No user found");
 		}
@@ -195,7 +194,6 @@ export async function getChatByChatID(chatID) {
 			if (data.val().chatID == chatID) {
 				const dataVal = data.val();
 				chat = new Chat(data.key, dataVal.messageList, dataVal.timeCreated);
-				console.log("Found a chat with this ID");
 				found = true;
 			}
 		})
@@ -236,7 +234,6 @@ export async function getUsersInChat(chatID) {
 				users.push(data.key);
 			}
 		});
-		console.log('Users in chat:', users);
 		return users;
 	});
 }
