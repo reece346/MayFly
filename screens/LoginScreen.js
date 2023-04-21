@@ -1,7 +1,7 @@
 import { View , Image, Text, StyleSheet, TextInput, Button, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Alert} from "react-native"
 import React, {useEffect, useState} from "react"
 import * as RootNavigation from '../RootNavigation';
-import { getUserByPhoneNumber , updateUser} from "../firebaseConfig";
+import { getUserByPhoneNumber , getUserByUsername, updateUser} from "../firebaseConfig";
 import User from "../user";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { async } from "@firebase/util";
@@ -38,7 +38,6 @@ export default function LoginScreen(){
             if(!jsonValue) {
                 console.log('getCurrentUser: no user stored on disk')
             }
-            console.log('getCurrentUser is doing something')
             return jsonValue != null ? JSON.parse(jsonValue) : null;
         } catch(e) {
             console.log('error reading user from disk: ', e)
@@ -101,14 +100,18 @@ export default function LoginScreen(){
 
     //if there is a user on the disk updateActiveUser
     useEffect(() => {
+        async function updateUser(phoneNumber) {
+            let updatedUser = await getUserByPhoneNumber(phoneNumber);
+            console.log('updatedUser is: ', updatedUser)
+            console.log('phoneNumber is: ', phoneNumber)
+            await saveUser(updatedUser).then(updateActiveUser(updatedUser))
+            updatedUser.currentChatID ? goToScreen('HomeScreen') : goToScreen('NoChatScreen')
+        }
+
         getCurrentUser().then(
             user => {
-                if(user.displayName){
-                    updateActiveUser(user)
-                    user.currentChatID ?
-                        goToScreen('Home Screen')
-                    :
-                        goToScreen('No Chat Screen')
+                if(user.phoneNumber){
+                    updateUser(user.phoneNumber)
                 }
             }
         )

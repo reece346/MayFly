@@ -4,11 +4,7 @@ import * as RootNavigation from './RootNavigation';
 import { getActiveUser } from './screens/LoginScreen';
 import { updateUser } from './firebaseConfig';
 
-const PeopleDropDown = ({ 
-    data = [], 
-    value = {},
-    onSelect = () =>{}
-}) => {
+export default function PeopleDropDown ({ data = [], value = {}, onSelect = () =>{} })  {
     const [showOption, setShowOption] = useState(false);
     const [isReportVisible, setIsReportVisible] = useState(false);
     const [showBox, setShowBox] = useState(true);
@@ -93,15 +89,27 @@ const PeopleDropDown = ({
             </TouchableOpacity>
             {showOption && (<View>
                 {data.map((val, i) => {
-                    return(
-                        <TouchableOpacity
-                            style = {styles.optionsStyle}
-                            key={String(i)}
-                            onPress={()=>setIsReportVisible(true)}
-                        >
-                            <Text style ={{fontSize: 15, color: 'white'}}>{val.name}</Text> 
-                        </TouchableOpacity> //add animation?
-                    )
+                    if(i==data.length) { 
+                        return(
+                            <TouchableOpacity
+                                style = {styles.optionsStyle}
+                                key={String(i)}
+                                onPress={()=>showConfirmDialog()}
+                            >
+                                <Text style ={{fontSize: '15%', color: 'white'}}>{val.name}</Text> 
+                            </TouchableOpacity> //add animation?
+                        )
+                    } else{
+                        return(
+                            <TouchableOpacity
+                                style = {styles.optionsStyle}
+                                key={String(i)}
+                                onPress={()=>setIsReportVisible(true)}
+                            >
+                                <Text style ={{fontSize: '15%', color: 'white'}}>{val.name}</Text> 
+                            </TouchableOpacity> //add animation?
+                        )
+                    }
                 })}
             </View>)}
         </View>
@@ -135,6 +143,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 15,
+        borderWidth: 2,
+        borderColor: 'white'
     },
     reportButton:{
         margin: '2%',
@@ -144,5 +154,3 @@ const styles = StyleSheet.create({
         paddingVertical: 10
     }
 });
-  
-export default PeopleDropDown;
