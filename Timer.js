@@ -28,7 +28,7 @@ function Timer({maxRange}){
                 let thisMessageList = new MessageList(0);
                 createMessageList(thisMessageList);
             }
-            RootNavigation.navigate("NoChatScreen");
+            RootNavigation.navigate("No Chat Screen");
         }
     },[counter])
 

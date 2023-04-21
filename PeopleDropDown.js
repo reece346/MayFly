@@ -27,7 +27,7 @@ const PeopleDropDown = ({
                         tempUser.currentChatID = "";
                         updateUser(tempUser);
                         console.log(' +++++++++++++++++++++++++' + tempUser.currentChatID)
-                        RootNavigation.navigate("NoChatScreen");
+                        RootNavigation.navigate("No Chat Screen");
                     },
                 },
                 {

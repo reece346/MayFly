@@ -11,7 +11,7 @@ export default function LogOutScreen(){
     const [phoneNum, setPhoneNum] = useState('');
     const [displayName, setDisplayName] = useState('');
     const [userName, setUserName] = useState('');
-    const [interests, setInterests] = useState([]);
+    const [interests, setInterests] = useState([]); 
 
     async function checkUsername(userName) {
         const user =  await getUserByUsername(userName);
