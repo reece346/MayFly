@@ -18,7 +18,7 @@ function Timer({maxRange}){
     }, [maxRange]);
 
     useEffect(() => {
-        console.log("Counter: " + counter);
+        //console.log("Counter: " + counter);
         if(counter > 0){
             setTimeout(()=>setCounter(counter-1), 1000);
         }

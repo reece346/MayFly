@@ -97,7 +97,14 @@ export default function HomeScreen() {
         console.log("Time Created: " + timeCreated);
         setChatDuration(86400 - (systemTimeInSecs - timeCreated)); 
         console.log("Chat Duration: " + val.chatDuration);
+      }
+    }, (error) => {
+      console.log(error);
+    });
 
+    onValue(chatRef, (snapshot) => {
+      const val = snapshot.val();
+      if(val) {
         const messageListLoc = val.messageList;
         setMessageListLoc(messageListLoc);
         console.log("Message List Location: " + messageListLoc);
@@ -105,7 +112,7 @@ export default function HomeScreen() {
     }, (error) => {
       console.log(error);
     });
-  },[messageListLoc, chatDuration])
+  },[chatDuration, messageListLoc])
 
   const [selectedItem, setSelectedItem] = useState(null)
 
