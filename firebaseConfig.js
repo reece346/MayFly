@@ -117,6 +117,12 @@ export async function updateUser(user) {
 	});
 }
 
+export async function reportUser(username) {
+	let reportedUser = await getUserByUsername(username)
+	reportedUser.isReported = true
+	await updateUser(reportedUser)
+}
+
 export async function createUser(user) {
 	const dbRef = ref(database);
 	delete user.userID;

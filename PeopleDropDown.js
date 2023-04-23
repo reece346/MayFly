@@ -2,12 +2,13 @@ import React, {Component, useState} from "react";
 import {View, Button, Text, StyleSheet, TouchableOpacity, Image, Alert, Modal, TouchableWithoutFeedback} from "react-native";
 import * as RootNavigation from './RootNavigation';
 import { getActiveUser } from './screens/LoginScreen';
-import { updateUser } from './firebaseConfig';
+import { updateUser, reportUser } from './firebaseConfig';
 
 export default function PeopleDropDown ({ data = [], value = {}, onSelect = () =>{} })  {
     const [showOption, setShowOption] = useState(false);
     const [isReportVisible, setIsReportVisible] = useState(false);
     const [showBox, setShowBox] = useState(true);
+    const [selectedUser, setSelectedUser] = useState('');
 
     //Confirmation of leaving a chat
     const showConfirmDialog = () => {
@@ -36,24 +37,48 @@ export default function PeopleDropDown ({ data = [], value = {}, onSelect = () =
         );
     };
 
+    const showReportConfirmation = () =>{
+        return Alert.alert(
+            `${selectedUser} has been reported`,
+            'Thank you for keeping our community safe',
+            [
+                {
+                    text: 'Close',
+                    onPress: () =>{
+                        setShowBox(false)
+                    }
+                }
+            ]
+        )
+    }
 
-    const onSelectedItem = (val) =>{
-        if (val.name == "User1") {
+    const showReportFailure = () =>{
+        return Alert.alert(
+            'You cannot report yourself',
+            '',
+            [
+                {
+                    text: 'Close',
+                    onPress: () =>{setShowBox(false)}
+                }
+            ]
+        )
+    }
 
-        }
-        if (val.name == "User2") {
+    const showReportWindow = (username) => {
+        setIsReportVisible(true)
+        setSelectedUser(username)
+    }
 
+    const reportSelected = (username) => {
+        if(username != getActiveUser().username){
+            reportUser(username)
+            showReportConfirmation()
         }
-        if (val.name == "User3") {
-
+        else {
+            showReportFailure()
         }
-        if (val.name == "User4") {
-
-        }
-        if (val.name == "Leave Chat") {
-            showConfirmDialog();
-        }
-        setShowOption(false);
+        setIsReportVisible(false)
     }
   
     return (
@@ -62,12 +87,14 @@ export default function PeopleDropDown ({ data = [], value = {}, onSelect = () =
                 <TouchableWithoutFeedback onPress={()=>{setIsReportVisible(false)}}>
                     <View style={styles.modalContainer}>
                         <View style={styles.reportButtonsContainer}>
-                            <Text style={{color: 'white'}}>Report person?</Text>
+                            <Text style={{color: 'white'}}>Report {selectedUser}?</Text>
 
                             <View style={{flexDirection: 'row'}}>
                                 <View style={styles.reportButton}>
-                                    <TouchableOpacity onPress={()=>{}}>
-                                        <Text>yes</Text>
+                                    <TouchableOpacity onPress={()=>{reportSelected(selectedUser)}}>
+                                        <View style={{width: '100%', height: '100%'}}>
+                                            <Text>yes</Text>
+                                        </View>
                                     </TouchableOpacity>
                                 </View>
                                 
@@ -89,7 +116,7 @@ export default function PeopleDropDown ({ data = [], value = {}, onSelect = () =
             </TouchableOpacity>
             {showOption && (<View>
                 {data.map((val, i) => {
-                    if(i==data.length) { 
+                    if(val.name == 'Leave Chat') { 
                         return(
                             <TouchableOpacity
                                 style = {styles.optionsStyle}
@@ -99,12 +126,12 @@ export default function PeopleDropDown ({ data = [], value = {}, onSelect = () =
                                 <Text style ={{fontSize: '15%', color: 'white'}}>{val.name}</Text> 
                             </TouchableOpacity> //add animation?
                         )
-                    } else{
+                    } else {
                         return(
                             <TouchableOpacity
                                 style = {styles.optionsStyle}
                                 key={String(i)}
-                                onPress={()=>setIsReportVisible(true)}
+                                onPress={()=>showReportWindow(val.name)}
                             >
                                 <Text style ={{fontSize: '15%', color: 'white'}}>{val.name}</Text> 
                             </TouchableOpacity> //add animation?
@@ -147,10 +174,12 @@ const styles = StyleSheet.create({
         borderColor: 'white'
     },
     reportButton:{
-        margin: '2%',
+        margin: '3%',
         backgroundColor: '#d7d7d7',
         borderRadius: 5,
-        paddingHorizontal: 20,
-        paddingVertical: 10
+        paddingHorizontal: '5%',
+        paddingVertical: '2%',
+        width: '30%',
+        height: '40%'
     }
 });
