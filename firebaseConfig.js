@@ -61,7 +61,7 @@ export async function getUserByID(userID) {
 		if(snapshot.exists()) {
 			const val = snapshot.val();
 			const user = new User(val.displayName, userID, val.profilePicture, val.username, val.phoneNumber, val.currentChatID, val.interests, val.friendIDs);
-			return user;
+			return snapshot.val();
 		} else {
 			console.log("No user found");
 		}
@@ -133,6 +133,12 @@ export async function reportUser(username) {
 	let reportedUser = await getUserByUsername(username)
 	reportedUser.isReported = true
 	await updateUser(reportedUser)
+}
+
+export async function banUser(username) {
+	let bannedUser = await getUserByUsername(username)
+	bannedUser.isBanned = true
+	await updateUser(bannedUser)
 }
 
 export async function createUser(user) {

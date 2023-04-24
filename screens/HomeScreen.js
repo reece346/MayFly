@@ -221,6 +221,7 @@ export default function HomeScreen({navigation}) {
             <Button onPress={() => {sendMessage()}} style={styles.sendButton} color='blue' title='Send'/>
           </View>
         </KeyboardAvoidingView>
+
     </View>
   );
 }

@@ -2,7 +2,7 @@ import React, {Component, useState} from "react";
 import {View, Button, Text, StyleSheet, TouchableOpacity, Image, Alert} from "react-native";
 import * as RootNavigation from './RootNavigation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { updateActiveUser } from  './screens/LoginScreen';
+import { getActiveUser, updateActiveUser } from  './screens/LoginScreen';
 
 export default function DropDown ({ data = [], value = {}, onSelect = () =>{}, navigation }) {
 
@@ -52,6 +52,7 @@ const onSelectedItem = (val) =>{
         showConfirmDialog();
     setShowOption(false);
 }
+
     return (
         <View style = {styles.container}>
             <TouchableOpacity 
@@ -60,7 +61,8 @@ const onSelectedItem = (val) =>{
             >
                 <Image style={styles.dropDownStyle} source={require('./screens/images/hamburger.png')} />
             </TouchableOpacity>
-                {showOption && (<View>
+
+            {showOption && (<View>
                 {data.map((val, i) => {
                 return(
                     <TouchableOpacity
@@ -72,6 +74,13 @@ const onSelectedItem = (val) =>{
                     </TouchableOpacity> //add animation?
                     )
                 })}
+                {
+                    getActiveUser().userID=='admin' && (
+                        <TouchableOpacity onPress={()=>{navigation.push('Scumbags')}} style={styles.optionsStyle}>
+                            <Text style ={{fontSize: 15, color: 'white'}}>Reported Users</Text> 
+                        </TouchableOpacity>
+                    )
+                }
             </View>)}
         </View>
     );

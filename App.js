@@ -8,6 +8,7 @@ import LogOutScreen from './screens/Logout';
 import LoginScreen from './screens/LoginScreen';
 import EditProfile from './screens/EditProfile';
 import NoChatScreen from './screens/NoChatScreen';
+import ReportedUsers from './screens/reportedUsers';
 
 const Stack = createNativeStackNavigator();
 
@@ -43,6 +44,10 @@ export default function App() {
             <Stack.Screen 
                 name = "Friends"
                 component = {FriendScreen}
+            />
+            <Stack.Screen
+                name= "Scumbags"
+                component = {ReportedUsers}
             />
         </Stack.Navigator>
     </NavigationContainer>
