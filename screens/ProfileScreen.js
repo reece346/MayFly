@@ -35,7 +35,7 @@ export default function Profile({navigation}) {
                             </Text>
                         </TouchableOpacity>
                     </View>
-                    <TouchableOpacity onPress={() => {RootNavigation.navigate("Edit Profile")}}>
+                    <TouchableOpacity onPress={() => {navigation.push("Edit Profile")}}>
                         <Image style={{height:20, width:20, color: 'black'}} source={require('./images/editProfileIcon.png')}/>
                     </TouchableOpacity>
                 </View>
