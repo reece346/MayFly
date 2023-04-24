@@ -13,25 +13,31 @@ export default function LogOutScreen(){
     const [userName, setUserName] = useState('');
     const [interests, setInterests] = useState([]); 
 
-    async function checkUsername(userName) {
-        const user =  await getUserByUsername(userName);
-        const nameOfUser = user.userName;
-        console.log(nameOfUser);
-        return nameOfUser;
-    }
+    // async function checkUsername(userName) {
+    //     const user =  await getUserByUsername(userName);
+    //     const nameOfUser = user.userName;
+    //     console.log(nameOfUser);
+    //     return nameOfUser;
+    // }
 
-    async function checkPhoneNumber() {
-        const user =  await getUserByPhoneNumber(phoneNum);
-        const phoneOfUser = user.phoneNum;
-        console.log(user.phoneNum);
-        return phoneOfUser;
+    // async function checkPhoneNumber(phoneNum) {
+    //     const user =  await getUserByPhoneNumber(phoneNum);
+    //     const phoneOfUser = user.phoneNum;
+    //     console.log(user.phoneNum);
+    //     return phoneOfUser;
+    // }
+
+    async function isUserExists (phoneNum, userName) {
+        let phoneNumUsed = await getUserByPhoneNumber()
+        let userNameUsed = await getUserByUsername()
+        return userNameUsed || phoneNumUsed
     }
 
     submitNewUser = () => {
         if(userName!= "" && phoneNum!= ""){
-            console.log("Username check: " + checkUsername(userName));
-            console.log("Number check: " + checkPhoneNumber(phoneNum));
-            if(checkUsername(userName) == userName && checkPhoneNumber(phoneNum) == phoneNum) {
+            // console.log("Username check: " + checkUsername(userName));
+            // console.log("Number check: " + checkPhoneNumber(phoneNum));
+            if(isUserExists) {
                 return Alert.alert("Username or Phone Number already in the Database. Please Try Again");
             } else {
                 let thisUser = new User(displayName, 0, null, userName, phoneNum, "", interests, null)
