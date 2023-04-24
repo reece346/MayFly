@@ -29,7 +29,7 @@ export function chatMessage ({item}) {
   )
 }
 
-export default function HomeScreen() {
+export default function HomeScreen({navigation}) {
   const [modalVisible, setModalVisible] = useState(false);
   const [characterName, setCharacterName] = useState('');
   const [characterDesc, setCharacterDesc] = useState('');
@@ -173,6 +173,7 @@ export default function HomeScreen() {
             data={usersNames}
             onSelect={onSelect}
             value={selectedItem}
+            navigation={navigation}
           />
         </View>
         
