@@ -43,8 +43,11 @@ const FriendScreen = ({navigation}) => {
         let friend = temp.userID;
         temp = getActiveUser();
         temp.friendIDs.push(friend);
+        friend = await getUserByID(friend)
+        friend.friendIDs.push(temp.userID)
         console.log('temp is: ', temp)
         updateActiveUser(temp);
+        await updateUser(friend)
         await updateUser(temp).then(Alert.alert("Friend added")).then(navigation.replace('Friends'));  
     }
     
