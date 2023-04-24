@@ -38,7 +38,7 @@ const pendingFriendsDATA = [
     },
 ];
 
-const AddFriendsScreen = () => {
+const AddFriendsScreen = ({navigation}) => {
     const [modalVisible, setModalVisible] = useState(false);
 
     const toggleModal = () => {
@@ -70,7 +70,7 @@ const AddFriendsScreen = () => {
         temp.friendIDs.push(friend);
         console.log('temp is: ', temp)
         updateActiveUser(temp);
-        await updateUser(temp).then(Alert.alert("Friend added"));  
+        await updateUser(temp).then(Alert.alert("Friend added")).then(navigation.replace('Friends'));  
     }
     
     const renderItem = ({ item }) => (

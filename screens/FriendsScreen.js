@@ -11,7 +11,7 @@ import { hydrate } from 'react-dom';
 
 
 
-const FriendScreen = () => {
+const FriendScreen = ({navigation}) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [friendsDATA, setFriendsDATA] = useState([])
     const [textInput, setTextInput] = useState('');
@@ -45,7 +45,7 @@ const FriendScreen = () => {
         temp.friendIDs.push(friend);
         console.log('temp is: ', temp)
         updateActiveUser(temp);
-        await updateUser(temp).then(Alert.alert("Friend added"));  
+        await updateUser(temp).then(Alert.alert("Friend added")).then(navigation.replace('Friends'));  
     }
     
     useEffect(()=>{
