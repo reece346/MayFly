@@ -9,8 +9,6 @@ import User from '../user';
 import { updateUser } from '../firebaseConfig';
 import { hydrate } from 'react-dom';
 
-
-
 const FriendScreen = ({navigation}) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [friendsDATA, setFriendsDATA] = useState([])
@@ -27,10 +25,11 @@ const FriendScreen = ({navigation}) => {
         //if left blank, already a friend, or same as active user
         if(phoneNum == "")
             return Alert.alert("Input required");
-        if(phoneNum == getActiveUser().phoneNumber){
+        if(phoneNum == getActiveUser().phoneNumber || phoneNum == getActiveUser().username){
             return Alert.alert("Invalid input");
         }
         let friend = await getUserByPhoneNumber(phoneNum)
+        let userNameFriend = await getUserByUsername(phoneNum)
         let temp = getActiveUser();
         if(friend){
             console.log('AHAB friend is: ', friend)
@@ -45,6 +44,18 @@ const FriendScreen = ({navigation}) => {
             console.log('temp is: ', temp)
             updateActiveUser(temp);
             await updateUser(friend)
+            await updateUser(temp).then(Alert.alert("Friend added")).then(navigation.replace('Friends'));
+        }
+        else if(userNameFriend){
+            for(id in temp.friendIDs){
+                if(userNameFriend.userID == temp.friendIDs[id])
+                    return Alert.alert("Already a friend");
+            }
+            temp.friendIDs.push(userNameFriend.userID);
+            userNameFriend.friendIDs.push(temp.userID)
+            console.log('temp is: ', temp)
+            updateActiveUser(temp);
+            await updateUser(userNameFriend)
             await updateUser(temp).then(Alert.alert("Friend added")).then(navigation.replace('Friends'));
         }
         else{
@@ -93,11 +104,9 @@ const FriendScreen = ({navigation}) => {
                             paddingHorizontal: 10,
                             fontSize: 18,
                         }}
-                        placeholder={'Search by Phone Number'}
+                        placeholder={'Phone Number or Username'}
                         placeholderTextColor={'#666'}
                         onChangeText={(val) => setPhoneNum(val)}
-                        keyboardType='number-pad'
-                        maxLength={10}
                         clearButtonMode='always'
                         />
                     </View>
