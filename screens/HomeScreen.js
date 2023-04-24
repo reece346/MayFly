@@ -179,23 +179,23 @@ export default function HomeScreen({navigation}) {
         </View>
         
         <KeyboardAvoidingView {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})} style={{flex: 5}}>
-        <FlatList
-          style={{padding: 10}}
-          data={messageList}
-          inverted={true}
-          renderItem={renderMessage}
-          keyExtractor={item => item.name}
+          <FlatList
+            style={{padding: 10}}
+            data={messageList}
+            inverted={true}
+            renderItem={renderMessage}
+            keyExtractor={item => item.name}
 
-          ListEmptyComponent={
-            <View>
-              <Text>Start the Conversation!</Text>
-            </View>
-          }
-        />
-        <View style={styles.chatBoxContainer}>
-          <TextInput placeholder={'Send a message'} onChangeText={message => setMessage(message)} value={message} style={styles.messageInput}/>
-          <Button onPress={() => {sendMessage()}} style={styles.sendButton} color='blue' title='Send'/>
-        </View>
+            ListEmptyComponent={
+              <View>
+                <Text>Start the Conversation!</Text>
+              </View>
+            }
+          />
+          <View style={styles.chatBoxContainer}>
+            <TextInput placeholder={'Send a message'} onChangeText={message => setMessage(message)} value={message} style={styles.messageInput}/>
+            <Button onPress={() => {sendMessage()}} style={styles.sendButton} color='blue' title='Send'/>
+          </View>
         </KeyboardAvoidingView>
     </View>
   );

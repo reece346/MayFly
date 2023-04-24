@@ -6,7 +6,7 @@ import {getUserByID, updateUser} from '../firebaseConfig';
 import { getActiveUser } from './LoginScreen';
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import {StyleSheet,Text,ScrollView,View,TextInput,Button, Alert, Image} from 'react-native';
+import {StyleSheet,Text,ScrollView,View,TextInput,Button, Alert, Image, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard} from 'react-native';
 import * as RootNavigation from '../RootNavigation';
 import User from '../user';
 import {createUser} from '../firebaseConfig';
@@ -26,63 +26,67 @@ export default function EditProfile(){
 
     return (
         <View style={styles.container}>
-            <View style={styles.imageContainer}>
-                <View style={styles.avatarBorderContainer}>
-                    <Image style={{height:'100%', width:'100%', borderRadius:70, color: 'black'}} source={require('./images/blackCircleBorder.jpg')}/>
-                </View>
-                <View style={styles.avatarContainer}>
-                    <Image style={{height:'100%', width:'100%', borderRadius:60}} source={require('./images/standardpfp.png')}/>
-                </View>
-                <View style={styles.profileNameContainer}>
-                   <Text style={{fontSize:20,fontWeight:'bold'}}>
-                        {getActiveUser().displayName}
-                    </Text>
-                </View>
-                <View style={styles.friendsCounterContainer}>
-                   <Text style={{fontSize:15}}>
-                        Friends:
-                    </Text>
-                    <Text style={{fontSize:15, left: 25}}>
-                    {getActiveUser().friendIDs.length-1}
-                    </Text>
-                </View>
-            </View>
-            <View style={styles.EditSection}>
-                <View style={styles.text}>
-                    <Text style = {styles.text}>Edit Display Name</Text>
-                </View>
-                <TextInput 
-                    clearButtonMode='always'
-                    style ={styles.input} 
-                    placeholder = 'ex. steve111'
-                    placeholderTextColor= 'gray' 
-                    onChangeText={(val) => setUserName(val)}
-                    />
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+                <KeyboardAvoidingView {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})} style={{flex: 5}}>
+                    <View style={styles.imageContainer}>
+                        <View style={styles.avatarBorderContainer}>
+                            <Image style={{height:'100%', width:'100%', borderRadius:70, color: 'black'}} source={require('./images/blackCircleBorder.jpg')}/>
+                        </View>
+                        <View style={styles.avatarContainer}>
+                            <Image style={{height:'100%', width:'100%', borderRadius:60}} source={require('./images/standardpfp.png')}/>
+                        </View>
+                        <View style={styles.profileNameContainer}>
+                        <Text style={{fontSize:20,fontWeight:'bold'}}>
+                                {getActiveUser().displayName}
+                            </Text>
+                        </View>
+                        <View style={styles.friendsCounterContainer}>
+                        <Text style={{fontSize:15}}>
+                                Friends:
+                            </Text>
+                            <Text style={{fontSize:15, left: 25}}>
+                            {getActiveUser().friendIDs.length-1}
+                            </Text>
+                        </View>
+                    </View>
+                    <View style={styles.EditSection}>
+                        <View style={styles.text}>
+                            <Text style = {styles.text}>Edit Display Name</Text>
+                        </View>
+                        <TextInput 
+                            clearButtonMode='always'
+                            style ={styles.input} 
+                            placeholder = 'ex. steve111'
+                            placeholderTextColor= 'gray' 
+                            onChangeText={(val) => setUserName(val)}
+                            />
 
-                <View style={styles.text}>
-                <Text style = {styles.text}>Edit Your Interests</Text>
-                <Text style = {styles.text}>(Separate Them by Clicking 'return')</Text>
-                </View>
-                <TextInput 
-                        style ={styles.input} 
-                        multiline
-                        placeholder = {'ex. Fishing\nex. Archery'}
-                        placeholderTextColor= 'gray' 
-                        onChangeText={(val) => setInterests(val.split(/\r?\n/))}/>
-                
-                <Button style ={{padding: 8}}
-                        title='Submit'
-                        color = 'white'
-                        onPress={() => {editUser()}}
-                ></Button>
-            </View>
+                        <View style={styles.text}>
+                        <Text style = {styles.text}>Edit Your Interests</Text>
+                        <Text style = {styles.text}>(Separate Them by Clicking 'return')</Text>
+                        </View>
+                        <TextInput 
+                                style ={styles.input} 
+                                multiline
+                                placeholder = {'ex. Fishing\nex. Archery'}
+                                placeholderTextColor= 'gray' 
+                                onChangeText={(val) => setInterests(val.split(/\r?\n/))}/>
+                        
+                        <Button style ={{padding: 8}}
+                                title='Submit'
+                                color = 'white'
+                                onPress={() => {editUser()}}
+                        ></Button>
+                    </View>
+                </KeyboardAvoidingView>
+            </TouchableWithoutFeedback>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     container:{
-        flex: 3,
+        flex: 1,
         backgroundColor: '#3A3B50',
     },
     input:{
