@@ -1,6 +1,6 @@
 import User from '../user.js';
 import Message from '../message.js';
-import {getUserByID, updateUser, getUserByPhoneNumber, createUser, sendMessage, getMessageByID, getMessagesByUser, removeUser, removeMessage} from '../firebaseConfig.js';
+import {getUserByID, updateUser, getUserByPhoneNumber, createUser, sendMessage, getMessageByID, getMessagesByUser, removeUser, removeMessage, sendCode2FA, confirm2FA, signOutCurrentUser} from '../firebaseConfig.js';
 
 var INITUSER;
 var NEWUSER;
@@ -61,6 +61,36 @@ describe("Firebase Realtime Database Access", () => {
 			}
 		});
 		expect(containsMessage).toBe(true);
+	});
+
+	it("Should send a 2FA message", async () => {
+		// Using test user: all 8's
+		var error = false;
+		sendCode2FA("+18888888888").then((sent) => {
+			if (!sent) {
+				console.error("Error with sendCode2FA");
+				error = true;
+				return;
+			}
+			// Use mock 2FA code, also all 8's
+			confirm2FA("888888").then((accepted) => {
+				if (!accepted) {
+					console.error("Error with confirm2FA");
+					error = true;
+					return;
+				}
+				console.log("User successfully signed in, signing out");
+				signOutCurrentUser().then((signedOut) => {
+					if (!signedOut) {
+						console.error("Error with signOutCurrentUser");
+						error = true;
+						return;
+					}
+					console.log("Signed out");
+				});
+			});
+		});
+		expect(error).toBe(false); // Finishes with no errors
 	});
 });
 

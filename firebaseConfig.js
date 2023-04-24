@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, set, onValue, child, get, push, remove } from 'firebase/database';
-import { getAuth, RecaptchaVerifier } from 'firebase/auth';
+import { getAuth, RecaptchaVerifier, signOut } from 'firebase/auth';
 import User from './user.js';
 import Chat from './chat.js';
 import Message from './message.js';
@@ -25,33 +25,56 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const auth = getAuth(app);
 
-// Authentication TODO Throwing errors, disabled for now, fix in the future
+// Authentication 
 
-// Invisible CAPTCHA for user
-/*window.recaptchaVerifier = new RecaptchaVerifier('sign-in-button', {
-	'size': 'invisible',
-	'callback': (response) => {
-		// CAPTCHA solved, TODO sign in
-	}
-}, auth);
-*/
-// Get user's phone number and send an SMS
-/*signInWithPhoneNumber(auth, phoneNumber, window.recaptchaVerifier)
-	.then((confirmationResult) => {
-		// TODO SMS sent, use confirmationResult.confirm() to auth
-		window.confirmationResult = confirmationResult;
+export async function sendCode2FA(phoneNumber) {
+	if (phoneNumber == "+18888888888") // Testing number, disable CAPTCHA
+		auth.settings.appVerificationDisabledForTesting = true;
+	// New invisible CAPTCHA for user
+	window.recaptchaVerifier = new RecaptchaVerifier('sign-in-button', {
+		'size': 'invisible',
+		'callback': (response) => {
+			// CAPTCHA solved, TODO sign in
+		}
+	}, auth);
+	// Send an SMS to user's phone number
+	return signInWithPhoneNumber(auth, phoneNumber, window.recaptchaVerifier)
+		.then((confirmationResult) => {
+			// SMS sent, use confirmationResult.confirm() to auth
+			window.confirmationResult = confirmationResult;
+			return true;
+		}).catch((error) => {
+			// TODO SMS not sent due to CAPTCHA error, return error
+			console.error(error);
+			return false;
+		});
+
+}
+
+export async function confirm2FA(code) {
+	// Get code from user, sign in
+	return window.confirmationResult.confirm(code).then((result) => {
+		// Successful sign in, allow in application
+		window.user = result.user;
+		return true;
 	}).catch((error) => {
-		// TODO SMS not sent due to CAPTCHA error
+		// Unsuccessful, user potentially entered incorrect code
+		console.error(error);
+		return false;
 	});
-*/
-// Get code from user, sign in
-/*confirmationResult.confirm(code).then((result) => {
-	// TODO Successful sign in
-	const user = result.user;
-}).catch((error) => {
-	// TODO Unsuccessful, user potentially entered incorrect code
-});
-*/
+
+}
+
+export async function signOutCurrentUser() {
+	signOut(auth).then(() => {
+		console.log("Signed out");
+		return true;
+	}).catch((error) => {
+		console.error(error);
+		return false;
+	});
+}
+
 
 // Database
 // https://firebase.google.com/docs/database/web/read-and-write#read_data_once
