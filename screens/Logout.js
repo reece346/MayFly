@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import {StyleSheet,Text,ScrollView,View,TextInput,Button, Alert, TouchableOpacity} from 'react-native';
+import {StyleSheet,Text,ScrollView,View,TextInput,Button, Alert, TouchableOpacity, KeyboardAvoidingView} from 'react-native';
 import * as RootNavigation from '../RootNavigation';
 import User from '../user';
 import {createUser, getUserByUsername} from '../firebaseConfig';
