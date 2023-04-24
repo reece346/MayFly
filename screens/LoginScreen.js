@@ -103,7 +103,8 @@ export default function LoginScreen({navigation}){
                 maxLength={10}
                 />
                 <TouchableOpacity style = {styles.button}
-                    onPress={() => {login()}}>
+                    onPress={() => {login()}}
+                    testID="loginGoButton">
                     <Text style = {styles.buttonText}>Go</Text>
                 </TouchableOpacity>
                 <Text style ={styles.title}>Haven't created an account?</Text>
