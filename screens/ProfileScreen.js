@@ -5,9 +5,9 @@ import { getActiveUser } from './LoginScreen';
 
 
 export default function Profile({navigation}) {
-    interestArray = [];
+
     const interestArray = getActiveUser().interests.join(", ");
-    const favoriteFriend = [];
+
     const displayNameSaved = getActiveUser().displayName;
     const numberOfFriends = getActiveUser().friendIDs.length-1;
     return (
@@ -36,7 +36,7 @@ export default function Profile({navigation}) {
                         </TouchableOpacity>
                     </View>
                     <TouchableOpacity onPress={() => {navigation.push("Edit Profile")}}>
-                        <Image style={{height:20, width:20, color: 'black'}} source={require('./images/editProfileIcon.png')}/>
+                        <Image style={{height:20, width:20}} source={require('./images/editProfileIcon.png')}/>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -54,7 +54,7 @@ export default function Profile({navigation}) {
                     <Text style={{fontSize: 25, color: 'white', fontWeight: '600'}}>
                         Friends: 
                     </Text><TouchableOpacity onPress={() => {RootNavigation.navigate("Friends")}}>
-                        <Image style={{height:25, width:25, color: 'black'}} source={require('./images/addfriends.png')}/>
+                        <Image style={{height:25, width:25}} source={require('./images/addfriends.png')}/>
                     </TouchableOpacity>
                 </View>
             </View>

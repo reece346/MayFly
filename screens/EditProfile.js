@@ -58,7 +58,7 @@ export default function EditProfile(){
                                 style ={styles.input} 
                                 placeholder = 'ex. steve111'
                                 placeholderTextColor= 'gray' 
-                                onChangeText={(val) => setUserName(val)}
+                                onChangeText={(val) => setDisplayName(val)}
                             />
                         </View>
 
