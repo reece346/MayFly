@@ -10,19 +10,21 @@ import {StyleSheet,Text,ScrollView,View,TextInput,Button, Alert, Image, Keyboard
 import * as RootNavigation from '../RootNavigation';
 import User from '../user';
 import {createUser} from '../firebaseConfig';
+import { TouchableOpacity } from 'react-native-web';
 
 
-export default function EditProfile(){
+export default function EditProfile({navigation}){
     const [phoneNum, setPhoneNum] = useState('');
     const [displayName, setDisplayName] = useState('');
     const [userName, setUserName] = useState('');
     const [interests, setInterests] = useState([]);
 
     editUser = async () => {
-            let thisUser = getActiveUser(displayName, interests);
-            await updateUser(thisUser);
-            RootNavigation.navigate("Profile");
-}
+        let updatedUser = getActiveUser()
+        updatedUser.displayName = userName
+        updatedUser.interests = [updatedUser.interests, ...interests]
+        await updateUser(updatedUser).then(navigation.replace('Edit Profile'));
+    }
 
     return (
         <View style={styles.container}>
