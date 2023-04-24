@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, set, onValue, child, get, push, remove } from 'firebase/database';
-import { getAuth, RecaptchaVerifier, signOut } from 'firebase/auth';
+import { getAuth, signOut, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
 import User from './user.js';
 import Chat from './chat.js';
 import Message from './message.js';
@@ -24,44 +24,60 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const auth = getAuth(app);
+const phoneProvider = new PhoneAuthProvider(auth);
 
 // Authentication 
 
-export async function sendCode2FA(phoneNumber) {
-	if (phoneNumber == "+18888888888") // Testing number, disable CAPTCHA
-		auth.settings.appVerificationDisabledForTesting = true;
-	// New invisible CAPTCHA for user
-	window.recaptchaVerifier = new RecaptchaVerifier('sign-in-button', {
-		'size': 'invisible',
-		'callback': (response) => {
-			// CAPTCHA solved, TODO sign in
-		}
-	}, auth);
-	// Send an SMS to user's phone number
-	return signInWithPhoneNumber(auth, phoneNumber, window.recaptchaVerifier)
-		.then((confirmationResult) => {
-			// SMS sent, use confirmationResult.confirm() to auth
-			window.confirmationResult = confirmationResult;
-			return true;
-		}).catch((error) => {
-			// TODO SMS not sent due to CAPTCHA error, return error
-			console.error(error);
-			return false;
-		});
+export async function sendCode2FA(phoneNumber, recaptcha) {
+	try {
+		const verificationId = await phoneProvider.verifyPhoneNumber(phoneNumber, 
+			recaptcha);
+		window.verificationId = verificationId;
+		console.log("Code sent!");
+	} catch (error) {
+		console.log(error);
+	}
+	//if (phoneNumber == "+18888888888") // Testing number, disable CAPTCHA
+	//	auth.settings.appVerificationDisabledForTesting = true;
+	//// New invisible CAPTCHA for user
+	//window.recaptchaVerifier = new RecaptchaVerifier('sign-in-button', {
+	//	'size': 'invisible',
+	//	'callback': (response) => {
+	//		// CAPTCHA solved, TODO sign in
+	//	}
+	//}, auth);
+	//// Send an SMS to user's phone number
+	//return signInWithPhoneNumber(auth, phoneNumber, window.recaptchaVerifier)
+	//	.then((confirmationResult) => {
+	//		// SMS sent, use confirmationResult.confirm() to auth
+	//		window.confirmationResult = confirmationResult;
+	//		return true;
+	//	}).catch((error) => {
+	//		// TODO SMS not sent due to CAPTCHA error, return error
+	//		console.error(error);
+	//		return false;
+	//	});
 
 }
 
 export async function confirm2FA(code) {
-	// Get code from user, sign in
-	return window.confirmationResult.confirm(code).then((result) => {
-		// Successful sign in, allow in application
-		window.user = result.user;
-		return true;
-	}).catch((error) => {
-		// Unsuccessful, user potentially entered incorrect code
+	try {
+		const credential = PhoneAuthProvider.credential(verificationId, code);
+		await signInWithCredential(auth, credential);
+		console.log("Signed in");
+	} catch (error) {
 		console.error(error);
-		return false;
-	});
+	}
+	//// Get code from user, sign in
+	//return window.confirmationResult.confirm(code).then((result) => {
+	//	// Successful sign in, allow in application
+	//	window.user = result.user;
+	//	return true;
+	//}).catch((error) => {
+	//	// Unsuccessful, user potentially entered incorrect code
+	//	console.error(error);
+	//	return false;
+	//});
 
 }
 
