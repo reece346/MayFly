@@ -6,19 +6,19 @@ import {getUserByID, updateUser} from '../firebaseConfig';
 import { getActiveUser } from './LoginScreen';
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import {StyleSheet,Text,ScrollView,View,TextInput,Button, Alert, Image, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, TouchableOpacity} from 'react-native';
+import {StyleSheet,Text,ScrollView,View,TextInput,Button, Alert, Image, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, TouchableOpacity, Platform} from 'react-native';
 import * as RootNavigation from '../RootNavigation';
 import User from '../user';
 import {createUser} from '../firebaseConfig';
 
 
 export default function EditProfile(){
-    const [phoneNum, setPhoneNum] = useState('');
+    
     const [displayName, setDisplayName] = useState('');
-    const [userName, setUserName] = useState('');
+    
     const [interests, setInterests] = useState([]);
 
-    editUser = async () => {
+    const editUser = async () => {
         let thisUser = getActiveUser(displayName, interests);
         await updateUser(thisUser);
         RootNavigation.navigate("Profile");
