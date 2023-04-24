@@ -92,12 +92,7 @@ export default function LogOutScreen(){
                             placeholderTextColor= 'gray' 
                             onChangeText={(val) => setInterests(val.split(/\r?\n/))}/>
 
-                        <Text style = {styles.text}>Paste the Link to Your Profile Picture</Text>
-                        <TextInput 
-                            style ={styles.input} 
-                            multiline
-                            placeholder = {'ex. imgur'}
-                            placeholderTextColor= 'gray' />
+
 
                         <View>
                             <TouchableOpacity style ={styles.buttonStyle}

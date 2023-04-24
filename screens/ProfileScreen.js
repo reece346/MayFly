@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
-import {Image,StyleSheet,Text,View,TouchableOpacity,Button, Linking, Touchable} from 'react-native';
+import {Image,StyleSheet,Text,View,TouchableOpacity,Button, Linking} from 'react-native';
 import * as RootNavigation from '../RootNavigation';
 import { getActiveUser } from './LoginScreen';
 
 
 export default function Profile({navigation}) {
     interestArray = [];
-    interestArray = getActiveUser().interests.join(", ");
-    favoriteFriend = [];
-    displayNameSaved = getActiveUser().displayName;
-    numberOfFriends = getActiveUser().friendIDs.length-1;
+    const interestArray = getActiveUser().interests.join(", ");
+    const favoriteFriend = [];
+    const displayNameSaved = getActiveUser().displayName;
+    const numberOfFriends = getActiveUser().friendIDs.length-1;
     return (
         <View style={styles.container}>
             <View style={styles.editProfile}>
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     imageContainer:{
         width: '100%',
         height: '100%',
-        position: 'center',
+        
         flexDirection: 'row',
         justifyContent: 'space-between',
         padding: 15
