@@ -52,7 +52,7 @@ export default function Profile({navigation}) {
             <View style={styles.FriendsHeader}>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                     <Text style={{fontSize: 25, color: 'white', fontWeight: '600'}}>
-                        Favorite Friends: 
+                        Friends: 
                     </Text><TouchableOpacity onPress={() => {RootNavigation.navigate("Friends")}}>
                         <Image style={{height:25, width:25, color: 'black'}} source={require('./images/addfriends.png')}/>
                     </TouchableOpacity>
