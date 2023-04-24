@@ -64,7 +64,7 @@ export default function EditProfile(){
 
                         <View style={styles.editSection}>
                             <Text style = {styles.editHeader}>Edit Your Interests</Text>
-                            <Text style = {{fontSize: 17, color: 'white'}}>(Separate Them by Clicking 'return')</Text>
+                            <Text style = {{fontSize: 17, color: 'white'}}>(Max 3 Interests)</Text>
                         
                             <TextInput 
                                 style ={styles.input} 
