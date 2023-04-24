@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, Text, View, Modal, TouchableOpacity, TextInput, RefreshControl, TouchableWithoutFeedback, Button, KeyboardAvoidingView } from 'react-native';
+import { FlatList, StyleSheet, Text, View, Modal, TouchableOpacity, TextInput, RefreshControl, TouchableWithoutFeedback, Button, KeyboardAvoidingView, Platform } from 'react-native';
 import DropDown from '../DropDown';
 import { initializeApp } from 'firebase/app';
 import { getChatByChatID, getUsersInChat, sendMessage as sendMSG } from '../firebaseConfig';
