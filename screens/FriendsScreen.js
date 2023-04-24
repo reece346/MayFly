@@ -89,7 +89,7 @@ const FriendScreen = ({navigation}) => {
                             paddingHorizontal: 10,
                             fontSize: 18,
                         }}
-                        placeholder={'Username or Phone Number'}
+                        placeholder={'Search by Phone Number'}
                         placeholderTextColor={'#666'}
                         onChangeText={(val) => setPhoneNum(val)}
                         keyboardType='number-pad'

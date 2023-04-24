@@ -164,6 +164,7 @@ export default function HomeScreen({navigation}) {
             value = {selectedItem}
             data = {hamburger}
             onSelect={onSelect}
+            navigation={navigation}
           />
           <View style={{borderRadius: 5, backgroundColor: '#d7d7d7', paddingHorizontal : 5, paddingVertical: 5, height: '27%', justifyContent: 'center', alignItems: 'center' }}>
               <Timer maxRange={chatDuration}/>

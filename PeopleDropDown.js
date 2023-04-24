@@ -24,6 +24,7 @@ export default function PeopleDropDown ({ data = [], value = {}, onSelect = () =
                         tempUser.currentChatID = "";
                         updateUser(tempUser);
                         console.log(' +++++++++++++++++++++++++' + tempUser.currentChatID)
+                        console.log(navigation)
                         navigation.replace("No Chat Screen");
                     },
                 },
