@@ -102,6 +102,9 @@ export async function getUserByPhoneNumber(phoneNumber) {
 		})
 		if(found)
 			return user;
+		else {
+			console.log('no user found with phone number ', phoneNumber)
+		}
 		return 0;
 	}).catch((error) => {
 		//error
