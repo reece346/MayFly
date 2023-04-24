@@ -4,7 +4,7 @@ import * as RootNavigation from './RootNavigation';
 import createChat from './firebaseConfig';
 import MessageList from './messageList';
 import { onValue } from 'firebase/database';
-import { assignUsersToChats } from './screens/HomeScreen';
+import { assignUsersToChats, createNewMessageLocations } from './screens/HomeScreen';
 
 function Timer({maxRange}){
     const [counter, setCounter] = useState(maxRange);
@@ -23,16 +23,11 @@ function Timer({maxRange}){
         if(counter > 0){
             setTimeout(()=>setCounter(counter-1), 1000);
         }
-        else if(counter == 0){
+        else if(counter == 0) {
             // Create 4 new messageLists for all messages to be placed in  for each chat
+            createNewMessageLocations();
             assignUsersToChats();
-            /*
-            for (i=0;i<5;i++)  {
-                let thisMessageList = new MessageList(0);
-                createMessageList(thisMessageList);
-            }
-            */
-           RootNavigation.navigate("No Chat Screen");
+            RootNavigation.navigate("No Chat Screen");
         }
     },[counter])
 

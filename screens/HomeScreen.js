@@ -10,9 +10,10 @@ import { getDatabase, onValue, ref, set, push, onChildAdded, child, get } from '
 import { getAuth, RecaptchaVerifier } from 'firebase/auth';
 import { render } from 'react-dom';
 import { getActiveUser } from './LoginScreen';
-import {app, getUserByID, getAllUsers, updateUser} from '../firebaseConfig';
+import {app, getUserByID, getAllUsers, updateUser, createMessageList, updateChat} from '../firebaseConfig';
 import PeopleDropDown from '../PeopleDropDown';
 import Timer from '../Timer';
+import MessageList from '../messageList';
 
 let hamburger = [{id:1, name:'View Profile'}, {id:2, name:'Friends'},{id:3, name:'Logout'}]
 
@@ -36,20 +37,26 @@ export async function assignUsersToChats() {
 
   shuffledUsers.forEach(async (userID, index) => {
     const user = await getUserByID(userID);
-    console.log("Users current chat: " + user.currentChatID);
+    
     const chatID = chatIDArray[index % chatIDArray.length];
-    console.log("Chat to be placed in: " + chatID);
     user.currentChatID = chatID;
-    console.log("Users new chat: " + user.currentChatID);
     updateUser(user);
   })
+}
 
-
-  for (let i=0;i<shuffledUsers.length;i++) {
-    
-    
+export async function createNewMessageLocations() {
+  let thisMessageList = new MessageList(0);
+  for(let i=0;i<chatIDArray.length;i++) {
+    createMessageList(thisMessageList);
+    const chat = await getChatByChatID(chatIDArray[i]);
+    console.log("Chats current message list: " + chat.messageList);
+    console.log("Message List to be added: " + thisMessageList.messageListID);
+    chat.messageList = thisMessageList.messageListID;
+    console.log("New Message List: " + chat.messageList);
+    updateChat(chat);
   }
 }
+
 export default function HomeScreen({navigation}) {
   const [modalVisible, setModalVisible] = useState(false);
   const [characterName, setCharacterName] = useState('');
