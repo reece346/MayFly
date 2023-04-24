@@ -24,7 +24,7 @@ export default function NoChatScreen() {
                 You are not currently in a chat!
             </Text>
             <Text style={styles.message}>
-                A new chat should be created soon!
+                A new chat is created every 24 hours!
             </Text>
             <Text style={styles.message}>
                 In the meantime, you can check out your Profile or add a few of your friends!

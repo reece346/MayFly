@@ -117,6 +117,15 @@ export async function updateUser(user) {
 	});
 }
 
+export async function updateChat(chat) {
+	const chatID = chat.chatID;
+	delete chat.chatID; // Shift chatID to be the key
+	const chatRef = ref(database, 'chats/' + chatID);
+	return set(chatRef, chat).catch((error) => {
+		console.error(error);
+	});
+}
+
 export async function reportUser(username) {
 	let reportedUser = await getUserByUsername(username)
 	reportedUser.isReported = true
@@ -239,6 +248,19 @@ export async function getUsersInChat(chatID) {
 				//console.log('Adding user to array:', data.key);
 				users.push(data.key);
 			}
+		});
+		return users;
+	});
+}
+
+export async function getAllUsers() {
+	var users = [];
+	const userRef = ref(database, 'users/');
+	return get(userRef).then((snapshot) => {
+		snapshot.forEach((data) => {
+			const val = data.val();
+			//console.log('User ID:', data.key);
+			users.push(data.key);
 		});
 		return users;
 	});

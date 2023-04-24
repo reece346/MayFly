@@ -10,7 +10,7 @@ import { getDatabase, onValue, ref, set, push, onChildAdded, child, get } from '
 import { getAuth, RecaptchaVerifier } from 'firebase/auth';
 import { render } from 'react-dom';
 import { getActiveUser } from './LoginScreen';
-import {app, getUserByID} from '../firebaseConfig';
+import {app, getUserByID, getAllUsers, updateUser} from '../firebaseConfig';
 import PeopleDropDown from '../PeopleDropDown';
 import Timer from '../Timer';
 
@@ -28,7 +28,28 @@ export function chatMessage ({item}) {
     </View>
   )
 }
+const chatIDArray = ['chat1', 'chat2', 'chat3', 'chat4'];
 
+export async function assignUsersToChats() {
+  const users = await getAllUsers();
+  const shuffledUsers = users.sort(() => 0.5 - Math.random());
+
+  shuffledUsers.forEach(async (userID, index) => {
+    const user = await getUserByID(userID);
+    console.log("Users current chat: " + user.currentChatID);
+    const chatID = chatIDArray[index % chatIDArray.length];
+    console.log("Chat to be placed in: " + chatID);
+    user.currentChatID = chatID;
+    console.log("Users new chat: " + user.currentChatID);
+    updateUser(user);
+  })
+
+
+  for (let i=0;i<shuffledUsers.length;i++) {
+    
+    
+  }
+}
 export default function HomeScreen() {
   const [modalVisible, setModalVisible] = useState(false);
   const [characterName, setCharacterName] = useState('');
@@ -75,6 +96,7 @@ export default function HomeScreen() {
     const users = await getUsersInChat(chatID);
     return users;
   }
+
   useEffect(()=> {
     populateUsersNames();
 
@@ -137,6 +159,8 @@ export default function HomeScreen() {
     console.log("Message List Location: " + messageListLoc);
 	  setMessage('');
   }
+
+  
 
   /*
   // Array of User IDs

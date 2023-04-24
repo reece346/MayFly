@@ -4,6 +4,7 @@ import * as RootNavigation from './RootNavigation';
 import createChat from './firebaseConfig';
 import MessageList from './messageList';
 import { onValue } from 'firebase/database';
+import { assignUsersToChats } from './screens/HomeScreen';
 
 function Timer({maxRange}){
     const [counter, setCounter] = useState(maxRange);
@@ -12,7 +13,7 @@ function Timer({maxRange}){
     //console.log("max Range: "  + maxRange)
     
     useEffect(() => {
-        maxRangeRef.current = maxRange;
+        maxRangeRef.current = (maxRange);
         setCounter(maxRange);
         
     }, [maxRange]);
@@ -24,11 +25,14 @@ function Timer({maxRange}){
         }
         else if(counter == 0){
             // Create 4 new messageLists for all messages to be placed in  for each chat
+            assignUsersToChats();
+            /*
             for (i=0;i<5;i++)  {
                 let thisMessageList = new MessageList(0);
                 createMessageList(thisMessageList);
             }
-            RootNavigation.navigate("No Chat Screen");
+            */
+           RootNavigation.navigate("No Chat Screen");
         }
     },[counter])
 

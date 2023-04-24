@@ -19,10 +19,10 @@ export default function EditProfile(){
     const [interests, setInterests] = useState([]);
 
     editUser = async () => {
-            let thisUser = getActiveUser(displayName, interests);
-            await updateUser(thisUser);
-            RootNavigation.navigate("Profile");
-}
+        let thisUser = getActiveUser(displayName, interests);
+        await updateUser(thisUser);
+        RootNavigation.navigate("Profile");
+    }
 
     return (
         <View style={styles.container}>
