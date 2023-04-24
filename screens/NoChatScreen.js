@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 
 let hamburger =[{id:1, name: 'View Profile'}, {id:2, name:'Friends'}, {id:3, name:'Logout'}]
 
-export default function NoChatScreen() {
+export default function NoChatScreen({navigation}) {
     const [selectedItem, setSelectedItem] = useState(null)
         const onSelect = (item) => {
         setSelectedItem(item)
@@ -18,6 +18,7 @@ export default function NoChatScreen() {
                 value = {selectedItem}
                 data = {hamburger}
                 onSelect={onSelect}
+                navigation={navigation}
             />
             </View>
             <Text style={styles.messageBold}>

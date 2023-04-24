@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import {Image,StyleSheet,Text,View,TouchableOpacity,Button, Linking} from 'react-native';
+import {Image,StyleSheet,Text,View,TouchableOpacity,Button, Linking, Touchable} from 'react-native';
 import * as RootNavigation from '../RootNavigation';
 import { getActiveUser } from './LoginScreen';
 
 
-export default function Profile() {
+export default function Profile({navigation}) {
     interestArray = [];
     interestArray = getActiveUser().interests.join(", ");
     favoriteFriend = [];
@@ -29,8 +29,13 @@ export default function Profile() {
                         <Text style={{fontSize:17, fontWeight: 'bold'}}>
                             Friends: {numberOfFriends}
                         </Text>
+                        <TouchableOpacity onPress={()=>{navigation.push('Friends')}}>
+                            <Text style={{fontSize: 16}}>
+                                Add Friends
+                            </Text>
+                        </TouchableOpacity>
                     </View>
-                    <TouchableOpacity onPress={() => {RootNavigation.navigate("Edit Profile")}}>
+                    <TouchableOpacity onPress={() => {navigation.push("Edit Profile")}}>
                         <Image style={{height:20, width:20, color: 'black'}} source={require('./images/editProfileIcon.png')}/>
                     </TouchableOpacity>
                 </View>

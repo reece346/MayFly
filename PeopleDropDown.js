@@ -4,7 +4,7 @@ import * as RootNavigation from './RootNavigation';
 import { getActiveUser } from './screens/LoginScreen';
 import { updateUser, reportUser } from './firebaseConfig';
 
-export default function PeopleDropDown ({ data = [], value = {}, onSelect = () =>{} })  {
+export default function PeopleDropDown ({ data = [], value = {}, onSelect = () =>{}, navigation })  {
     const [showOption, setShowOption] = useState(false);
     const [isReportVisible, setIsReportVisible] = useState(false);
     const [showBox, setShowBox] = useState(true);
@@ -24,7 +24,8 @@ export default function PeopleDropDown ({ data = [], value = {}, onSelect = () =
                         tempUser.currentChatID = "";
                         updateUser(tempUser);
                         console.log(' +++++++++++++++++++++++++' + tempUser.currentChatID)
-                        RootNavigation.navigate("No Chat Screen");
+                        console.log(navigation)
+                        navigation.replace("No Chat Screen");
                     },
                 },
                 {

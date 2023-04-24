@@ -11,7 +11,7 @@ import { hydrate } from 'react-dom';
 
 
 
-const FriendScreen = () => {
+const FriendScreen = ({navigation}) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [friendsDATA, setFriendsDATA] = useState([])
     const [textInput, setTextInput] = useState('');
@@ -30,22 +30,26 @@ const FriendScreen = () => {
         if(phoneNum == getActiveUser().phoneNumber){
             return Alert.alert("Invalid input");
         }
-        for(let i = 0; i < getActiveUser().friendIDs.length; i++){
-            if(getActiveUser().friendIDs[i] == phoneNum){
-                return Alert.alert("Already a friend");
-            } 
+        let friend = await getUserByPhoneNumber(phoneNum)
+        let temp = getActiveUser();
+        if(friend){
+            console.log('AHAB friend is: ', friend)
+            console.log('AHAB temp is: ', temp)
+            for (id in temp.friendIDs) {
+                console.log('AHAB temp.friendIDs[i] in temp.friendIDs is: ', temp.friendIDs[id])
+                if(friend.userID == temp.friendIDs[id])
+                    return Alert.alert("Already a friend");
+            }
+            temp.friendIDs.push(friend.userID);
+            friend.friendIDs.push(temp.userID)
+            console.log('temp is: ', temp)
+            updateActiveUser(temp);
+            await updateUser(friend)
+            await updateUser(temp).then(Alert.alert("Friend added")).then(navigation.replace('Friends'));
         }
-        let temp = new User();
-        temp = await getUserByPhoneNumber(phoneNum);
-        if(typeof temp.userID == 'undefined'){
+        else{
             return Alert.alert("User not found");
         }
-        let friend = temp.userID;
-        temp = getActiveUser();
-        temp.friendIDs.push(friend);
-        console.log('temp is: ', temp)
-        updateActiveUser(temp);
-        await updateUser(temp).then(Alert.alert("Friend added"));  
     }
     
     useEffect(()=>{
@@ -89,7 +93,7 @@ const FriendScreen = () => {
                             paddingHorizontal: 10,
                             fontSize: 18,
                         }}
-                        placeholder={'Username or Phone Number'}
+                        placeholder={'Search by Phone Number'}
                         placeholderTextColor={'#666'}
                         onChangeText={(val) => setPhoneNum(val)}
                         keyboardType='number-pad'

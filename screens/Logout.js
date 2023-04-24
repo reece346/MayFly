@@ -13,25 +13,31 @@ export default function LogOutScreen(){
     const [userName, setUserName] = useState('');
     const [interests, setInterests] = useState([]); 
 
-    async function checkUsername(userName) {
-        const user =  await getUserByUsername(userName);
-        const nameOfUser = user.userName;
-        console.log(nameOfUser);
-        return nameOfUser;
-    }
+    // async function checkUsername(userName) {
+    //     const user =  await getUserByUsername(userName);
+    //     const nameOfUser = user.userName;
+    //     console.log(nameOfUser);
+    //     return nameOfUser;
+    // }
 
-    async function checkPhoneNumber() {
-        const user =  await getUserByPhoneNumber(phoneNum);
-        const phoneOfUser = user.phoneNum;
-        console.log(user.phoneNum);
-        return phoneOfUser;
+    // async function checkPhoneNumber(phoneNum) {
+    //     const user =  await getUserByPhoneNumber(phoneNum);
+    //     const phoneOfUser = user.phoneNum;
+    //     console.log(user.phoneNum);
+    //     return phoneOfUser;
+    // }
+
+    async function isUserExists (phoneNum, userName) {
+        let phoneNumUsed = await getUserByPhoneNumber()
+        let userNameUsed = await getUserByUsername()
+        return userNameUsed || phoneNumUsed
     }
 
     submitNewUser = () => {
         if(userName!= "" && phoneNum!= ""){
-            console.log("Username check: " + checkUsername(userName));
-            console.log("Number check: " + checkPhoneNumber(phoneNum));
-            if(checkUsername(userName) == userName && checkPhoneNumber(phoneNum) == phoneNum) {
+            // console.log("Username check: " + checkUsername(userName));
+            // console.log("Number check: " + checkPhoneNumber(phoneNum));
+            if(isUserExists) {
                 return Alert.alert("Username or Phone Number already in the Database. Please Try Again");
             } else {
                 let thisUser = new User(displayName, 0, null, userName, phoneNum, "", interests, null)
@@ -46,64 +52,68 @@ export default function LogOutScreen(){
     
     return (
         <View  style={styles.container}>
-            <ScrollView keyboardShouldPersistTaps = 'handled'>
-                <View style={{top:10}}>
-                    <Text style = {styles.text}>Let's Start With Your Phone Number</Text>
-                    <TextInput 
-                        clearButtonMode='always'
-                        style ={styles.input} 
-                        placeholder = 'ex. 8037779311'
-                        placeholderTextColor= 'gray' 
-                        onChangeText={(val) => setPhoneNum(val)}
-                        keyboardType = {Platform.OS === 'ios' ? "number-pad" : "numeric"}
-                        maxLength={10}/>
+            <KeyboardAvoidingView {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})} style={{flex: 5}}>
+                <ScrollView keyboardShouldPersistTaps = 'handled'>
+                    <View style={{top:10}}>
+                        <Text style = {styles.text}>Let's Start With Your Phone Number</Text>
+                        <TextInput 
+                            clearButtonMode='always'
+                            style ={styles.input} 
+                            placeholder = 'ex. 8037779311'
+                            placeholderTextColor= 'gray' 
+                            onChangeText={(val) => setPhoneNum(val)}
+                            keyboardType = {Platform.OS === 'ios' ? "number-pad" : "numeric"}
+                            maxLength={10}/>
 
-                    <Text style = {styles.text}>Enter Full Name</Text>
-                    <TextInput 
-                        clearButtonMode='always'
-                        style ={styles.input} 
-                        placeholder = 'ex. Steve Smith'
-                        placeholderTextColor= 'gray' 
-                        onChangeText={(val) => setDisplayName(val)}/>
+                        <Text style = {styles.text}>Enter Full Name</Text>
+                        <TextInput 
+                            clearButtonMode='always'
+                            style ={styles.input} 
+                            placeholder = 'ex. Steve Smith'
+                            placeholderTextColor= 'gray' 
+                            onChangeText={(val) => setDisplayName(val)}
+                            maxLength={15}/>
 
-                    <Text style = {styles.text}>Enter Username</Text>
-                    <TextInput 
-                        clearButtonMode='always'
-                        style ={styles.input} 
-                        placeholder = 'ex. steve111'
-                        placeholderTextColor= 'gray' 
-                        onChangeText={(val) => setUserName(val)}/>
+                        <Text style = {styles.text}>Enter Username</Text>
+                        <TextInput 
+                            clearButtonMode='always'
+                            style ={styles.input} 
+                            placeholder = 'ex. steve111'
+                            placeholderTextColor= 'gray' 
+                            onChangeText={(val) => setUserName(val)}
+                            maxLength={15}/>
 
-                    <Text style = {styles.text}>What Are Your Interests?</Text>
-                    <Text style = {styles.subtext}>(Separate Them by Clicking 'return')</Text>
-                    <TextInput 
-                        style ={styles.input} 
-                        multiline
-                        placeholder = {'ex. Fishing\nex. Archery'}
-                        placeholderTextColor= 'gray' 
-                        onChangeText={(val) => setInterests(val.split(/\r?\n/))}/>
+                        <Text style = {styles.text}>What Are Your Interests?</Text>
+                        <Text style = {styles.subtext}>(Separate Them by Clicking 'return')</Text>
+                        <TextInput 
+                            style ={styles.input} 
+                            multiline
+                            placeholder = {'ex. Fishing\nex. Archery'}
+                            placeholderTextColor= 'gray' 
+                            onChangeText={(val) => setInterests(val.split(/\r?\n/))}/>
 
-                    <Text style = {styles.text}>Paste the Link to Your Profile Picture</Text>
-                    <TextInput 
-                        style ={styles.input} 
-                        multiline
-                        placeholder = {'ex. imgur'}
-                        placeholderTextColor= 'gray' />
+                        <Text style = {styles.text}>Paste the Link to Your Profile Picture</Text>
+                        <TextInput 
+                            style ={styles.input} 
+                            multiline
+                            placeholder = {'ex. imgur'}
+                            placeholderTextColor= 'gray' />
 
-                    <View>
-                        <TouchableOpacity style ={styles.buttonStyle}
-                            title='Submit'
-                            testID='submitButton'
-                            color = 'white'
-                            onPress={() => {submitNewUser()}}
-                        >
-                            <Text style={{color: 'white'}}>
-                                Submit
-                            </Text>
-                        </TouchableOpacity>
+                        <View>
+                            <TouchableOpacity style ={styles.buttonStyle}
+                                title='Submit'
+                                testID='submitButton'
+                                color = 'white'
+                                onPress={() => {submitNewUser()}}
+                            >
+                                <Text style={{color: 'white'}}>
+                                    Submit
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                </View>
-            </ScrollView>
+                </ScrollView>
+            </KeyboardAvoidingView>
         </View>
         
     )
