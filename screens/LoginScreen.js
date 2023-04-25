@@ -55,6 +55,9 @@ export default function LoginScreen({navigation}){
         userTest = await getUserByPhoneNumber(phoneNum);
         if(userTest.phoneNumber == phoneNum){
             saveUser(userTest)
+            if(userTest.isBanned){
+                return Alert.alert("You have been banned from firefly");
+            }
             if(userTest.currentChatID != "") {
                 navigation.replace("Home Screen");
             } else {
@@ -80,6 +83,9 @@ export default function LoginScreen({navigation}){
 
         getCurrentUser().then(
             user => {
+                if(user.isBanned){
+                    return
+                }
                 if(user.phoneNumber){
                     updateUser(user.phoneNumber)
                 }
@@ -87,7 +93,7 @@ export default function LoginScreen({navigation}){
         )
     }, [])
 
-    
+
     return(
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} 
                             accessible={false}>
@@ -115,6 +121,8 @@ export default function LoginScreen({navigation}){
             </View>
         </TouchableWithoutFeedback>
     )
+
+    
 }
 
 const styles = StyleSheet.create({

@@ -128,7 +128,7 @@ export default function PeopleDropDown ({ data = [], value = {}, onSelect = () =
                 activeOpacity={0.8}
                 onPress={() => setShowOption(!showOption)}
             >
-                <Image style={styles.dropDownStyle} source={require('./screens/images/hamburger.png')} />
+                <Image style={styles.dropDownStyle} source={require('./screens/images/friends-removebg-preview.png')} />
             </TouchableOpacity>
             {showOption && (<View>
                 {data.map((val, i) => {
