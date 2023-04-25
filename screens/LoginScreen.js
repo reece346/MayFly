@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { async } from "@firebase/util";
 import { Platform } from "react-native";
 import {FirebaseRecaptchaVerifierModal, FirebaseRecaptchaBanner } from 'expo-firebase-recaptcha';
+import { TwoFactorModal } from "../2FAModal"
 
 let userTest = {};
 
@@ -75,7 +76,7 @@ export default function LoginScreen({navigation}){
 
     // 2FA Code Input
     const [codeVisible, setCodeVisible] = useState(false);
-    const [codeNum, setCodeNum] = useState('');
+    //const [codeNum, setCodeNum] = useState('');
     const send2FA = async () => {
 	if (phoneNum == "") {
 		return Alert.alert("Input required");
@@ -151,32 +152,9 @@ export default function LoginScreen({navigation}){
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} 
                             accessible={false}>
             <View style = {styles.container}>
-	        <Modal
-	    	    animationType="fade"
-	    	    transparent={true}
-	    	    visible={codeVisible}
-	    	    onRequestClose={() => {
-		        setCodeVisible(!codeVisible);
-		    }}>
-				<View style={styles.codeViewOutside}>
-					<View style={styles.codeView}>
-						<Text>Type Code Below</Text>
-	    					<TextInput style = {styles.input}
-	    					    clearButtonMode='always'
-	    					    placeholder= 'ex. 123456'
-	    					    placeholderTextColor= 'gray'
-	    					    onChangeText={(code) => setCodeNum(code)}
-	    					    keyboardType = {Platform.OS === 'ios' ? 
-						        "number-pad" : "numeric"}
-	    					    maxLength={10}
-	    					/>
-	    					<TouchableOpacity style={styles.button}
-							onPress={() => {input2FACode(codeNum)}}>
-	    						<Text style={styles.buttonText}>Go</Text>
-	    					</TouchableOpacity>
-					</View>
-				</View>
-	        </Modal>
+	    	<TwoFactorModal
+	    	codeVisible={codeVisible}
+	        />
 	    	<FirebaseRecaptchaVerifierModal 
 	    		ref={recaptchaVerifier}
 	    		firebaseConfig={firebaseConfig}
