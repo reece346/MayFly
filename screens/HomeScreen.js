@@ -68,8 +68,8 @@ export default function HomeScreen({navigation})  {
   const [users, setUsers] = useState([]);
   const [usersNames, setUsersNames] = useState([]);
   const [chatDuration, setChatDuration] = useState();
-  const [chatID, setChatID] = useState(getActiveUser().currentChatID);
-  const [messageListLoc, setMessageListLoc] = useState(getChatByChatID(chatID).messageList);
+  const [chatID, setChatID] = useState();
+  const [messageListLoc, setMessageListLoc] = useState();
   //console.log("MessageList Location: " + getChatByChatID(getActiveUser().currentChatID).messageList)
 
   // const [message, setMessage] = useState('')
@@ -104,8 +104,17 @@ export default function HomeScreen({navigation})  {
     return users;
   }
 
+  async function chatProcess () {
+    let temp = await getActiveUser()
+    setChatID(temp.currentChatID)
+    let temp2 = await getChatByChatID(chatID)
+    setMessageListLoc(temp2.messageList)
+  }
+
   useEffect(()=> {
     populateUsersNames();
+
+    chatProcess()
 
     onChildAdded(messagesRef, (snapshot) => {
       const currData = snapshot.val();

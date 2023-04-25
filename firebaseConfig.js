@@ -210,6 +210,7 @@ export async function createMessageList(messageList) {
 }
 
 export async function getChatByChatID(chatID) {
+	console.log('chatID isL: ', chatID)
 	const dbRef = ref(database);
 	return get(child(dbRef, 'chats/' + chatID)).then((snapshot) => {
 		if(snapshot.exists()) {
