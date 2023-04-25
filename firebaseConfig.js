@@ -96,7 +96,7 @@ export async function getUserByPhoneNumber(phoneNumber) {
 		snapshot.forEach((data) => {
 			if (data.val().phoneNumber == phoneNumber) {
 				const dataVal = data.val();
-				user = new User(dataVal.displayName, data.key, dataVal.profilePicture, dataVal.username, phoneNumber, dataVal.currentChatID, dataVal.interests, dataVal.friendIDs);
+				user = data.val()
 				found = true;
 			}
 		})
