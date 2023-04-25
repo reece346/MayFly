@@ -139,7 +139,7 @@ export default function PeopleDropDown ({ data = [], value = {}, onSelect = () =
                                 key={String(i)}
                                 onPress={()=>showConfirmDialog()}
                             >
-                                <Text style ={{fontSize: '15%', color: 'white'}}>{val.name}</Text> 
+                                <Text style ={{fontSize: 15, color: 'white'}}>{val.name}</Text> 
                             </TouchableOpacity> //add animation?
                         )
                     } else {
@@ -149,7 +149,7 @@ export default function PeopleDropDown ({ data = [], value = {}, onSelect = () =
                                 key={String(i)}
                                 onPress={()=>showReportWindow(val.name)}
                             >
-                                <Text style ={{fontSize: '15%', color: 'white'}}>{val.name}</Text> 
+                                <Text style ={{fontSize: 15, color: 'white'}}>{val.name}</Text> 
                             </TouchableOpacity> //add animation?
                         )
                     }
