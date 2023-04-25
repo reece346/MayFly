@@ -1,4 +1,3 @@
-
 import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, set, onValue, child, get, push } from 'firebase/database';
 import { getAuth} from 'firebase/auth';
@@ -9,41 +8,42 @@ import React, { useState } from 'react';
 import {StyleSheet,Text,ScrollView,View,TextInput,Button, Alert, Image, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, TouchableOpacity, Platform} from 'react-native';
 import * as RootNavigation from '../RootNavigation';
 import User from '../user';
-import {createUser} from '../firebaseConfig';
 
 
 export default function EditProfile(){
-    
     const [displayName, setDisplayName] = useState('');
-    
     const [interests, setInterests] = useState([]);
 
     const editUser = async () => {
-        let thisUser = getActiveUser(displayName, interests);
-        await updateUser(thisUser);
-        RootNavigation.navigate("Profile");
+        let thisUser = await getActiveUser();
+        thisUser.displayName = displayName;
+        thisUser.interests = interests;
+        updateUser(thisUser);
+        navigation.push('Profile');
     }
+
+    const displayNameSaved = getActiveUser().displayName;
+    const numberOfFriends = getActiveUser().friendIDs.length-1;
 
     return (
         <View style={styles.container}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-                <KeyboardAvoidingView {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})} style={{flex: 5}}>
                     <View style={styles.topSection}>
                         <View style={styles.imageContainer}>
                             <View style={styles.avatarContainer}>
                                 <Image style={{height:60, width: 60, borderRadius:60, borderWidth:2, borderColor: 'grey'}} source={require('./images/standardpfp.png')}/>
                             </View>
                             <View style={styles.profileNameContainer}>
-                            <Text style={{fontSize:20,fontWeight:'bold'}}>
-                                    {getActiveUser().displayName}
+                                <Text style={{fontSize:20,fontWeight:'bold'}}>
+                                    {displayNameSaved}
                                 </Text>
                             </View>
                             <View style={styles.friendsCounterContainer}>
-                            <Text style={{fontSize:15}}>
+                                <Text style={{fontSize:15}}>
                                     Friends:
                                 </Text>
                                 <Text style={{fontSize:15, left: 25}}>
-                                {getActiveUser().friendIDs.length-1}
+                                    {numberOfFriends}
                                 </Text>
                             </View>
                         </View>
@@ -83,7 +83,6 @@ export default function EditProfile(){
                             </View>
                         </TouchableOpacity>
                     </View>
-                </KeyboardAvoidingView>
             </TouchableWithoutFeedback>
         </View>
     )
@@ -99,7 +98,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         borderColor: '#EAEAEA',
         padding: '2%',
-        marginLeft: '5%',
+        marginLeft: 10,
         backgroundColor: '#EAEAEA',
         marginVertical: '2%'
     },
@@ -108,7 +107,7 @@ const styles = StyleSheet.create({
     imageContainer:{
         width: '100%',
         height: '100%',
-        position: 'center',
+        position: 'absolute',
         flexDirection: 'row',
         justifyContent: 'space-between',
         padding: 15
@@ -120,7 +119,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#EAEAEA',
         borderRadius: 20,
-        flex: 1,
+        flex: 2,
     },
     avatarBorderContainer:{
     },
@@ -134,7 +133,7 @@ const styles = StyleSheet.create({
     },
     EditSection : {
         flex: 7,
-        alignItems: 'left',
+        alignItems: 'flex-start',
         paddingLeft: '5%'
     },
     editHeader:{
@@ -143,6 +142,6 @@ const styles = StyleSheet.create({
     },
     editSection:{
         paddingLeft: '5%',
-        marginVertical: '2%'
+        marginVertical: 2
     }
 })

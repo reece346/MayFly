@@ -83,6 +83,9 @@ export async function getUserByUsername(username) {
 		})
 		if(found)
 			return user;
+		else {
+			console.log('no user found with username ', username)
+		}
 		return 0;
 	}).catch((error) => {
 		//error

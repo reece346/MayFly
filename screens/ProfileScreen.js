@@ -35,7 +35,7 @@ export default function Profile({navigation}) {
                             </Text>
                         </TouchableOpacity>
                     </View>
-                    <TouchableOpacity onPress={() => {navigation.push("Edit Profile")}}>
+                    <TouchableOpacity onPress={() => {RootNavigation.navigate("Edit Profile")}}>
                         <Image style={{height:20, width:20}} source={require('./images/editProfileIcon.png')}/>
                     </TouchableOpacity>
                 </View>
@@ -91,7 +91,6 @@ const styles = StyleSheet.create({
     imageContainer:{
         width: '100%',
         height: '100%',
-        
         flexDirection: 'row',
         justifyContent: 'space-between',
         padding: 15

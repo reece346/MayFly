@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import {StyleSheet,Text,ScrollView,View,TextInput,Button, Alert, TouchableOpacity} from 'react-native';
+import { KeyboardAvoidingView, StyleSheet,Text,ScrollView,View,TextInput,Button, Alert, TouchableOpacity} from 'react-native';
 import * as RootNavigation from '../RootNavigation';
 import User from '../user';
 import {createUser, getUserByUsername} from '../firebaseConfig';
@@ -28,8 +28,8 @@ export default function LogOutScreen(){
     // }
 
     async function isUserExists (phoneNum, userName) {
-        let phoneNumUsed = await getUserByPhoneNumber()
-        let userNameUsed = await getUserByUsername()
+        let phoneNumUsed = await getUserByPhoneNumber(phoneNum)
+        let userNameUsed = await getUserByUsername(userName)
         return userNameUsed || phoneNumUsed
     }
 
@@ -37,7 +37,7 @@ export default function LogOutScreen(){
         if(userName!= "" && phoneNum!= ""){
             // console.log("Username check: " + checkUsername(userName));
             // console.log("Number check: " + checkPhoneNumber(phoneNum));
-            if(isUserExists) {
+            if(isUserExists(phoneNum, userName) == phoneNum || isUserExists(phoneNum, userName) == userName) {
                 return Alert.alert("Username or Phone Number already in the Database. Please Try Again");
             } else {
                 let thisUser = new User(displayName, 0, null, userName, phoneNum, "", interests, null)
