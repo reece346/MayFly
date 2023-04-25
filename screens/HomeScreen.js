@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, Text, View, Modal, TouchableOpacity, TextInput, RefreshControl, TouchableWithoutFeedback, Button, KeyboardAvoidingView, Platform } from 'react-native';
 import DropDown from '../DropDown';
 import { initializeApp } from 'firebase/app';
-import { getChatByChatID, getUsersInChat, sendMessage as sendMSG } from '../firebaseConfig';
+import { getChatByChatID, getUserByPhoneNumber, getUsersInChat, sendMessage as sendMSG } from '../firebaseConfig';
 import Message from '../message'
 import Chat from '../chat'
 import { getDatabase, onValue, ref, set, push, onChildAdded, child, get } from 'firebase/database';
@@ -158,11 +158,15 @@ export default function HomeScreen({navigation})  {
   )
   
   //TO-DO: Replace 'testuser' with currentUser, and have 'test2' replaced with the user's chatID
-  const sendMessage = () => {
+  async function sendMessage () {
+    console.log('sending message')
+    let author = await getActiveUser()
+    console.log('author is: ', author)
 	  if (message == '')
 		  return;
-    const newMessage = new Message(0, getActiveUser().userID, Date.now(), message, {});
+    const newMessage = new Message(0, author.userID, Date.now(), message, {});
 	  sendMSG(newMessage, messageListLoc);
+    console.log('newMessage is: ', newMessage)
     console.log("Message List Location: " + messageListLoc);
 	  setMessage('');
   }

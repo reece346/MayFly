@@ -10,7 +10,7 @@ import { Platform } from "react-native";
 
 let userTest = {};
 
-export function getActiveUser(){
+export async function getActiveUser(){
     return userTest;
 }
 
@@ -77,7 +77,8 @@ export default function LoginScreen({navigation}){
             let updatedUser = await getUserByPhoneNumber(phoneNumber);
             console.log('updatedUser is: ', updatedUser)
             console.log('phoneNumber is: ', phoneNumber)
-            await saveUser(updatedUser).then(updateActiveUser(updatedUser))
+            await saveUser(updatedUser)
+            await updateActiveUser(updatedUser)
             updatedUser.currentChatID ? navigation.replace('Home Screen') : navigation.replace('No Chat Screen')
         }
 
