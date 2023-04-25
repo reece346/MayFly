@@ -11,15 +11,15 @@ export default function PeopleDropDown ({ data = [], value = {}, onSelect = () =
     const [selectedUser, setSelectedUser] = useState('');
 
     //Confirmation of leaving a chat
-    const showConfirmDialog = () => {
+    const showConfirmDialog = async() => {
         return Alert.alert(
             "Are you sure?",
             "This will remove you from the chat.",
             [
                 {
                     text: "Yes",
-                    onPress: () => {
-                        let tempUser = getActiveUser();
+                    onPress: async () => {
+                        let tempUser = await getActiveUser();
                         console.log('=====================' + tempUser.currentChatID)
                         tempUser.currentChatID = "";
                         updateUser(tempUser);

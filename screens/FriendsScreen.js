@@ -25,12 +25,12 @@ const FriendScreen = ({navigation}) => {
         //if left blank, already a friend, or same as active user
         if(phoneNum == "")
             return Alert.alert("Input required");
-        if(phoneNum == getActiveUser().phoneNumber || phoneNum == getActiveUser().username){
+        if(phoneNum == await getActiveUser().phoneNumber || phoneNum == await getActiveUser().username){
             return Alert.alert("Invalid input");
         }
         let friend = await getUserByPhoneNumber(phoneNum)
         let userNameFriend = await getUserByUsername(phoneNum)
-        let temp = getActiveUser();
+        let temp = await getActiveUser();
         if(friend){
             console.log('AHAB friend is: ', friend)
             console.log('AHAB temp is: ', temp)
@@ -63,15 +63,19 @@ const FriendScreen = ({navigation}) => {
         }
     }
     
-    useEffect(()=>{
-
-        getActiveUser().friendIDs.map(async(ID)=>{
+    async function processFriendsList() {
+        temp = await getActiveUser();
+        temp.friendIDs.map(async(ID) => {
             await getUserByID(ID).then( user => {
                 if(user){
                     setFriendsDATA(friendsDATA => [{id: user.userID, name: user.displayName, desc : user.interests.join(', ')}, ...friendsDATA])
                 }
-            })
+            })   
         })
+    }
+
+    useEffect(() => {
+       processFriendsList();
 
     },[getActiveUser.friendIDs])   
     

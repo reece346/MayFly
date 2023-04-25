@@ -53,11 +53,13 @@ export default function LoginScreen({navigation}){
         }
         //TODO: the promise rejection if you are not an existing user is never handled
         userTest = await getUserByPhoneNumber(phoneNum);
+        console.log("User exists: " + userTest);
         if(userTest.phoneNumber == phoneNum){
             saveUser(userTest)
             if(userTest.isBanned){
-                return Alert.alert("You have been banned from firefly");
+                return Alert.alert("You have been banned from MayFly");
             }
+            console.log("Users current chat id: " + userTest.currentChatID)
             if(userTest.currentChatID != "") {
                 navigation.replace("Home Screen");
             } else {
@@ -77,8 +79,7 @@ export default function LoginScreen({navigation}){
             let updatedUser = await getUserByPhoneNumber(phoneNumber);
             console.log('updatedUser is: ', updatedUser)
             console.log('phoneNumber is: ', phoneNumber)
-            await saveUser(updatedUser)
-            await updateActiveUser(updatedUser)
+            await saveUser(updatedUser).then(updateActiveUser(updatedUser))
             updatedUser.currentChatID ? navigation.replace('Home Screen') : navigation.replace('No Chat Screen')
         }
 
