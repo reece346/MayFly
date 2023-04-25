@@ -57,7 +57,7 @@ export async function createNewMessageLocations() {
   }
 }
 
-export default function HomeScreen({navigation}) {
+export default function HomeScreen({navigation})  {
   const [modalVisible, setModalVisible] = useState(false);
   const [characterName, setCharacterName] = useState('');
   const [characterDesc, setCharacterDesc] = useState('');

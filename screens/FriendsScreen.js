@@ -108,6 +108,7 @@ const FriendScreen = ({navigation}) => {
                         placeholderTextColor={'#666'}
                         onChangeText={(val) => setPhoneNum(val)}
                         clearButtonMode='always'
+                        testID='addFriendsTextInput'
                         />
                     </View>
                 </View>
