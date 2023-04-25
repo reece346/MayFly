@@ -4,12 +4,12 @@ import * as RootNavigation from '../RootNavigation';
 import { getActiveUser } from './LoginScreen';
 
 
-export default function Profile({navigation}) {
+export default async function Profile({navigation}) {
 
-    const interestArray = getActiveUser().interests.join(", ");
+    const interestArray = await getActiveUser().interests.join(", ");
 
-    const displayNameSaved = getActiveUser().displayName;
-    const numberOfFriends = getActiveUser().friendIDs.length-1;
+    const displayNameSaved = await getActiveUser().displayName;
+    const numberOfFriends = await getActiveUser().friendIDs.length-1;
     return (
         <View style={styles.container}>
             <View style={styles.editProfile}>
