@@ -45,7 +45,7 @@ const showConfirmDialog = () => {
 
 const onSelectedItem = (val) =>{
     if (val.name == "View Profile")
-        RootNavigation.navigate("Profile");
+        navigation.push('Profile');
     if (val.name == "Friends")
         RootNavigation.navigate("Friends");
     if (val.name == "Logout")
