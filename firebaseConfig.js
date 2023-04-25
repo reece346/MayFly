@@ -34,8 +34,10 @@ export async function sendCode2FA(phoneNumber, recaptcha) {
 			recaptcha);
 		window.verificationId = verificationId;
 		console.log("Code sent!");
+		return true;
 	} catch (error) {
 		console.log(error);
+		return false;
 	}
 	//if (phoneNumber == "+18888888888") // Testing number, disable CAPTCHA
 	//	auth.settings.appVerificationDisabledForTesting = true;
@@ -65,8 +67,10 @@ export async function confirm2FA(code) {
 		const credential = PhoneAuthProvider.credential(verificationId, code);
 		await signInWithCredential(auth, credential);
 		console.log("Signed in");
+		return true;
 	} catch (error) {
 		console.error(error);
+		return false;
 	}
 	//// Get code from user, sign in
 	//return window.confirmationResult.confirm(code).then((result) => {

@@ -1,4 +1,4 @@
-import { View , Image, Text, StyleSheet, TextInput, Button, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Alert} from "react-native"
+import { View , Image, Text, StyleSheet, TextInput, Button, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Alert, Modal} from "react-native"
 import React, {useEffect, useState} from "react"
 import * as RootNavigation from '../RootNavigation';
 import { app, getUserByPhoneNumber , getUserByUsername, updateUser, sendCode2FA, confirm2FA } from "../firebaseConfig";
@@ -54,28 +54,49 @@ export default function LoginScreen(){
         if (phoneNum == ""){
             return Alert.alert("Input required");
         } // TODO remove comment block
-	//setPhoneNum("+1" + phoneNum);
-	sendCode2FA("+1" + phoneNum, recaptchaVerifier.current);
-	// TODO After this, either a popup or a new screen needs to ask for the 2FA sent.
-	// Use confirm2FA(code) to finish it, then sign in.
 
-        ////TODO: the promise rejection if you are not an existing user is never handled
-        //userTest = await getUserByPhoneNumber(phoneNum);
-        //if(userTest.phoneNumber == phoneNum){
-        //    saveUser(userTest)
-        //    if(userTest.currentChatID != "") {
-        //        RootNavigation.navigate("Home Screen");
-        //    } else {
-        //        RootNavigation.navigate("No Chat Screen");
-        //    }
-        //    
-        //}
-        //else{
-        //    return Alert.alert("You are not an existing user!");
-        //}
+        //TODO: the promise rejection if you are not an existing user is never handled
+        userTest = await getUserByPhoneNumber(phoneNum);
+        if(userTest.phoneNumber == phoneNum){
+            saveUser(userTest)
+            if(userTest.currentChatID != "") {
+                RootNavigation.navigate("Home Screen");
+            } else {
+                RootNavigation.navigate("No Chat Screen");
+            }
+            
+        }
+        else{
+            return Alert.alert("You are not an existing user!");
+        }
     return;    
     }
 
+
+    // 2FA Code Input
+    const [codeVisible, setCodeVisible] = useState(false);
+    const [codeNum, setCodeNum] = useState('');
+    const send2FA = async () => {
+	if (phoneNum == "") {
+		return Alert.alert("Input required");
+	}
+	const sendCodeSuccess = await sendCode2FA("+1" + phoneNum, recaptchaVerifier.current);
+	if (sendCodeSuccess)
+	    setCodeVisible(true);
+	else
+	    return Alert.alert("Invalid!");
+    }
+    const input2FACode = async (code) => {
+	if (code == "") {
+		return Alert.alert("Input required");
+	}
+	const codeSuccess = await confirm2FA(code);
+	if (codeSuccess)
+	    login();
+	else
+	    return Alert.alert("Invalid code!");
+    }
+			
     const logOutCurrentUser = async () => {
         try {
             await AsyncStorage.removeItem('@userData');
@@ -130,6 +151,32 @@ export default function LoginScreen(){
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} 
                             accessible={false}>
             <View style = {styles.container}>
+	        <Modal
+	    	    animationType="fade"
+	    	    transparent={true}
+	    	    visible={codeVisible}
+	    	    onRequestClose={() => {
+		        setCodeVisible(!codeVisible);
+		    }}>
+				<View style={styles.codeViewOutside}>
+					<View style={styles.codeView}>
+						<Text>Type Code Below</Text>
+	    					<TextInput style = {styles.input}
+	    					    clearButtonMode='always'
+	    					    placeholder= 'ex. 123456'
+	    					    placeholderTextColor= 'gray'
+	    					    onChangeText={(code) => setCodeNum(code)}
+	    					    keyboardType = {Platform.OS === 'ios' ? 
+						        "number-pad" : "numeric"}
+	    					    maxLength={10}
+	    					/>
+	    					<TouchableOpacity style={styles.button}
+							onPress={() => {input2FACode(codeNum)}}>
+	    						<Text style={styles.buttonText}>Go</Text>
+	    					</TouchableOpacity>
+					</View>
+				</View>
+	        </Modal>
 	    	<FirebaseRecaptchaVerifierModal 
 	    		ref={recaptchaVerifier}
 	    		firebaseConfig={firebaseConfig}
@@ -146,7 +193,7 @@ export default function LoginScreen(){
                 maxLength={10}
                 />
                 <TouchableOpacity style = {styles.button}
-                    onPress={() => {login()}}>
+                    onPress={() => {send2FA()}}>
                     <Text style = {styles.buttonText}>Go</Text>
                 </TouchableOpacity>
                 <Text style ={styles.title}>Haven't created an account?</Text>
@@ -185,6 +232,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#3A3B50',
         alignItems: "center"
       },
+    codeViewOutside:{
+	flex: 1,
+	justifyContent: 'center',
+	alignItems: 'center',
+	marginTop: 55,
+	backgroundColor: '#3A3B5080',
+    },
     input:{
         alignSelf: 'center',
         borderWidth: 1,
@@ -194,5 +248,20 @@ const styles = StyleSheet.create({
         marginTop: 1,
         width: 200,
         color: 'white',
+    },
+    codeView:{
+	margin: 20,
+	backgroundColor: 'white',
+	borderRadius: 20,
+	padding: 35,
+	alignItems: 'center',
+	shadowColor: '#000',
+	shadowOffset: {
+	    width: 0,
+	    height: 2,
+	},
+	shadowOpacity: 0.25,
+	shadowRadius: 4,
+	elevation: 5,
     }
 })
