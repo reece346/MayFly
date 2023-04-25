@@ -21,9 +21,7 @@ Install expo go on oyur mobile device, then type `expo start` on the command lin
 # Testing
 
 a. Commands
-* Unit test:     $: npm test
-* Behavior test: $: chmod +x eas-hooks/*.sh (hooks need executable permissions)
-               $: npx eas build --profile preview --platform android
+* Unit and behavioral tests:     $: npm test
 
 b. Directory
 * Odyssey/tests
@@ -32,7 +30,7 @@ b. Directory
 
 Unit Testing: Jest
 
-Behavioral Testing: Detox
+Behavioral Testing: React Native Testing Library/Jest
 
 # Authors
 
