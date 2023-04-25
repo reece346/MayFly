@@ -12,12 +12,12 @@ describe("Firebase Realtime Database Access", () => {
 		let user = await getUserByID('testuser');
 		INITUSER = user;
 		//console.log(JSON.stringify(user));
-		expect(user.displayName).toBe("Chad Thompson");
+		expect(user.displayName).toBe("Jim Johnson");
 	});
 	it("Should recieve the test user by phone number", async () => {
 		//console.log("Grabbing '+16505553434' from the database...");
 		let user = await getUserByPhoneNumber("6505553434");
-		expect(user.displayName).toBe("Chad Thompson");
+		expect(user.displayName).toBe("Jim Johnson");
 	});
 	it("Should edit the test user's name", async () => {
 		let user = await getUserByID('testuser');
@@ -38,13 +38,13 @@ describe("Firebase Realtime Database Access", () => {
 	});
 	it("Should recieve chat messages from the database", async () => {
 		let message = await getMessageByID('testmsg2', 'test2');
-		expect(message.contents).toBe("Testy test test!");
+		expect(message.contents).toBe("Test message for Chat 2");
 	});
 	it("Should filter chat messages by authorID", async () => {
 		let messages = await getMessagesByUser('testuser', 'test2');
 		var containsMessage = false;
 		messages.forEach(msg => {
-			if(msg.contents == "Testy test test!")
+			if(msg.contents == "Test message for Chat 2")
 				containsMessage = true;
 		});
 		expect(containsMessage).toBe(true);
