@@ -133,8 +133,15 @@ export default function HomeScreen({navigation})  {
       if(val) {
         const timeCreated = val.timeCreated;
         console.log("Time Created: " + timeCreated);
-        setChatDuration(86400 - (systemTimeInSecs - timeCreated)); 
-        console.log("Chat Duration: " + val.chatDuration);
+        console.log("System Time: " + systemTimeInSecs);
+
+        let chatDur = (systemTimeInSecs - timeCreated);
+        if (chatDur > 0) {
+          setChatDuration(86400 - chatDur); 
+        } else {
+          setChatDuration(timeCreated - systemTimeInSecs);
+        }
+        console.log("Chat Duration: " + chatDuration);
       }
     }, (error) => {
       console.log(error);
