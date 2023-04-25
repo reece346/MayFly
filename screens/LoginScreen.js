@@ -152,9 +152,15 @@ export default function LoginScreen({navigation}){
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} 
                             accessible={false}>
             <View style = {styles.container}>
-	    	<TwoFactorModal
-	    	codeVisible={codeVisible}
-	        />
+	    	<Modal
+	    	    animationType="fade"
+	    	    transparent={true}
+	    	    visible={codeVisible}
+	    	    onRequestClose={() => {
+		        setCodeVisible(!codeVisible);
+		    }}>
+	    		<TwoFactorModal/>
+	    	</Modal>
 	    	<FirebaseRecaptchaVerifierModal 
 	    		ref={recaptchaVerifier}
 	    		firebaseConfig={firebaseConfig}
