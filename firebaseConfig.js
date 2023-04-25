@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
-import { getDatabase, ref, set, onValue, child, get, push, remove } from 'firebase/database';
 import { getAuth, signOut, PhoneAuthProvider, signInWithCredential } from 'firebase/auth';
+import { getDatabase, ref, set, onValue, child, get, push, remove, once } from 'firebase/database';
 import User from './user.js';
 import Chat from './chat.js';
 import Message from './message.js';
@@ -145,6 +145,9 @@ export async function getUserByPhoneNumber(phoneNumber) {
 		})
 		if(found)
 			return user;
+		else {
+			console.log('no user found with phone number ', phoneNumber)
+		}
 		return 0;
 	}).catch((error) => {
 		//error
@@ -156,6 +159,15 @@ export async function updateUser(user) {
 	delete user.userID; // Shift userID to be the key
 	const userRef = ref(database, 'users/' + userID);
 	return set(userRef, user).catch((error) => {
+		console.error(error);
+	});
+}
+
+export async function updateChat(chat) {
+	const chatID = chat.chatID;
+	delete chat.chatID; // Shift chatID to be the key
+	const chatRef = ref(database, 'chats/' + chatID);
+	return set(chatRef, chat).catch((error) => {
 		console.error(error);
 	});
 }
@@ -228,27 +240,25 @@ export async function sendMessage(message, chatID) {
 
 export async function createMessageList(messageList) {
 	const dbRef = ref(database);
-	delete messageList.messageListID;
-	push(child(dbRef, 'messages'), messageList).catch((error) => { // Generate new messageListID
-		console.error(error);
-	}); 
-	return;
+	// Pushes new branch for message list to DB
+	const newMessageListRef = push(child(dbRef, 'messages'));
+	// Gets unique ID 
+	const newMessageListID = newMessageListRef.key;
+	// Sets DB value to new id value
+	messageList.messageListID = newMessageListID;
+	await set(newMessageListRef, messageList);
 }
 
 export async function getChatByChatID(chatID) {
 	const dbRef = ref(database);
-	return get(child(dbRef, 'chats/')).then((snapshot) => {
-		let chat, found = false;
-		snapshot.forEach((data) => {
-			if (data.val().chatID == chatID) {
-				const dataVal = data.val();
-				chat = new Chat(data.key, dataVal.messageList, dataVal.timeCreated);
-				found = true;
-			}
-		})
-		if(found)
+	return get(child(dbRef, 'chats/' + chatID)).then((snapshot) => {
+		if(snapshot.exists()) {
+			const val = snapshot.val();
+			const chat = new Chat(chatID, val.messageList, val.timeCreated);
 			return chat;
-		return 0;
+		} else {
+			console.log("No chat found");
+		}
 	}).catch((error) => {
 		console.error(error);
 	});
@@ -282,6 +292,19 @@ export async function getUsersInChat(chatID) {
 				//console.log('Adding user to array:', data.key);
 				users.push(data.key);
 			}
+		});
+		return users;
+	});
+}
+
+export async function getAllUsers() {
+	var users = [];
+	const userRef = ref(database, 'users/');
+	return get(userRef).then((snapshot) => {
+		snapshot.forEach((data) => {
+			const val = data.val();
+			//console.log('User ID:', data.key);
+			users.push(data.key);
 		});
 		return users;
 	});

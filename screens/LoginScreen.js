@@ -18,7 +18,7 @@ export function updateActiveUser(user){
     userTest = user;
 }
 
-export default function LoginScreen(){
+export default function LoginScreen({navigation}){
 
      const recaptchaVerifier = React.useRef(null);
      const firebaseConfig = app ? app.options : undefined;
@@ -60,9 +60,9 @@ export default function LoginScreen(){
         if(userTest.phoneNumber == phoneNum){
             saveUser(userTest)
             if(userTest.currentChatID != "") {
-                RootNavigation.navigate("Home Screen");
+                navigation.replace("Home Screen");
             } else {
-                RootNavigation.navigate("No Chat Screen");
+                navigation.replace("No Chat Screen");
             }
             
         }
@@ -134,7 +134,7 @@ export default function LoginScreen(){
             console.log('updatedUser is: ', updatedUser)
             console.log('phoneNumber is: ', phoneNumber)
             await saveUser(updatedUser).then(updateActiveUser(updatedUser))
-            updatedUser.currentChatID ? goToScreen('Home Screen') : goToScreen('No Chat Screen')
+            updatedUser.currentChatID ? navigation.replace('Home Screen') : navigation.replace('No Chat Screen')
         }
 
         getCurrentUser().then(
@@ -193,12 +193,13 @@ export default function LoginScreen(){
                 maxLength={10}
                 />
                 <TouchableOpacity style = {styles.button}
-                    onPress={() => {send2FA()}}>
+                    onPress={() => {send2FA()}}
+	            testID="loginGoButton">
                     <Text style = {styles.buttonText}>Go</Text>
                 </TouchableOpacity>
                 <Text style ={styles.title}>Haven't created an account?</Text>
                 <TouchableOpacity style = {styles.button}
-                    onPress={() => {goToScreen('Startup')}}>
+                    onPress={() => {navigation.push('Startup')}}>
                     <Text style = {styles.buttonText}>Create Account</Text>
                 </TouchableOpacity>
             </View>

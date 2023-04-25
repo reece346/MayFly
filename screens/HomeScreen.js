@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, Text, View, Modal, TouchableOpacity, TextInput, RefreshControl, TouchableWithoutFeedback, Button, KeyboardAvoidingView } from 'react-native';
+import { FlatList, StyleSheet, Text, View, Modal, TouchableOpacity, TextInput, RefreshControl, TouchableWithoutFeedback, Button, KeyboardAvoidingView, Platform } from 'react-native';
 import DropDown from '../DropDown';
 import { initializeApp } from 'firebase/app';
 import { getChatByChatID, getUsersInChat, sendMessage as sendMSG } from '../firebaseConfig';
@@ -10,9 +10,10 @@ import { getDatabase, onValue, ref, set, push, onChildAdded, child, get } from '
 import { getAuth, RecaptchaVerifier } from 'firebase/auth';
 import { render } from 'react-dom';
 import { getActiveUser } from './LoginScreen';
-import {app, getUserByID} from '../firebaseConfig';
+import {app, getUserByID, getAllUsers, updateUser, createMessageList, updateChat} from '../firebaseConfig';
 import PeopleDropDown from '../PeopleDropDown';
 import Timer from '../Timer';
+import MessageList from '../messageList';
 
 let hamburger = [{id:1, name:'View Profile'}, {id:2, name:'Friends'},{id:3, name:'Logout'}]
 
@@ -28,8 +29,35 @@ export function chatMessage ({item}) {
     </View>
   )
 }
+const chatIDArray = ['chat1', 'chat2', 'chat3', 'chat4'];
 
-export default function HomeScreen() {
+export async function assignUsersToChats() {
+  const users = await getAllUsers();
+  const shuffledUsers = users.sort(() => 0.5 - Math.random());
+
+  shuffledUsers.forEach(async (userID, index) => {
+    const user = await getUserByID(userID);
+    
+    const chatID = chatIDArray[index % chatIDArray.length];
+    user.currentChatID = chatID;
+    updateUser(user);
+  })
+}
+
+export async function createNewMessageLocations() {
+  let thisMessageList = new MessageList(0);
+  for(let i=0;i<chatIDArray.length;i++) {
+    createMessageList(thisMessageList);
+    const chat = await getChatByChatID(chatIDArray[i]);
+    console.log("Chats current message list: " + chat.messageList);
+    console.log("Message List to be added: " + thisMessageList.messageListID);
+    chat.messageList = thisMessageList.messageListID;
+    console.log("New Message List: " + chat.messageList);
+    updateChat(chat);
+  }
+}
+
+export default function HomeScreen({navigation})  {
   const [modalVisible, setModalVisible] = useState(false);
   const [characterName, setCharacterName] = useState('');
   const [characterDesc, setCharacterDesc] = useState('');
@@ -75,6 +103,7 @@ export default function HomeScreen() {
     const users = await getUsersInChat(chatID);
     return users;
   }
+
   useEffect(()=> {
     populateUsersNames();
 
@@ -138,6 +167,8 @@ export default function HomeScreen() {
 	  setMessage('');
   }
 
+  
+
   /*
   // Array of User IDs
   const userIDs = ["-NP1kwfgqrAolBf1cYR9", "-NP1lG4cx5dtd6e18FFD", "-NP1lPuiZGLHFaJ6QfK8",
@@ -164,6 +195,7 @@ export default function HomeScreen() {
             value = {selectedItem}
             data = {hamburger}
             onSelect={onSelect}
+            navigation={navigation}
           />
           <View style={{borderRadius: 5, backgroundColor: '#d7d7d7', paddingHorizontal : 5, paddingVertical: 5, height: '27%', justifyContent: 'center', alignItems: 'center' }}>
               <Timer maxRange={chatDuration}/>
@@ -173,27 +205,28 @@ export default function HomeScreen() {
             data={usersNames}
             onSelect={onSelect}
             value={selectedItem}
+            navigation={navigation}
           />
         </View>
         
         <KeyboardAvoidingView {...(Platform.OS === 'ios' ? { behavior: 'padding' } : {})} style={{flex: 5}}>
-        <FlatList
-          style={{padding: 10}}
-          data={messageList}
-          inverted={true}
-          renderItem={renderMessage}
-          keyExtractor={item => item.name}
+          <FlatList
+            style={{padding: 10}}
+            data={messageList}
+            inverted={true}
+            renderItem={renderMessage}
+            keyExtractor={item => item.name}
 
-          ListEmptyComponent={
-            <View>
-              <Text>Start the Conversation!</Text>
-            </View>
-          }
-        />
-        <View style={styles.chatBoxContainer}>
-          <TextInput placeholder={'Send a message'} onChangeText={message => setMessage(message)} value={message} style={styles.messageInput}/>
-          <Button onPress={() => {sendMessage()}} style={styles.sendButton} color='blue' title='Send'/>
-        </View>
+            ListEmptyComponent={
+              <View>
+                <Text>Start the Conversation!</Text>
+              </View>
+            }
+          />
+          <View style={styles.chatBoxContainer}>
+            <TextInput placeholder={'Send a message'} onChangeText={message => setMessage(message)} value={message} style={styles.messageInput}/>
+            <Button onPress={() => {sendMessage()}} style={styles.sendButton} color='blue' title='Send'/>
+          </View>
         </KeyboardAvoidingView>
     </View>
   );

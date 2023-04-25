@@ -4,12 +4,12 @@ import * as RootNavigation from '../RootNavigation';
 import { getActiveUser } from './LoginScreen';
 
 
-export default function Profile() {
-    interestArray = [];
-    interestArray = getActiveUser().interests.join(", ");
-    favoriteFriend = [];
-    displayNameSaved = getActiveUser().displayName;
-    numberOfFriends = getActiveUser().friendIDs.length-1;
+export default function Profile({navigation}) {
+
+    const interestArray = getActiveUser().interests.join(", ");
+
+    const displayNameSaved = getActiveUser().displayName;
+    const numberOfFriends = getActiveUser().friendIDs.length-1;
     return (
         <View style={styles.container}>
             <View style={styles.editProfile}>
@@ -29,9 +29,14 @@ export default function Profile() {
                         <Text style={{fontSize:17, fontWeight: 'bold'}}>
                             Friends: {numberOfFriends}
                         </Text>
+                        <TouchableOpacity onPress={()=>{navigation.push('Friends')}}>
+                            <Text style={{fontSize: 16}}>
+                                Add Friends
+                            </Text>
+                        </TouchableOpacity>
                     </View>
-                    <TouchableOpacity onPress={() => {RootNavigation.navigate("Edit Profile")}}>
-                        <Image style={{height:20, width:20, color: 'black'}} source={require('./images/editProfileIcon.png')}/>
+                    <TouchableOpacity onPress={() => {navigation.push("Edit Profile")}}>
+                        <Image style={{height:20, width:20}} source={require('./images/editProfileIcon.png')}/>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -47,9 +52,9 @@ export default function Profile() {
             <View style={styles.FriendsHeader}>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                     <Text style={{fontSize: 25, color: 'white', fontWeight: '600'}}>
-                        Favorite Friends: 
+                        Friends: 
                     </Text><TouchableOpacity onPress={() => {RootNavigation.navigate("Friends")}}>
-                        <Image style={{height:25, width:25, color: 'black'}} source={require('./images/addfriends.png')}/>
+                        <Image style={{height:25, width:25}} source={require('./images/addfriends.png')}/>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -86,7 +91,7 @@ const styles = StyleSheet.create({
     imageContainer:{
         width: '100%',
         height: '100%',
-        position: 'center',
+        
         flexDirection: 'row',
         justifyContent: 'space-between',
         padding: 15

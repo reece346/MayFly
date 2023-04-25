@@ -4,7 +4,7 @@ import * as RootNavigation from './RootNavigation';
 import { getActiveUser } from './screens/LoginScreen';
 import { updateUser, reportUser } from './firebaseConfig';
 
-export default function PeopleDropDown ({ data = [], value = {}, onSelect = () =>{} })  {
+export default function PeopleDropDown ({ data = [], value = {}, onSelect = () =>{}, navigation })  {
     const [showOption, setShowOption] = useState(false);
     const [isReportVisible, setIsReportVisible] = useState(false);
     const [showBox, setShowBox] = useState(true);
@@ -24,7 +24,8 @@ export default function PeopleDropDown ({ data = [], value = {}, onSelect = () =
                         tempUser.currentChatID = "";
                         updateUser(tempUser);
                         console.log(' +++++++++++++++++++++++++' + tempUser.currentChatID)
-                        RootNavigation.navigate("No Chat Screen");
+                        console.log(navigation)
+                        navigation.replace("No Chat Screen");
                     },
                 },
                 {
@@ -66,8 +67,23 @@ export default function PeopleDropDown ({ data = [], value = {}, onSelect = () =
     }
 
     const showReportWindow = (username) => {
-        setIsReportVisible(true)
-        setSelectedUser(username)
+        // setIsReportVisible(true)
+        // setSelectedUser(username)
+        return Alert.alert(
+            `Report ${username}?`,
+            "",
+            [
+                {
+                    text: "Yes",
+                    onPress: () => {
+                        reportUser(username)
+                    },
+                },
+                {
+                    text: "No",
+                },
+            ]
+        );
     }
 
     const reportSelected = (username) => {
@@ -83,7 +99,7 @@ export default function PeopleDropDown ({ data = [], value = {}, onSelect = () =
   
     return (
         <View style = {styles.container}>
-            <Modal visible={isReportVisible} transparent={true}>
+            {/* <Modal visible={isReportVisible} transparent={true}>
                 <TouchableWithoutFeedback onPress={()=>{setIsReportVisible(false)}}>
                     <View style={styles.modalContainer}>
                         <View style={styles.reportButtonsContainer}>
@@ -107,7 +123,7 @@ export default function PeopleDropDown ({ data = [], value = {}, onSelect = () =
                         </View>
                     </View>
                 </TouchableWithoutFeedback>
-            </Modal>
+            </Modal> */}
             <TouchableOpacity 
                 activeOpacity={0.8}
                 onPress={() => setShowOption(!showOption)}

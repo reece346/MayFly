@@ -4,11 +4,7 @@ import * as RootNavigation from './RootNavigation';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { updateActiveUser } from  './screens/LoginScreen';
 
-const DropDown =({
-    data = [],
-    value = {},
-    onSelect = () =>{}
-}) => {
+export default function DropDown ({ data = [], value = {}, onSelect = () =>{}, navigation }) {
 
 const [showOption, setShowOption] = useState(false);
 
@@ -33,7 +29,7 @@ const showConfirmDialog = () => {
                 text: "Yes",
                 onPress: () => {
                     logOutCurrentUser().then(
-                        RootNavigation.navigate("Login")
+                        navigation.replace("Login")
                     )
                 },
             },
@@ -97,5 +93,3 @@ const styles = StyleSheet.create({
         backgroundColor: '#5D5F82'
     }
 });
-
-export default DropDown;
